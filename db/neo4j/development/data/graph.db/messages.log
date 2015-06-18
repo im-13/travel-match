@@ -626,3 +626,4 @@ Storage files: (filename : modification date - size)
 2015-06-18 22:35:16.409+0000 INFO  [o.n.k.i.a.KernelSchemaStateStore]: Schema state store has been cleared.
 2015-06-18 22:35:16.421+0000 INFO  [o.n.k.i.a.i.IndexPopulationJob]: Index population completed. Index is now online: [:User(uuid) [provider: {key=lucene, version=1.0}]]
 2015-06-18 22:35:16.480+0000 INFO  [o.n.k.i.a.KernelSchemaStateStore]: Schema state store has been cleared.
+2015-06-18 23:13:12.438+0000 WARN  [o.n.k.EmbeddedGraphDatabase]: GC Monitor: Application threads blocked for 747ms.
