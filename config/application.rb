@@ -27,7 +27,8 @@ module Neo4jHeroku
     # Notice embedded db is only available for JRuby
     # config.neo4j.session_type = :embedded_db  # default #server_db
     # config.neo4j.session_path = File.expand_path('neo4j-db', Rails.root)
-
+    config.neo4j.session_type = :server_db 
+    config.neo4j.session_path = ENV["GRAPHENEDB_URL"] || 'http://localhost:7474'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
