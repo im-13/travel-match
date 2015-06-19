@@ -1,9 +1,14 @@
 source 'https://rubygems.org'
-
 ruby "2.2.2"
+
+# For Neo4j graph database
+gem 'neo4j', '~> 4.1.0'
+# Sinatra
 gem 'sinatra', '1.1.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.2'
+# Bootstrap
+gem 'bootstrap-sass', '3.2.0.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -42,5 +47,9 @@ group :development, :test do
   gem 'spring'
 end
 
+group :test do
+  gem 'minitest-reporters', '1.0.5'
+  gem 'mini_backtrace',     '0.1.3'
+  gem 'guard-minitest',     '2.3.1'
+end
 
-gem 'neo4j', '~> 4.1.0'
