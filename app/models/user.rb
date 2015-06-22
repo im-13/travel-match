@@ -37,7 +37,7 @@ class User
 
 #  def email_uniqueness
 #    undefined method `find_by' - how to call it inside User class?
-#    tempUser = Neo4j::ActiveNode::Labels::ClassMethods.find_by(email: "#{self.email}")
+#    tempUser = Neo4j::ActiveNode::User.find_by(email: "#{self.email}")
 #    if !tempUser.nil?
 #      self.errors.add(:email, "Email belongs to an existing account.")
 #      self.email = ""

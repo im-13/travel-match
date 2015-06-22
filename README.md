@@ -14,15 +14,16 @@ Things you may want to cover:
 * Database creation
 ------------------------------------------------
 'User' model
-	property :fname, type: String
-	property :lname, type: String
+	property :first_name, type: String
+	property :last_name, type: String
 	property :email, type: String
-	property :dob, type: Date
+	property :date_of_birth, type: Date
 	property :gender, type: String
-	property :password_digest, type: String
+	property :password_hash, type: String
+	property :password_salt, type: String
 ------------------------------------------------
 Suggested 'Message' properties:
-content:string
+content:string / text?
 sent_on:date
 (directed relationship between Users)
 ------------------------------------------------
