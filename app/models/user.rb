@@ -10,6 +10,9 @@ class User
   property :gender, type: String
   property :password_hash, type: String
   property :password_salt, type: String
+  property :country_of_residency, type: String
+
+  has_one :out, :lives_in, model_class: Country
   
   validates :first_name, presence: true, length: { maximum: 25 }
   validates :last_name, presence: true, length: { maximum: 50 }
@@ -18,12 +21,12 @@ class User
   					format: { with: VALID_EMAIL_REGEX }
   # validate date_of_birth
   validates :gender, presence: true
-  validates_confirmation_of :password
   validates :password, presence: true
+  validates_confirmation_of :password
+#  validate :email_uniqueness
 
   before_save { self.email = email.downcase } 
   before_save :encrypt_password
-  before_save :validate_email_uniqueness
 
   def encrypt_password
     if password.present?
@@ -32,18 +35,18 @@ class User
     end
   end
 
-#  def validate_email_uniqueness
-#    tempUser = User.find_by( email: "#{email}" )
-#    if tempUser.nil?
-
-
-
-#    if password.present?
-#      self.password_salt = BCrypt::Engine.generate_salt
-#      self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
- #   end
+#  def email_uniqueness
+#    undefined method `find_by' - how to call it inside User class?
+#    tempUser = Neo4j::ActiveNode::Labels::ClassMethods.find_by(email: "#{self.email}")
+#    if !tempUser.nil?
+#      self.errors.add(:email, "Email belongs to an existing account.")
+#      self.email = ""
+#    end
 #  end
 
 end
+
+
+
 
 
