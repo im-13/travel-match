@@ -12,6 +12,27 @@ Things you may want to cover:
 * Configuration
 
 * Database creation
+------------------------------------------------
+'User' model
+	property :fname, type: String
+	property :lname, type: String
+	property :email, type: String
+	property :dob, type: Date
+	property :gender, type: String
+	property :password_digest, type: String
+------------------------------------------------
+Suggested 'Message' properties:
+content:string
+sent_on:date
+(directed relationship between Users)
+------------------------------------------------
+Suggested 'Location' model properties:
+country:string
+place:string
+------------------------------------------------
+Suggested 'Hobby' model properties:
+name:string
+------------------------------------------------
 
 * Database initialization
 
