@@ -1,11 +1,54 @@
-<div class="center jumbotron">
-  <h1>Welcome to the TravelMatch</h1>
+<div class="jumbotron text-center">
+  	<div class="container">
+    	<a href="/" class="lang-logo">
+     		<img src="<%= asset_path('lang-logo2.png') %>">
+    	</a>
 
-  <h2>
-    This is the home page for the TravelMatch application.
-  </h2>
+   		<h1>Travel Match</h1>
+    	<p>TravelMatch is a social platform for anyone who wants to connect with other people based on their travel interests, to find a companion to go on a trip with, discover exciting holiday destinations, plan a journey, and share travelling memories.
+    	</p>
+  		
+  		<%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-default" %>
+  		<%= link_to "Log In", signup_path, class: "btn btn-lg btn-primary" %>
+	</div>
+</div>
 
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+
+<div class="container">
+  <div class="alert alert-info text-center" role="alert">
+    Travel Match wis a tool to get started to find new friends online and plan your travel together.
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-6">
+      <h3><span class="glyphicon glyphicon-info-sign"></span> How Travel Match works</h3>
+      <ul>
+        <li>FIND: Find your match</li>
+        <li>CONNECT: Connect person who is planning to visit destination you desired to visit</li>
+        <li>SEND MESSAGE: Send private message to your match that you are intrested in joining the trip</li>
+        <li>PLAN: Plan the trip together</li>
+        <li>TRAVEL: Travel to the destination</li>
+        <li>REVIEW: Write a review about the trip</li>
+      </ul>
+    </div>
+
+    <div class="col-md-6">
+      <!--h3><span class="glyphicon glyphicon-link"></span> Latest Trips</h3>
+      <ul>
+        <li>....</li>
+        <li>....</li>
+        <li>....</li>
+        <li>....</li>
+        <li>....</li>
+      </ul>
+    </div>
+  </div> <!-- row -->
+  <hr>
+  <p> </p>
+   <div class="alert alert-info text-center" role="alert">
+    Travel Match includes travel blog, chat, maps, share pictures and album. Join us!.
+  </div>
+</div>
 </div>
 
 
