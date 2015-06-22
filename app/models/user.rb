@@ -8,5 +8,8 @@ class User
   property :password_digest, type: String
   property :password, type: String
   property :password_confirmation, type: String
+  property :country_of_residency, type: String
+
+  has_one :out, :lives_in, model_class: Country
 
 end

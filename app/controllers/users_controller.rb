@@ -22,12 +22,29 @@ class UsersController < ApplicationController
   end
 
   # POST /users
-  # POST /users.json
+  # POST /users.jsonp
   def create
     @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
+
+        country = @user.country_of_residency
+        #country = country.lowercase
+        countryFound = Country.find_by( name: "#{country}" )
+        if countryFound
+          countryFound.lives_in << @user
+        else
+          countrycreated = Country.new
+          countrycreated.name = country
+          countrycreated.save
+          countrycreated.lives_in << @user
+          #@user.create_rel("lives_in", countrycreated)
+          #@user.save
+          #( params[:country_of_residency] )
+
+        end
+
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -69,6 +86,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:fname, :lname, :email, :dob, :gender, :password_digest)
+      params.require(:user).permit(:fname, :lname, :email, :dob, :gender, :password_digest, :country_of_residency)
     end
 end
