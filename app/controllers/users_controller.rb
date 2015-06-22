@@ -48,8 +48,8 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
-#        format.html { render :new }
-#        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -89,6 +89,7 @@ class UsersController < ApplicationController
 
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth,
                                    :gender, :password_hash, :password_salt,
-                                   :password, :password_confirmation, :country_of_residency)
+                                   :password, :password_confirmation, 
+                                   :country_of_residency)
     end
 end
