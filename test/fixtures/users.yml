@@ -1,9 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
+  fname: MyString
+  lname: MyString
   email: MyString
+  dob: 2015-06-20
+  gender: 
+  password_digest: MyString
 
 two:
-  name: MyString
+  fname: MyString
+  lname: MyString
   email: MyString
+  dob: 2015-06-20
+  gender: 
+  password_digest: MyString
