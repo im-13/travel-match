@@ -10,6 +10,8 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+#    @user = User.find(params[:id])
+    @user = User.first # first just for now ;)
   end
 
   # GET /users/new
@@ -81,11 +83,12 @@ class UsersController < ApplicationController
         @user.save
 
 
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        flash[:success] = "Welcome to Travel Match!!"
+        format.html { redirect_to @user } #, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
-#        format.html { render :new }
-#        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -125,5 +128,10 @@ class UsersController < ApplicationController
 
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth,
                                    :gender, :country_of_residency, :country_visited, :country_to_visit )
+=begin                                   
+                                   :gender, :password_hash, :password_salt,
+                                   :password, :password_confirmation, 
+                                   :country_of_residency)
+=end
     end
 end

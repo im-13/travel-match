@@ -1,39 +1,52 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, @user.email) %>
+<div class="container">
+  <p id="notice"><%= notice %></p>
+  <div class="row">
+    <aside class="col-md-4">
+      <section class="user_info">
+        <h1>
+          <%= @user.first_name + " " +@user.last_name %>
+        </h1>
+      </section>
+    </aside>
+  </div>
 
-<p>
-  <strong>First name:</strong>
-  <%= @user.first_name %>
-</p>
+  <% if @user %>
+    <%= puts "USER VISIBLE HERE" %>
+  <% else %>
+    <%= puts "USER NOT VISIBLE HERE" %>
+  <% end %>
 
-<p>
-  <strong>Last name:</strong>
-  <%= @user.last_name %>
-</p>
+  <p>
+    <strong>First name:</strong>
+    <%= @user.first_name %>
+  </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+  <p>
+    <strong>Last name:</strong>
+    <%= @user.last_name %>
+  </p>
 
-<p>
-  <strong>Date of birth:</strong>
-  <%= @user.date_of_birth %>
-</p>
+  <p>
+    <strong>Email:</strong>
+    <%= @user.email %>
+  </p>
 
-<p>
-  <strong>Gender:</strong>
-  <%= @user.gender %>
-</p>
+  <p>
+    <strong>Date of birth:</strong>
+    <%= @user.date_of_birth %>
+  </p>
 
-<p>
-  <strong>Password hash:</strong>
-  <%= @user.password_hash %>
-</p>
+  <p>
+    <strong>Gender:</strong>
+    <%= @user.gender %>
+  </p>
 
-<p>
-  <strong>Password salt:</strong>
-  <%= @user.password_salt %>
-</p>
+  <p>
+    <strong>Password hash:</strong>
+    <%= @user.password_hash %>
+  </p>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+  <%= link_to 'Edit', edit_user_path(@user) %> |
+  <%= link_to 'Back', users_path %>
+</div>

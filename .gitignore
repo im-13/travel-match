@@ -11,4 +11,5 @@
 /log/*
 !/log/.keep
 /tmp
-/db/*
+# Ignore neo4j graph database
+/db/neo4j
