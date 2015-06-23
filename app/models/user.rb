@@ -13,12 +13,20 @@ class User
   property :gender, type: String
   property :password_hash, type: String
   property :country_of_residency, type: String
+  property :country_visited
+  property :country_to_visit 
 
+  serialize :country_visited
+  serialize :country_to_visit
+  
   has_one :out, :lives_in, model_class: Country
+  has_many :out, :want_to_visit, model_class: Country 
+  has_many :out, :has_visited, model_class: Country
 
   before_save { self.email = email.downcase } 
   before_save :encrypt_password
   
+=begin
   validates :first_name, presence: true, length: { maximum: 25 }
   validates :last_name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
@@ -28,8 +36,12 @@ class User
   validates :gender, presence: true
   validates :password, presence: true
   validates_confirmation_of :password
-#  validate :email_uniqueness
+  #  validate :email_uniqueness
 
+
+  before_save { self.email = email.downcase } 
+  before_save :encrypt_password
+=end
 
   def encrypt_password
     if password.present?
