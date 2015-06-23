@@ -1,7 +1,10 @@
+require 'bcrypt'
+
 class User 
   include Neo4j::ActiveNode
+  include BCrypt
 
-  attr_accessor :password
+  #attr_accessor :password
  
   property :first_name, type: String
   property :last_name, type: String
@@ -9,7 +12,6 @@ class User
   property :date_of_birth, type: Date
   property :gender, type: String
   property :password_hash, type: String
-  property :password_salt, type: String
   property :country_of_residency, type: String
 
   has_one :out, :lives_in, model_class: Country
@@ -26,19 +28,33 @@ class User
 #  validate :email_uniqueness
 
   before_save { self.email = email.downcase } 
-  before_save :encrypt_password
+#  before_save :encrypt_password
 
-  def encrypt_password
-    if password.present?
-      self.password_salt = BCrypt::Engine.generate_salt
-      self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
+  def password
+    @password ||= Password.new(password_hash)
+  end
+
+  def password=(new_password)
+    @password = Password.create(new_password)
+    self.password_hash = @password
+  end
+
+  def authenticate
+    @user = User.find_by(email: params[:email])
+    puts "User found"
+    if @user.password == params[:password]
+      puts "User found and passwords match"
+      user #returns user
+    else
+      puts "User NOT found"
+      nil
     end
   end
 
 #  def email_uniqueness
 #    undefined method `find_by' - how to call it inside User class?
-#    tempUser = Neo4j::ActiveNode::User.find_by(email: "#{self.email}")
-#    if !tempUser.nil?
+#    user = Neo4j::ActiveNode::User.find_by(email: "#{self.email}")
+#    if user
 #      self.errors.add(:email, "Email belongs to an existing account.")
 #      self.email = ""
 #    end
