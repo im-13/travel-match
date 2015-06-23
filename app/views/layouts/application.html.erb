@@ -11,14 +11,11 @@
 </head>
 <body>
 	<%= render 'layouts/header' %>
-  <div class="cointainer">
-    <% flash.each do |message_type, message| %>
-      <div class="alert alert-<%= message_type %>"><%= message %></div>
-      <% end %>
-    <%= yield %>
-    <%= render 'layouts/footer' %>
-    <%= debug(params) if Rails.env.development?%> 
-  </div>
-
+  <% flash.each do |message_type, message| %>
+    <div class="alert alert-<%= message_type %>"><%= message %></div>
+    <% end %>
+  <%= yield %>
+  <%= render 'layouts/footer' %>
+  <%= debug(params) if Rails.env.development?%> 
 </body>
 </html>
