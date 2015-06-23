@@ -4,7 +4,7 @@ class User
   include Neo4j::ActiveNode
   include BCrypt
 
-  #attr_accessor :password
+  attr_accessor :password
  
   property :first_name, type: String
   property :last_name, type: String
@@ -15,6 +15,9 @@ class User
   property :country_of_residency, type: String
 
   has_one :out, :lives_in, model_class: Country
+
+  before_save { self.email = email.downcase } 
+  before_save :encrypt_password
   
   validates :first_name, presence: true, length: { maximum: 25 }
   validates :last_name, presence: true, length: { maximum: 50 }
@@ -27,22 +30,16 @@ class User
   validates_confirmation_of :password
 #  validate :email_uniqueness
 
-  before_save { self.email = email.downcase } 
-#  before_save :encrypt_password
 
-  def password
-    @password ||= Password.new(password_hash)
+  def encrypt_password
+    if password.present?
+      self.password_hash = BCrypt::Password.create(password)
+    end
   end
 
-  def password=(new_password)
-    @password = Password.create(new_password)
-    self.password_hash = @password
-  end
-
-  def authenticate
-    @user = User.find_by(email: params[:email])
-    puts "User found"
-    if @user.password == params[:password]
+  def self.authenticate(email, password)
+    user = User.find_by(email: email)
+    if user && BCrypt::Password.new(user.password_hash) == password
       puts "User found and passwords match"
       user #returns user
     else
