@@ -9,9 +9,18 @@ class ApplicationController < ActionController::Base
 
   def current_user
   	@current_user ||= User.find(session[:user_id]) if session[:user_id]
-	if @current_user
-		puts "current_user found" 
-	end 
+  	if @current_user
+  		puts "current_user found" 
+  	end 
+  end
+
+  def email_uniqueness(email)
+    user = User.find_by(email: email)
+    if user
+      self.errors.add(:email, "Email belongs to an existing account.")
+    else
+      nil
+    end
   end
 
 
