@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  #root 'users#index'
 
   
 
@@ -8,6 +9,7 @@ Rails.application.routes.draw do
   get 'help'    => 'static_pages#help'
   get 'about'   => 'static_pages#about'
   get 'contact' => 'static_pages#contact'
+  get 'profile' => 'static_pages#profile'
   get 'signup'  => 'users#new'
   get 'signup'  => 'countries#new'
   get 'login'   => 'sessions#new'
