@@ -83,7 +83,7 @@ class UsersController < ApplicationController
         @user.save
 
 
-        flash[:success] = "Welcome to Travel Match!!"
+        flash[:success] = "Welcome to Travel Match!"
         format.html { redirect_to @user } #, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -125,13 +125,8 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-
-      params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth,
-                                   :gender, :country_of_residency, :country_visited, :country_to_visit )
-=begin                                   
-                                   :gender, :password_hash, :password_salt,
-                                   :password, :password_confirmation, 
-                                   :country_of_residency)
-=end
+      params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
+                                  :country_of_residency, :country_visited, :country_to_visit,                                   
+                                   :password_hash, :password, :password_confirmation)                                
     end
 end
