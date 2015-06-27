@@ -26,7 +26,6 @@ class User
   before_save { self.email = email.downcase } 
   before_save :encrypt_password
   
-=begin
   validates :first_name, presence: true, length: { maximum: 25 }
   validates :last_name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
@@ -38,10 +37,6 @@ class User
   validates_confirmation_of :password
   #  validate :email_uniqueness
 
-
-  before_save { self.email = email.downcase } 
-  before_save :encrypt_password
-=end
 
   def encrypt_password
     if password.present?
@@ -58,6 +53,13 @@ class User
       puts "User NOT found"
       nil
     end
+  end
+
+  # Returns the hash digest of the given string.
+  def User.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
   end
 
 #  def email_uniqueness
