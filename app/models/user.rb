@@ -55,6 +55,13 @@ class User
     end
   end
 
+  # Returns the hash digest of the given string.
+  def User.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+
 #  def email_uniqueness
 #    undefined method `find_by' - how to call it inside User class?
 #    user = Neo4j::ActiveNode::User.find_by(email: "#{self.email}")

@@ -1,0 +1,22 @@
+<% provide(:title, 'Log in') %>
+<div class="container">
+	<h1>Log in</h1>
+
+	<p id="notice"><%= notice %></p>
+
+	<div class="row">
+	  <div class="col-md-6 col-md-offset-3">
+			<%= form_tag sessions_path do %>
+			  <p> 
+				<%= label_tag :email %><br />
+				<%= text_field_tag :email, params[:email] %>
+			  </p>
+			  <p> 
+				<%= label_tag :password %><br />
+				<%= password_field_tag :password %>
+			  </p>
+			  <p><%= submit_tag "Log in", class: "btn btn-primary" %></p>
+			<% end %>
+	  </div>
+	</div>
+</div>

@@ -10,8 +10,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-#    @user = User.find(params[:id])
-    @user = User.first # first just for now ;)
+    @user = User.find(params[:id])
   end
 
   # GET /users/new
@@ -82,7 +81,7 @@ class UsersController < ApplicationController
         @user.country_to_visit = tovisitArr
         @user.save
 
-
+        log_in @user
         flash[:success] = "Welcome to Travel Match!"
         format.html { redirect_to @user } #, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
