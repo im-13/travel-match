@@ -1,4 +1,3 @@
-<div class="container">
 <%= form_for(@user) do |f| %>
   <%= render 'shared/error_messages' %>
 
@@ -24,7 +23,8 @@
         <%= f.radio_button :gender, 'female' %> Female
         <%= f.radio_button :gender, 'male' %> Male
       </td>
-  </div>  
+  </div> 
+   
   <%= f.label :password %>
   <%= f.password_field :password %>
 
@@ -34,7 +34,12 @@
   <%= f.label :country_of_residency, "Country of residence" %>
   <%= f.text_field :country_of_residency %>
 
+  <%= f.label :country_visited, "countries you've visited" %>
+  <%= f.text_area :country_visited %>
+
+  <%= f.label :country_to_visit, "countries you want to visit"%>
+  <%= f.text_area :country_to_visit %>
+
   <%= f.submit "Create my account", class: "btn btn-primary" %>
 
 <% end %>
-</div>

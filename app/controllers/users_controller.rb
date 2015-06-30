@@ -30,23 +30,32 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
 
-        country = @user.country_of_residency
-        #country = country.lowercase
-        countryFound = Country.find_by( name: "#{country}" )
-        if countryFound
-          countryFound.lives_in << @user
-        else
-          countrycreated = Country.new
-          countrycreated.name = country
-          countrycreated.save
-          countrycreated.lives_in << @user
-          #@user.create_rel("lives_in", countrycreated)
-          #@user.save
-          #( params[:country_of_residency] )
+        country = create_if_not_found params[:user][:country_of_residency]
+        country.lives_in << @user 
 
+        #country visited
+        visited = @user.country_visited
+        visitedArr = visited.split(",")
+        visitedArr.each do |countryvisited| #need to check loop
+          countryhasvisited = create_if_not_found "#{countryvisited}"
+          countryhasvisited.has_visited << @user
         end
+        @user.country_visited = visitedArr
+        
 
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        tovisit = @user.country_to_visit
+        tovisitArr = tovisit.split(",")
+        tovisitArr.each do |countrytovisit|
+          countrytogoto = create_if_not_found "#{countrytovisit}"
+          countrytogoto.want_to_visit << @user
+        end
+        @user.country_to_visit = tovisitArr
+        #@user.save
+
+        log_in @user
+        remember @user
+        flash[:success] = "Welcome to Travel Match!"
+        format.html { redirect_to @user } #, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -87,10 +96,9 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-
-      params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth,
-                                   :gender, :password_hash, :password_salt,
-                                   :password, :password_confirmation, 
-                                   :country_of_residency)
+      params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
+                                  :country_of_residency, :country_visited, :country_to_visit,                                   
+                                  :password_hash, :password, :password_confirmation,
+                                  :remember_hash)                                
     end
 end
