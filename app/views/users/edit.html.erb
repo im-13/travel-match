@@ -1,8 +1,42 @@
-<div class="container">
-	<h1>Editing User</h1>
+<% provide(:title, "Edit user") %>
+<h1>Update your profile</h1>
 
-	<%= render 'form' %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@user) do |f| %>
+      <%= render 'shared/error_messages' %>
 
-	<%= link_to 'Show', @user %> |
-	<%= link_to 'Back', users_path %>
+      <%= f.label :first_name %>
+	  <%= f.text_field :first_name %>
+
+	  <%= f.label :last_name %>
+	  <%= f.text_field :last_name %>
+
+	  <%= f.label :email, "Email address" %>
+	  <%= f.email_field :email %>
+
+	  <%= f.label :date_of_birth, "Year of birth" %>
+	  <%= f.date_select :date_of_birth,
+	                    :discard_day => true,
+	                    :discard_month => true,
+	                    :start_year => Date.today.year - 120,
+	                    :end_year => Date.today.year %>
+
+	  <%= f.label :gender %>
+	  <div class="row" >
+	      <td> 
+	        <%= f.radio_button :gender, 'female' %> Female
+	        <%= f.radio_button :gender, 'male' %> Male
+	      </td>
+	  </div> 
+	   
+	  <%= f.label :password %>
+	  <%= f.password_field :password %>
+
+	  <%= f.label :password_confirmation, "Re-enter password" %>
+	  <%= f.password_field :password_confirmation %>
+
+      <%= f.submit "Save changes", class: "btn btn-primary" %>
+    <% end %>
+  </div>
 </div>
