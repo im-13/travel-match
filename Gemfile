@@ -10,7 +10,7 @@ gem 'rails', '4.2.2'
 #
 gem 'rails_12factor', group: :production
 # Use puma as webserver 
-gem 'puma', group: :production
+#gem 'puma', group: :production
 # Bootstrap
 gem 'bootstrap-sass', '3.2.0.0'
 # Use SCSS for stylesheets
