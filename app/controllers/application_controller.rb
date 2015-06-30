@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
 
 
 =begin
-
   private
 
 

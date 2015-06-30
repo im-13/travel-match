@@ -82,6 +82,7 @@ class UsersController < ApplicationController
         @user.save
 
         log_in @user
+        remember @user
         flash[:success] = "Welcome to Travel Match!"
         format.html { redirect_to @user } #, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
@@ -126,6 +127,7 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
                                   :country_of_residency, :country_visited, :country_to_visit,                                   
-                                   :password_hash, :password, :password_confirmation)                                
+                                  :password_hash, :password, :password_confirmation,
+                                  :remember_hash)                                
     end
 end
