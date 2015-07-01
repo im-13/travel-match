@@ -20,6 +20,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @user = User.find(params[:id])
   end
 
   # POST /users
@@ -52,35 +53,10 @@ class UsersController < ApplicationController
         #@user.save #not neccessary
 
         log_in @user
+        remember @user
         flash[:success] = "Welcome to Travel Match!"
-        
-        age = @user.get_age #getting the age correctly
-        maxage = age+2
-        minage = age-2
-        #default query
-        
-        #al = User.all
-        #search_result = al.as(:all_users).where("all_users.age <= {max_age} AND all_users.age >= {min_age} AND all_users.name <> {username} AND all_users.lives_in = {target_country}").params(max_age: maxage, min_age: minage, username: @user.email, target_country: @user.country_of_residency ).pluck(:all_users) 
-
-        #search_result = User.as(:s).where("s.get_age < 10")
-        #search_result = User.query_as(:n).match("n")
-        search_result = @user.query_as(:n).match('n-[:want_to_visit]-o').return(o: :name)
-
-        #we can always over extend our parameters, but under set inside the where clause
-        #search_result.each do |search|
-          #format.html { redirect_to @user, notice: "name: #{search.name}"}
-          #format.html { redirect_to @user, notice: "age: #{search.age}"}
-          #format.html { redirect_to @user, notice: "country to visit: #{search.country_to_visit}"}
-        #end
-        format.html { redirect_to @user, notice: "search result: #{search_result}" }
-        #query a default search
-        # find all users connect around similar age, connected by 
-
-        #query several selection base search
-
-
-        #format.json { render :show, status: :created, location: @user }
-        #format.json { render :index, status: :created, location: @user }
+        format.html { redirect_to @user } 
+        format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -92,8 +68,10 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
+      @user = User.find(params[:id])
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        flash[:success] = "Profile was successfully updated."
+        format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -122,6 +100,7 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
                                   :country_of_residency, :country_visited, :country_to_visit,                                   
-                                   :password_hash, :password, :password_confirmation)                                
+                                  :password_hash, :password, :password_confirmation,
+                                  :remember_hash)                                
     end
 end

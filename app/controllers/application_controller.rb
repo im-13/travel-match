@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   include MatchesHelper
 
 =begin
-
   private
 
 
