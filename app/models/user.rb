@@ -37,6 +37,13 @@ class User
   validates_confirmation_of :password
   #  validate :email_uniqueness
 
+  def get_age
+    if self.date_of_birth?
+      time1 = Date.parse(Time.now.to_s)
+      age_in_days = time1.mjd - self.date_of_birth.mjd
+      age = age_in_days/365    
+    end
+  end
 
   def encrypt_password
     if password.present?
