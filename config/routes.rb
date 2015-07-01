@@ -8,12 +8,15 @@ Rails.application.routes.draw do
   get   'contact'   => 'static_pages#contact'
   get   'profile'   => 'static_pages#profile'
   get   'signup'    => 'users#new'
-  get   'signup'    => 'countries#new'
+  get   'index'     => 'users#index'
   get   'login'     => 'sessions#new'
   post  'login'     => 'sessions#create'
+  get   'defaultmatch' => 'matches#new'
+  post  'defaultmatch' => 'matches#create'
   delete 'logout'   => 'sessions#destroy'
   resources :users
   resources :countries
+  #resources :match
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

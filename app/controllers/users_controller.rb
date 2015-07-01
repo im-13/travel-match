@@ -30,7 +30,6 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-
         country = create_if_not_found params[:user][:country_of_residency]
         country.lives_in << @user 
 
@@ -51,7 +50,7 @@ class UsersController < ApplicationController
           countrytogoto.want_to_visit << @user
         end
         @user.country_to_visit = tovisitArr
-        #@user.save
+        #@user.save #not neccessary
 
         log_in @user
         remember @user
