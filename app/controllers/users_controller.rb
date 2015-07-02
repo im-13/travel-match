@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:edit, :update]
+  before_action :correct_user,   only: [:edit, :update]
 
   # GET /users
   # GET /users.json
@@ -11,6 +12,8 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
+    # get user's country_of_residence, 2 arrays of user's countries, 
+    # array of hobbies
   end
 
   # GET /users/new
@@ -21,6 +24,8 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
+    # get user's country_of_residence, 2 arrays of user's countries, 
+    # array of hobbies
   end
 
   # POST /users
@@ -32,6 +37,25 @@ class UsersController < ApplicationController
       if @user.save
         country = create_if_not_found params[:user][:country_of_residency]
         country.lives_in << @user 
+
+        log_in @user
+        remember @user
+        flash[:success] = "Welcome to Travel Match!"
+        format.html { redirect_to @user } 
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /users/1
+  # PATCH/PUT /users/1.json
+  def update
+    respond_to do |format|
+      @user = User.find(params[:id])
+      if @user.update(user_params)
 
         #country visited
         visited = @user.country_visited
@@ -52,24 +76,6 @@ class UsersController < ApplicationController
         @user.country_to_visit = tovisitArr
         #@user.save #not neccessary
 
-        log_in @user
-        remember @user
-        flash[:success] = "Welcome to Travel Match!"
-        format.html { redirect_to @user } 
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
-  def update
-    respond_to do |format|
-      @user = User.find(params[:id])
-      if @user.update(user_params)
         flash[:success] = "Profile was successfully updated."
         format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
@@ -103,4 +109,21 @@ class UsersController < ApplicationController
                                   :password_hash, :password, :password_confirmation,
                                   :remember_hash)                                
     end
+
+    # Before filters
+
+    # Confirms a logged-in user.
+    def logged_in_user
+      unless logged_in?
+        flash[:danger] = "Please log in."
+        redirect_to login_url
+      end
+    end
+
+    # Confirms the correct user.
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_url) unless current_user?(@user)
+    end
+    
 end
