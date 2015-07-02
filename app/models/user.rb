@@ -4,7 +4,8 @@ class User
   include Neo4j::ActiveNode
   include BCrypt
 
-  attr_accessor :password, :remember_token, :country_of_residency, :country_to_visit, :country_visited
+  attr_accessor :password, :remember_token, :country_of_residency, 
+                :country_visited, :country_to_visit 
  
   property :first_name, type: String
   property :last_name, type: String
@@ -14,6 +15,7 @@ class User
   property :password_hash, type: String
   property :remember_hash, type: String
   property :photos
+
 
   #serialize :country_visited
   #serialize :country_to_visit
@@ -33,7 +35,7 @@ class User
   					format: { with: VALID_EMAIL_REGEX }
   # validate date_of_birth
   validates :gender, presence: true
-  validates :password, presence: true
+  validates :password, presence: true, allow_nil: true
   validates_confirmation_of :password
   #  validate :email_uniqueness
 
