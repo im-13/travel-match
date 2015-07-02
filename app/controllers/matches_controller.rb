@@ -1,5 +1,10 @@
 class MatchesController < ApplicationController
   def new
+    #new specific query page
+  end
+
+  def specific_search
+
   end
 
   def create

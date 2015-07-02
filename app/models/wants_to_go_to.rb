@@ -1,11 +1,11 @@
-class WantToGoTo  
+class WantsToGoTo  
   include Neo4j::ActiveRel
   require 'date'
 
   before_save :stamp
   from_class User
   to_class Country
-  type 'want_to_go_to'
+  type 'wants_to_go_to'
 
   property :date_created, type: Date
   property :comments

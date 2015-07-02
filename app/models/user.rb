@@ -22,7 +22,7 @@ class User
   serialize :photos
 
   has_one :out, :lives_in, model_class: Country, rel_class: LivesIn
-  has_many :out, :want_to_visit, model_class: Country, rel_class: WantToGoTo
+  has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
   has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
 
   before_save { self.email = email.downcase } 

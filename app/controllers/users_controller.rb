@@ -76,7 +76,7 @@ class UsersController < ApplicationController
         tovisitArr = tovisit.split(",")
         tovisitArr.each do |countrytovisit|
           countrytogoto = create_if_not_found "#{countrytovisit}"
-          rel = WantToGoTo.new(from_node: @user, to_node: countrytogoto )
+          rel = WantsToGoTo.new(from_node: @user, to_node: countrytogoto )
           rel.save
           #countrytogoto.want_to_visit << @user
         end
