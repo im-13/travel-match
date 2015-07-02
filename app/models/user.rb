@@ -4,7 +4,7 @@ class User
   include Neo4j::ActiveNode
   include BCrypt
 
-  attr_accessor :password
+  attr_accessor :password, :country_of_residency, :country_to_visit, :country_visited
  
   property :first_name, type: String
   property :last_name, type: String
@@ -12,16 +12,18 @@ class User
   property :date_of_birth, type: Date
   property :gender, type: String
   property :password_hash, type: String
-  property :country_of_residency, type: String
-  property :country_visited
-  property :country_to_visit 
+  #property :country_of_residency, type: String
+  #property :country_visited
+  #property :country_to_visit 
+  property :photos
 
   serialize :country_visited
   serialize :country_to_visit
-  
-  has_one :out, :lives_in, model_class: Country
-  has_many :out, :want_to_visit, model_class: Country 
-  has_many :out, :has_visited, model_class: Country
+  serialize :photos
+
+  has_one :out, :lives_in, model_class: Country, rel_class: LivesIn
+  has_many :out, :want_to_visit, model_class: Country, rel_class: WantToGoTo
+  has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
 
   before_save { self.email = email.downcase } 
   before_save :encrypt_password

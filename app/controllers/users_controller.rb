@@ -31,23 +31,30 @@ class UsersController < ApplicationController
       if @user.save
 
         country = create_if_not_found params[:user][:country_of_residency]
-        country.lives_in << @user 
+        #we have the country
+        rel = LivesIn.new(from_node: @user, to_node: country)
+        #country.lives_in << @user 
+        rel.save
 
         #country visited
-        visited = @user.country_visited
+        visited = params[:user][:country_visited]
         visitedArr = visited.split(",")
         visitedArr.each do |countryvisited| #need to check loop
           countryhasvisited = create_if_not_found "#{countryvisited}"
-          countryhasvisited.has_visited << @user
+          rel =  HasBeenTo.new(from_node: @user, to_node: countryhasvisited)
+          rel.save
+          #countryhasvisited.has_visited << @user
         end
         @user.country_visited = visitedArr
-        
 
-        tovisit = @user.country_to_visit
+        #country to visit
+        tovisit = params[:user][:country_to_visit]
         tovisitArr = tovisit.split(",")
         tovisitArr.each do |countrytovisit|
           countrytogoto = create_if_not_found "#{countrytovisit}"
-          countrytogoto.want_to_visit << @user
+          rel = WantToGoTo.new(from_node: @user, to_node: countrytogoto )
+          rel.save
+          #countrytogoto.want_to_visit << @user
         end
         @user.country_to_visit = tovisitArr
         #@user.save
@@ -96,7 +103,8 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
-                                  :country_of_residency, :country_visited, :country_to_visit,                                   
-                                   :password_hash, :password, :password_confirmation)                                
+                                  :country_of_residency, :country_visited, :country_to_visit,                                  
+                                   :password_hash, :password, :password_confirmation)       
+                                   #                         
     end
 end
