@@ -61,26 +61,28 @@ class UsersController < ApplicationController
       if @user.update(user_params)
 
         #country visited
-        visited = params[:user][:country_visited]
-        visitedArr = visited.split(",")
-        visitedArr.each do |countryvisited| #need to check loop
-          countryhasvisited = create_if_not_found "#{countryvisited}"
-          rel =  HasBeenTo.new(from_node: @user, to_node: countryhasvisited)
-          rel.save
-          #countryhasvisited.has_visited << @user
+        if visited = params[:user][:country_visited]
+          visitedArr = visited.split(",")
+          visitedArr.each do |countryvisited| #need to check loop
+            countryhasvisited = create_if_not_found "#{countryvisited}"
+            rel =  HasBeenTo.new(from_node: @user, to_node: countryhasvisited)
+            rel.save
+            #countryhasvisited.has_visited << @user
+          end
+          @user.country_visited = visitedArr
         end
-        @user.country_visited = visitedArr
 
         #country to visit
-        tovisit = params[:user][:country_to_visit]
-        tovisitArr = tovisit.split(",")
-        tovisitArr.each do |countrytovisit|
-          countrytogoto = create_if_not_found "#{countrytovisit}"
-          rel = WantsToGoTo.new(from_node: @user, to_node: countrytogoto )
-          rel.save
-          #countrytogoto.want_to_visit << @user
+        if tovisit = params[:user][:country_to_visit]
+          tovisitArr = tovisit.split(",")
+          tovisitArr.each do |countrytovisit|
+            countrytogoto = create_if_not_found "#{countrytovisit}"
+            rel = WantsToGoTo.new(from_node: @user, to_node: countrytogoto )
+            rel.save
+            #countrytogoto.want_to_visit << @user
+          end
+          @user.country_to_visit = tovisitArr
         end
-        @user.country_to_visit = tovisitArr
         #@user.save #not neccessary
 
         flash[:success] = "Profile was successfully updated."
