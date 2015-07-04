@@ -10,7 +10,7 @@ gem 'rails', '4.2.2'
 #
 gem 'rails_12factor', group: :production
 # Use puma as webserver 
-#gem 'puma', group: :production
+gem 'puma', group: :production
 # Bootstrap
 gem 'bootstrap-sass', '3.2.0.0'
 # Use SCSS for stylesheets
@@ -36,6 +36,8 @@ gem 'cloudinary'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+# For creatind sample users in the db
+gem 'faker', '1.4.2'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
