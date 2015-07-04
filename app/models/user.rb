@@ -4,7 +4,8 @@ class User
   include Neo4j::ActiveNode
   include BCrypt
 
-  attr_accessor :password, :remember_token
+  attr_accessor :password, :remember_token, :country_of_residency, 
+                :country_visited, :country_to_visit 
  
   property :first_name, type: String
   property :last_name, type: String
@@ -13,16 +14,19 @@ class User
   property :gender, type: String
   property :password_hash, type: String
   property :remember_hash, type: String
-  property :country_of_residency, type: String
-  property :country_visited
-  property :country_to_visit 
+  property :admin, type: Boolean, default: false
+  property :created_at, type: DateTime
+  property :updated_at, type: DateTime
+  property :photos
 
-  serialize :country_visited
-  serialize :country_to_visit
-  
-  has_one :out, :lives_in, model_class: Country
-  has_many :out, :want_to_visit, model_class: Country 
-  has_many :out, :has_visited, model_class: Country
+
+  #serialize :country_visited
+  #serialize :country_to_visit
+  serialize :photos
+
+  has_one :out, :lives_in, model_class: Country, rel_class: LivesIn
+  has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
+  has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
 
   before_save { self.email = email.downcase } 
   before_save :encrypt_password
@@ -34,7 +38,7 @@ class User
   					format: { with: VALID_EMAIL_REGEX }
   # validate date_of_birth
   validates :gender, presence: true
-  validates :password, presence: true
+  validates :password, presence: true, allow_nil: true
   validates_confirmation_of :password
   #  validate :email_uniqueness
 
