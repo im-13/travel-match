@@ -3,13 +3,13 @@
 # The data can then be loaded with the rake db:seed (or created alongside 
 # the db with db:setup).
 
-User.create(first_name:  "Example",
-			last_name: "User",
-			gender: "n/a",
-            email: "example@railstutorial.org",
-            password:              "foobar",
-            password_confirmation: "foobar",
-            country_of_residency: "United States")
+User.create(first_name: "Ilona",
+			      last_name: "Michalowska",
+			      gender: "female",
+            email: "i.michalowska@gmail.com",
+            password:              "test",
+            password_confirmation: "test",
+            admin: true)
 
 99.times do |n|
   f_name  = Faker::Name.first_name
@@ -17,10 +17,9 @@ User.create(first_name:  "Example",
   email = "example-#{n+1}@fakeemail.org"
   password = "password"
   User.create(first_name:  f_name,
-  			  last_name:  l_name,
-  			  gender: "n/a",
+  			      last_name:  l_name,
+  			      gender: "n/a",
               email: email,
               password:              password,
-              password_confirmation: password,
-              country_of_residency: "United States")
+              password_confirmation: password)
 end

@@ -14,6 +14,9 @@ class User
   property :gender, type: String
   property :password_hash, type: String
   property :remember_hash, type: String
+  property :admin, type: Boolean, default: false
+  property :created_at, type: DateTime
+  property :updated_at, type: DateTime
   property :photos
 
 
