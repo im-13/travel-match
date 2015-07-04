@@ -38,6 +38,10 @@ gem 'cloudinary'
 gem 'bcrypt', '~> 3.1.7'
 # For creatind sample users in the db
 gem 'faker', '1.4.2'
+# For pagination method
+gem 'neo4j-will_paginate_redux'
+# For configuring will_paginate to use Bootstrap’s pagination styles
+gem 'bootstrap-will_paginate', '0.0.10'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
