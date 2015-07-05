@@ -60,7 +60,14 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       if @user.update(user_params)
 
+        #updating country of residence
+        country = params[:user][:country_of_residency]
+        country_reside = country.split(",")
+        make_decision(@user, country_reside, 1)
+
+=begin 
         #country visited
+
         visited = params[:user][:country_visited]
         visitedArr = visited.split(",")
         visitedArr.each do |countryvisited| #need to check loop
@@ -70,7 +77,12 @@ class UsersController < ApplicationController
           #countryhasvisited.has_visited << @user
         end
         @user.country_visited = visitedArr
-
+=end
+        visited = params[:user][:country_visited]
+        visitedArr = visited.split(",")
+        #def make_decision ( user, new_input_list, rel_type)
+        make_decision(@user, visitedArr, 2)
+=begin
         #country to visit
         tovisit = params[:user][:country_to_visit]
         tovisitArr = tovisit.split(",")
@@ -82,6 +94,11 @@ class UsersController < ApplicationController
         end
         @user.country_to_visit = tovisitArr
         #@user.save #not neccessary
+=end
+        tovisit = params[:user][:country_to_visit]
+        tovisitArr = tovisit.split(",")
+        #def make_decision ( user, new_input_list, rel_type)
+        make_decision(@user, tovisitArr, 3)
 
         flash[:success] = "Profile was successfully updated."
         format.html { redirect_to @user }

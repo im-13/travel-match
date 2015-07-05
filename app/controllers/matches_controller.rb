@@ -20,7 +20,9 @@ class MatchesController < ApplicationController
     #clen = result.class
     #
 
-    result = User.query_as(:n).match("n-[:LIVES_IN]->(country:Country)").where("country.name = 'United States' AND n.email <> 'hannyyanny@mailinator.com' ").pluck(:n)
+    username = "hannyan@bmobilized.com"
+
+    result = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = 'United States' AND n.email <> 'test'").pluck(:n)
 
     #querying the country united states is working 
     #result = Country.query_as(:n).match("n").where("n.name = 'United States'").pluck(:n)
