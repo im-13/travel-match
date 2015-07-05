@@ -3,54 +3,123 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(@user) do |f| %>
-      <%= render 'shared/error_messages' %>
+  	<div>
+  		<b>Name</b>
+	    <%= form_for(@user) do |f| %>
+	      <%= render 'shared/error_messages' %>
 
-      <%= f.label :first_name %>
-	  <%= f.text_field :first_name %>
+	      <%= f.label :first_name, 'First' %>
+		  <%= f.text_field :first_name %>
 
-	  <%= f.label :last_name %>
-	  <%= f.text_field :last_name %>
+		  <%= f.label :last_name, 'Last' %>
+		  <%= f.text_field :last_name %>
 
-	  <%= f.label :email, "Email address" %>
-	  <%= f.email_field :email %>
+		  <%= f.submit "Save name", class: "btn btn-primary" %>
+	    <% end %>
+	</div>
 
-	  <%= f.label :date_of_birth, "Year of birth" %>
-	  <%= f.date_select :date_of_birth,
-	                    :start_year => Date.today.year - 120,
-	                    :end_year => Date.today.year %>
+	<div>
+		<br />
+  		<b>Email</b>
+	    <%= form_for(@user) do |f| %>
+	      <%= render 'shared/error_messages' %>
 
-	  <%= f.label :gender %>
-	  <div class="row" >
-	      <td> 
-	        <%= f.radio_button :gender, 'female' %> Female
-	        <%= f.radio_button :gender, 'male' %> Male
-	      </td>
-	  </div>
+	  	  <%= f.email_field :email %>
 
-	  <%= f.label :country_of_residency, "Country of residence" %>
-	  <%= f.text_field :country_of_residency %>
+		  <%= f.submit "Save email", class: "btn btn-primary" %>
+	    <% end %>
+	</div>
 
-	  <%= f.label :country_visited, "countries you've visited" %>
-	  <%= f.text_area :country_visited %>
+	<div>
+		<br />
+  		<b>Birthdate</b>
+	    <%= form_for(@user) do |f| %>
+	      <%= render 'shared/error_messages' %>
 
-	  <%= f.label :country_to_visit, "countries you want to visit"%>
-	  <%= f.text_area :country_to_visit %> 
-	   
-	  <%= f.label :password %>
-	  <%= f.password_field :password %>
+	  	  <%= f.date_select :date_of_birth,
+	                    	:start_year => Date.today.year - 120,
+	                    	:end_year => Date.today.year %>
 
-	  <%= f.label :password_confirmation, "Re-enter password" %>
-	  <%= f.password_field :password_confirmation %>
+		  <%= f.submit "Save birthdate", class: "btn btn-primary" %>
+	    <% end %>
+	</div>
 
-      <%= f.submit "Save changes", class: "btn btn-primary" %>
-    <% end %>
+	<div>
+		<br />
+  		<b>Gender</b>
+	    <%= form_for(@user) do |f| %>
+	      <%= render 'shared/error_messages' %>
 
-    <div class="gravatar_edit">
-      <%= gravatar_for @user %>
-      <a href="http://gravatar.com/emails" target="_blank">change</a>
-    </div>
-    
-  </div>
+		  <div class="row" >
+		      <td> 
+		        <%= f.radio_button :gender, 'female' %> Female
+		        <%= f.radio_button :gender, 'male' %> Male
+		      </td>
+		  </div>
+
+		  <%= f.submit "Save gender", class: "btn btn-primary" %>
+	    <% end %>
+	</div>
+
+	<div>
+		<br />
+  		<b>Country of residence</b>
+	    <%= form_for(@user) do |f| %>
+	      <%= render 'shared/error_messages' %>
+
+	  	  <%= f.text_field :country_of_residency %>
+
+		  <%= f.submit "Save country of residence", class: "btn btn-primary" %>
+	    <% end %>
+	</div>
+
+	<div>
+		<br />
+  		<b>Countries I visited</b>
+	    <%= form_for(@user) do |f| %>
+	      <%= render 'shared/error_messages' %>
+
+	  	  <%= f.text_area :country_visited %>
+
+		  <%= f.submit "Save countries I visited", class: "btn btn-primary" %>
+	    <% end %>
+	</div>
+
+	<div>
+		<br />
+  		<b>Countries I want to visit</b>
+	    <%= form_for(@user) do |f| %>
+	      <%= render 'shared/error_messages' %>
+
+	  	  <%= f.text_area :country_to_visit %>
+
+		  <%= f.submit "Save countries I want to visit", class: "btn btn-primary" %>
+	    <% end %>
+	</div>
+
+	<div>
+		<br />
+  		<b>Password</b>
+	    <%= form_for(@user) do |f| %>
+	      <%= render 'shared/error_messages' %>
+
+	      <%= f.label :password, 'New' %>
+		  <%= f.password_field :password %>
+
+		  <%= f.label :password_confirmation, "Re-enter new" %>
+		  <%= f.password_field :password_confirmation %>
+
+		  <%= f.submit "Save password", class: "btn btn-primary" %>
+	    <% end %>
+	</div>
+
+	<div>
+		<br />
+		<b>Profile picture</b>
+	    <div class="gravatar_edit">
+	      <%= gravatar_for @user %>
+	      <a href="http://gravatar.com/emails" target="_blank">Change my profile picture</a>
+	    </div>
+  	</div>
 </div>
 

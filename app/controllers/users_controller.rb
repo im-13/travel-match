@@ -1,11 +1,14 @@
+require 'neo4j-will_paginate_redux'
+
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:edit, :update]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user,   only: [:edit, :update]
+  before_action :admin_user,     only: :destroy
 
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.as(:p).all.paginate(:page => params[:page], :per_page => 10, return: :p, order: :first_name)
   end
 
   # GET /users/1
@@ -65,9 +68,8 @@ class UsersController < ApplicationController
         country_reside = country.split(",")
         make_decision(@user, country_reside, 1)
 
-=begin 
-        #country visited
-
+=begin
+        #country visited update manual
         visited = params[:user][:country_visited]
         visitedArr = visited.split(",")
         visitedArr.each do |countryvisited| #need to check loop
@@ -83,16 +85,17 @@ class UsersController < ApplicationController
         #def make_decision ( user, new_input_list, rel_type)
         make_decision(@user, visitedArr, 2)
 =begin
-        #country to visit
-        tovisit = params[:user][:country_to_visit]
-        tovisitArr = tovisit.split(",")
-        tovisitArr.each do |countrytovisit|
-          countrytogoto = create_if_not_found "#{countrytovisit}"
-          rel = WantsToGoTo.new(from_node: @user, to_node: countrytogoto )
-          rel.save
-          #countrytogoto.want_to_visit << @user
+        #country to visit update manual
+        if tovisit = params[:user][:country_to_visit]
+          tovisitArr = tovisit.split(",")
+          tovisitArr.each do |countrytovisit|
+            countrytogoto = create_if_not_found "#{countrytovisit}"
+            rel = WantsToGoTo.new(from_node: @user, to_node: countrytogoto )
+            rel.save
+            #countrytogoto.want_to_visit << @user
+          end
+          @user.country_to_visit = tovisitArr
         end
-        @user.country_to_visit = tovisitArr
         #@user.save #not neccessary
 =end
         tovisit = params[:user][:country_to_visit]
@@ -113,9 +116,10 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
+    User.find(params[:id]).destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      flash[:success] = "User was successfully deleted."
+      format.html { redirect_to users_url }
       format.json { head :no_content }
     end
   end
@@ -130,8 +134,8 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
                                   :country_of_residency, :country_visited, :country_to_visit,                                   
-                                  :password_hash, :password, :password_confirmation,
-                                  :remember_hash)                                
+                                  :password, :password_confirmation)
+                                #  :password_hash, :remember_hash)                                
     end
 
     # Before filters
@@ -139,6 +143,7 @@ class UsersController < ApplicationController
     # Confirms a logged-in user.
     def logged_in_user
       unless logged_in?
+        store_location
         flash[:danger] = "Please log in."
         redirect_to login_url
       end
@@ -148,6 +153,11 @@ class UsersController < ApplicationController
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user)
+    end
+
+    # Confirms an admin user.
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
     end
     
 end

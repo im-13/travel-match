@@ -37,6 +37,9 @@ name:string
 
 * Database initialization
 
+In order to create 100 test Users in the db, run:
+$ rake db:seed
+
 * How to run the test suite
 
 * Services (job queues, cache servers, search engines, etc.)
