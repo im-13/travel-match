@@ -38,7 +38,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        country = create_if_not_found params[:user][:country_of_residency]
+        country = create_if_not_found @user.country_of_residence
         #we have the country
         rel = LivesIn.new(from_node: @user, to_node: country)
         #country.lives_in << @user 
@@ -118,7 +118,7 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
-                                  :country_of_residency, :country_visited, :country_to_visit,                                   
+                                  :country_of_residence_code, :country_visited, :country_to_visit,                                   
                                   :password, :password_confirmation)
                                 #  :password_hash, :remember_hash)                                
     end
