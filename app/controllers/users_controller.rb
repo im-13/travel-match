@@ -63,19 +63,29 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       if @user.update(user_params)
 
-        #country visited
-        if visited = params[:user][:country_visited]
-          visitedArr = visited.split(",")
-          visitedArr.each do |countryvisited| #need to check loop
-            countryhasvisited = create_if_not_found "#{countryvisited}"
-            rel =  HasBeenTo.new(from_node: @user, to_node: countryhasvisited)
-            rel.save
-            #countryhasvisited.has_visited << @user
-          end
-          @user.country_visited = visitedArr
-        end
+        #updating country of residence
+        country = params[:user][:country_of_residency]
+        country_reside = country.split(",")
+        make_decision(@user, country_reside, 1)
 
-        #country to visit
+=begin
+        #country visited update manual
+        visited = params[:user][:country_visited]
+        visitedArr = visited.split(",")
+        visitedArr.each do |countryvisited| #need to check loop
+          countryhasvisited = create_if_not_found "#{countryvisited}"
+          rel =  HasBeenTo.new(from_node: @user, to_node: countryhasvisited)
+          rel.save
+          #countryhasvisited.has_visited << @user
+        end
+        @user.country_visited = visitedArr
+=end
+        visited = params[:user][:country_visited]
+        visitedArr = visited.split(",")
+        #def make_decision ( user, new_input_list, rel_type)
+        make_decision(@user, visitedArr, 2)
+=begin
+        #country to visit update manual
         if tovisit = params[:user][:country_to_visit]
           tovisitArr = tovisit.split(",")
           tovisitArr.each do |countrytovisit|
@@ -87,6 +97,11 @@ class UsersController < ApplicationController
           @user.country_to_visit = tovisitArr
         end
         #@user.save #not neccessary
+=end
+        tovisit = params[:user][:country_to_visit]
+        tovisitArr = tovisit.split(",")
+        #def make_decision ( user, new_input_list, rel_type)
+        make_decision(@user, tovisitArr, 3)
 
         flash[:success] = "Profile was successfully updated."
         format.html { redirect_to @user }
