@@ -11,17 +11,24 @@
 
   <%= f.password_field :password_confirmation, placeholder: "Re-enter password" %>
 
-  <%= f.label :country_of_residence, "Country of residence" %>
+  <%= f.label :country_of_residence_code, "Country of residence" %>
   <%= f.country_select :country_of_residence_code, selected: "US" %>
 
-  <%= f.label :date_of_birth, "Date of birth" %>
+  <%= f.label :date_of_birth %>
   <%= f.date_select :date_of_birth,
                     :start_year => Date.today.year - 120,
                     :end_year => Date.today.year %>
 
-  <%= f.radio_button :gender, 'female' %> Female
-  <%= f.radio_button :gender, 'male' %> Male 
-  
+  <div>
+    <label class="radio-inline">
+      <%= f.radio_button :gender, 'female' %> Female
+    </label>
+    <label class="radio-inline">
+      <%= f.radio_button :gender, 'male' %> Male 
+    </label>
+  </div>
+
+  <br>
 
   <%= f.submit "Create my account", class: "btn btn-primary" %>
 

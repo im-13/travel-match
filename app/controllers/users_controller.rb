@@ -64,9 +64,14 @@ class UsersController < ApplicationController
       if @user.update(user_params)
 
         #updating country of residence
-        country = params[:user][:country_of_residency]
-        country_reside = country.split(",")
-        make_decision(@user, country_reside, 1)
+        country = create_if_not_found @user.country_of_residence
+        #we have the country
+        rel = LivesIn.new(from_node: @user, to_node: country)
+        #country.lives_in << @user 
+        rel.save
+        
+        #country_reside = country.split(",")
+        #make_decision(@user, country_reside, 1)
 
 =begin
         #country visited update manual
@@ -80,10 +85,10 @@ class UsersController < ApplicationController
         end
         @user.country_visited = visitedArr
 =end
-        visited = params[:user][:country_visited]
-        visitedArr = visited.split(",")
+        #visited = params[:user][:country_visited]
+        #visitedArr = visited.split(",")
         #def make_decision ( user, new_input_list, rel_type)
-        make_decision(@user, visitedArr, 2)
+        #make_decision(@user, visitedArr, 2)
 =begin
         #country to visit update manual
         if tovisit = params[:user][:country_to_visit]
@@ -98,10 +103,10 @@ class UsersController < ApplicationController
         end
         #@user.save #not neccessary
 =end
-        tovisit = params[:user][:country_to_visit]
-        tovisitArr = tovisit.split(",")
+        #tovisit = params[:user][:country_to_visit]
+        #tovisitArr = tovisit.split(",")
         #def make_decision ( user, new_input_list, rel_type)
-        make_decision(@user, tovisitArr, 3)
+        #make_decision(@user, tovisitArr, 3)
 
         flash[:success] = "Profile was successfully updated."
         format.html { redirect_to @user }

@@ -36,7 +36,8 @@ class User
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
   					format: { with: VALID_EMAIL_REGEX }
-  # validate date_of_birth
+  #validates_date :date_of_birth, :on_or_before => lambda { Date.current }
+  #validate date_of_birth
   validates :gender, presence: true
   validates :password, presence: true, allow_nil: true
   validates_confirmation_of :password
