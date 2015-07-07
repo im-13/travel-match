@@ -32,7 +32,10 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'carrierwave'
+gem 'carrierwave-neo4j', require: 'carrierwave/neo4j'
 gem 'cloudinary'
+gem "mini_magick", "~> 4.2.7"
+gem 'rmagick', '~> 2.15.2'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'

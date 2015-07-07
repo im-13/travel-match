@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :carrierwave_images
   root 'static_pages#home'
   
   get   'home'      => 'static_pages#home'
