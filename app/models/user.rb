@@ -105,8 +105,6 @@ class User
 
   def country_of_residence
     country = ISO3166::Country[country_of_residence_code]
-    puts country
-    puts "COUNTRY ABOVE !!!!!!!!"
     country.translations[I18n.locale.to_s] || country.name
   end
 

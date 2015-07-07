@@ -6,7 +6,7 @@
 User.create(first_name: "Ilona",
 			      last_name: "Michalowska",
 			      gender: "female",
-            email: "i.michalowska@gmail.com",
+            email: "ilona.michalowska@gmail.com",
             password:              "test",
             password_confirmation: "test",
             admin: true)
@@ -14,6 +14,7 @@ User.create(first_name: "Ilona",
 99.times do |n|
   f_name  = Faker::Name.first_name
   l_name  = Faker::Name.last_name
+  country_code = Faker::Address.country_code
   email = "example-#{n+1}@fakeemail.org"
   password = "password"
   User.create(first_name:  f_name,
@@ -21,5 +22,6 @@ User.create(first_name: "Ilona",
   			      gender: "n/a",
               email: email,
               password:              password,
-              password_confirmation: password)
+              password_confirmation: password,
+              country_of_residence_code: country_code)
 end

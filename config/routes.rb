@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get   'index'     => 'users#index'
   get   'login'     => 'sessions#new'
   post  'login'     => 'sessions#create'
+  get   'mymatches'    => 'matches#index'
   get   'defaultmatch' => 'matches#new'
   post  'defaultmatch' => 'matches#create'
   delete 'logout'   => 'sessions#destroy'
