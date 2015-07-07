@@ -8,35 +8,26 @@ class MatchesController < ApplicationController
   end
 
   def create
+    user = current_user #makes call to the session helper function which will return the session user
+    if !user.nil?
+      username = user.email
+      target_country = user.query_as(:n).match("n-[:lives_in]->(country:Country)").pluck(:country).first 
+      user_birth = user.date_of_birth
+      #once country is determined we can do many thing 
+      result = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").pluck(:n)
+      
+      result = reduce_by_age(user, result)
 
-    targetCountry = "United States"
-    #get all users from united states
+      result_string = ""
+      result.each do |user|
+        result_string += "#{user.first_name}" + " #{user.last_name}" + ": #{user.email} " + " : #{user.get_age} yrs old \n"
+      end
 
-    #all = User.all
-    #len = all.length
-    #render plain: "length : #{len}"
-    #s = User.first
-    #result = User.query_as(:n).match('n-[:lives_in]-o').return(o: :name)
-    #clen = result.class
-    #
-
-    username = "hannyan@bmobilized.com"
-
-    result = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = 'United States' AND n.email <> 'test'").pluck(:n)
-
-    #querying the country united states is working 
-    #result = Country.query_as(:n).match("n").where("n.name = 'United States'").pluck(:n)
-    #result = Neo4j::Session.query("MATCH (n) WHERE ID(n) = {foobar} RETURN n", foobar: n.neo_id).n
-
-    result_string = ""
-
-    result.each do |user|
-      result_string += "#{user.first_name}" + " #{user.last_name}" + " #{user.email}" + "\n"
+      #clen = result.class
+      clen = result.length
+      render plain: "result class : \n #{result_string}"
+      
     end
-    #clen = result.class
-    clen = result.length
-    render plain: "result class : \n #{result_string}"
-
   end
 
 end
