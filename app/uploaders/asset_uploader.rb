@@ -25,7 +25,7 @@ class AssetUploader < CarrierWave::Uploader::Base
   end
 
   version :thumb do
-    process :resize_to_fill => [64, 64]
+    process :resize_to_fill => [120, 120]
   end
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url

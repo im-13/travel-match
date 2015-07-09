@@ -1,2 +1,0 @@
-class PaperclipImageController < ApplicationController
-end
