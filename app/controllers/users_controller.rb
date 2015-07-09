@@ -38,7 +38,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        country = create_if_not_found params[:user][:country_of_residency]
+        country = create_if_not_found @user.country_of_residence
         #we have the country
         rel = LivesIn.new(from_node: @user, to_node: country)
         #country.lives_in << @user 
@@ -64,44 +64,31 @@ class UsersController < ApplicationController
       if @user.update(user_params)
 
         #updating country of residence
-        country = params[:user][:country_of_residency]
-        country_reside = country.split(",")
-        make_decision(@user, country_reside, 1)
+=begin
+        country = create_if_not_found @user.country_of_residence
+        rel = LivesIn.new(from_node: @user, to_node: country)
+        rel.save
+=end        
+        if params[:user][:country_of_residence_code]
+          country_reside = @user.country_of_residence
+          resideArr = country_reside.split(",")
+          make_decision(@user, resideArr, 1)
+        end
 
-=begin
-        #country visited update manual
-        visited = params[:user][:country_visited]
-        visitedArr = visited.split(",")
-        visitedArr.each do |countryvisited| #need to check loop
-          countryhasvisited = create_if_not_found "#{countryvisited}"
-          rel =  HasBeenTo.new(from_node: @user, to_node: countryhasvisited)
-          rel.save
-          #countryhasvisited.has_visited << @user
+        if params[:user][:country_visited]
+          #we need to accumulate the country_visited somehow
+          visited = params[:user][:country_visited] #wait for ilona's accumulation
+          visitedArr = visited.split(",")
+          make_decision(@user, visitedArr, 2)
         end
-        @user.country_visited = visitedArr
-=end
-        visited = params[:user][:country_visited]
-        visitedArr = visited.split(",")
-        #def make_decision ( user, new_input_list, rel_type)
-        make_decision(@user, visitedArr, 2)
-=begin
-        #country to visit update manual
-        if tovisit = params[:user][:country_to_visit]
+        
+
+        if params[:user][:country_to_visit]
+          tovisit = params[:user][:country_to_visit] #wait for ilona's accumulation
           tovisitArr = tovisit.split(",")
-          tovisitArr.each do |countrytovisit|
-            countrytogoto = create_if_not_found "#{countrytovisit}"
-            rel = WantsToGoTo.new(from_node: @user, to_node: countrytogoto )
-            rel.save
-            #countrytogoto.want_to_visit << @user
-          end
-          @user.country_to_visit = tovisitArr
+          make_decision(@user, tovisitArr, 3)
         end
-        #@user.save #not neccessary
-=end
-        tovisit = params[:user][:country_to_visit]
-        tovisitArr = tovisit.split(",")
-        #def make_decision ( user, new_input_list, rel_type)
-        make_decision(@user, tovisitArr, 3)
+
 
         flash[:success] = "Profile was successfully updated."
         format.html { redirect_to @user }
@@ -133,7 +120,7 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
-                                  :country_of_residency, :country_visited, :country_to_visit,                                   
+                                  :country_of_residence_code, :country_visited, :country_to_visit,                                   
                                   :password, :password_confirmation)
                                 #  :password_hash, :remember_hash)                                
     end

@@ -45,6 +45,12 @@ gem 'faker', '1.4.2'
 gem 'neo4j-will_paginate_redux'
 # For configuring will_paginate to use Bootstrap’s pagination styles
 gem 'bootstrap-will_paginate', '0.0.10'
+# For selecting countries in user forms
+gem 'country_select', github: 'stefanpenner/country_select'
+# For date pickers
+#gem 'bootstrap-datepicker-rails'
+#for date validation
+gem 'validates_timeliness', '~> 3.0'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

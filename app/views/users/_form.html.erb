@@ -1,36 +1,34 @@
 <%= form_for(@user) do |f| %>
   <%= render 'shared/error_messages' %>
 
-  <%= f.label :first_name %>
-  <%= f.text_field :first_name %>
+  <%= f.text_field :first_name, placeholder: "First name" %>
 
-  <%= f.label :last_name %>
-  <%= f.text_field :last_name %>
+  <%= f.text_field :last_name, placeholder: "Last name" %>
 
-  <%= f.label :email, "Email address" %>
-  <%= f.email_field :email %>
+  <%= f.email_field :email, placeholder: "Email address" %>
+   
+  <%= f.password_field :password, placeholder: "Password" %>
 
-  <%= f.label :date_of_birth, "Year of birth" %>
+  <%= f.password_field :password_confirmation, placeholder: "Re-enter password" %>
+
+  <%= f.label :country_of_residence_code, "Country of residence" %>
+  <%= f.country_select :country_of_residence_code, selected: "US" %>
+
+  <%= f.label :date_of_birth %>
   <%= f.date_select :date_of_birth,
                     :start_year => Date.today.year - 120,
                     :end_year => Date.today.year %>
 
-  <%= f.label :gender %>
-  <div class="row" >
-      <td> 
-        <%= f.radio_button :gender, 'female' %> Female
-        <%= f.radio_button :gender, 'male' %> Male
-      </td>
-  </div> 
-   
-  <%= f.label :password %>
-  <%= f.password_field :password %>
+  <div>
+    <label class="radio-inline">
+      <%= f.radio_button :gender, 'female' %> Female
+    </label>
+    <label class="radio-inline">
+      <%= f.radio_button :gender, 'male' %> Male 
+    </label>
+  </div>
 
-  <%= f.label :password_confirmation, "Re-enter password" %>
-  <%= f.password_field :password_confirmation %>
-
-  <%= f.label :country_of_residency, "Country of residence" %>
-  <%= f.text_field :country_of_residency %>
+  <br>
 
   <%= f.submit "Create my account", class: "btn btn-primary" %>
 

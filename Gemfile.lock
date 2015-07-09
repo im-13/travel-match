@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/stefanpenner/country_select.git
+  revision: 20f83bda911abd7c1d5cb96fd37f9ea22d892f0e
+  specs:
+    country_select (2.2.0)
+      countries (~> 0.11.0)
+      sort_alphabetical (~> 1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -73,6 +81,10 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     columnize (0.9.0)
+    countries (0.11.5)
+      currencies (~> 0.4.2)
+      i18n_data (~> 0.7.0)
+    currencies (0.4.2)
     debug_inspector (0.0.2)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
@@ -107,6 +119,7 @@ GEM
       multi_xml (>= 0.5.2)
     httpclient (2.6.0.1)
     i18n (0.7.0)
+    i18n_data (0.7.0)
     jbuilder (2.3.1)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -233,6 +246,8 @@ GEM
       rack (~> 1.1)
       tilt (~> 1.1)
     slop (3.6.0)
+    sort_alphabetical (1.0.1)
+      unicode_utils (>= 1.2.2)
     spring (1.3.6)
     sprockets (3.2.0)
       rack (~> 1.0)
@@ -243,6 +258,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
+    timeliness (0.3.7)
     turbolinks (2.5.3)
       coffee-rails
     tzinfo (1.2.2)
@@ -253,6 +269,9 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
+    unicode_utils (1.4.0)
+    validates_timeliness (3.0.14)
+      timeliness (~> 0.3.6)
     web-console (2.1.3)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -273,6 +292,7 @@ DEPENDENCIES
   carrierwave-neo4j
   cloudinary
   coffee-rails (~> 4.1.0)
+  country_select!
   faker (= 1.4.2)
   guard-minitest (= 2.3.1)
   jbuilder (~> 2.0)
@@ -292,6 +312,7 @@ DEPENDENCIES
   spring
   turbolinks
   uglifier (>= 1.3.0)
+  validates_timeliness (~> 3.0)
   web-console (~> 2.0)
 
 BUNDLED WITH
