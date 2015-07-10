@@ -22,11 +22,11 @@ class MatchesController < ApplicationController
       #core::query
       #target_country = user.query_as(:n).match("n-[:lives_in]->(country:Country)").pluck(:country).firs
 
-      target_country = user.query_as(:n).match("n-[:lives_in]->(country:Country)").proxy_as(Country, :country).pluck(:country).first
+      target_country = user.lives_in(:l)
 
       user_birth = user.date_of_birth
       #once country is determined we can do many thing 
-      @matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").proxy_as(User, :n).pluck(:n)
+      @matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").proxy_as(User, :n).paginate(page: 1, per_page: 10, return: :'distinct n')
       
       #@match = reduce_by_age(user, @match)
 
