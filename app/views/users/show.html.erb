@@ -23,8 +23,8 @@
             <!--left col-->
             <ul class="list-group">
                 <li class="list-group-item text-muted" contenteditable="false">Profile</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span> 2.13.2014</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Last seen</strong></span> Today </li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span><%= @user.created_at.to_time.strftime('%B %e, %Y') %></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Last seen</strong></span><%= time_ago_in_words(@user.last_seen_at) + " ago" %></li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong class="">Location</strong></span>New York, New York</li>
 
             </ul>
@@ -51,7 +51,7 @@
         <!--/col-3-->
         <div class="col-sm-9" style="" contenteditable="false">
             <div class="panel panel-default">
-                <div class="panel-heading">About me</div>
+                <div class="panel-heading">About</div>
                 <div class="panel-body"> 
                     <table>
                         <tr>
@@ -65,10 +65,6 @@
                         <tr>
                             <th>Gender: </th>
                             <td><%= @user.gender %></td>
-                        </tr>
-                        <tr>
-                            <th>City, Country: </th>
-                            <td>New York, New York</td>
                         </tr>
                         <tr>
                             <th>Nationality: </th>
@@ -87,15 +83,23 @@
                             <td>Friends, Advanture, Soulmate</td>
                         </tr>
                         <tr>
+                            <th>I live in: </th>
+                            <td># Retrieve from db</td>
+                        </tr>
+
+                        <tr>
+                            <th>I visited: </th>
+                            <td># Retrieve from db</td>
+                        </tr>
+                        <tr>
                             <th>I want to visit: </th>
-                            <td>Brazil, Costa Rica, Australia</td>
+                            <td># Retrieve from db</td>
+                        </tr>
+                        <tr>
+                            <th>About me: </th>
+                            <td><%= @user.about_me %></td>
                         </tr>
                     </table>
-                    <!--h2>Lady Gaga's Bio</h2-->
-                    <p> </p>
-                    <p>Stefani Joanne Angelina Germanotta was born on March 28, 1986 in Yonkers, New York, to Cynthia and Joseph Germanotta. Germanotta, now known as Lady Gaga (she has attributed the inspiration for her name to the Queen song "Radio Ga-Ga"), went on to become an international pop star.
-          Gaga learned to play the piano by the age of 4. At the age of 11, she was accepted to the Juilliard School in Manhattan, but instead attended a private Catholic school in the city. She continued studying music and performing, writing her first piano ballad at the age of 13, and she held her first performance in a New York nightclub at the age of 14.
-          A few years later, Gaga was granted early admission to New York University's Tisch School of the Arts—she was one of only 20 students in the world to receive the honor of early acceptance. While there, she studied music and worked on her songwriting skills. She later withdrew from school to find creative inspiration. To make ends meet, she took three jobs, including a stint as a gogo dancer, while she honed her performance-art act.</p>
                 </div>
             </div>
             <div class="panel panel-default target">

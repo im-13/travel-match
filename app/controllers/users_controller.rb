@@ -1,5 +1,3 @@
-require 'neo4j-will_paginate_redux'
-
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user,   only: [:edit, :update]
@@ -8,7 +6,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.as(:p).all.paginate(:page => params[:page], :per_page => 10, return: :p, order: :first_name)
+    @users = User.all.paginate(:page => params[:page], :per_page => 10, order: :first_name)
   end
 
   # GET /users/1
@@ -121,7 +119,7 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
                                   :country_of_residence_code, :country_visited, :country_to_visit,                                   
-                                  :password, :password_confirmation)
+                                  :password, :password_confirmation, :about_me)
                                 #  :password_hash, :remember_hash)                                
     end
 

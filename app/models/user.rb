@@ -15,9 +15,11 @@ class User
   property :password_hash, type: String
   property :remember_hash, type: String
   property :admin, type: Boolean, default: false
+  property :last_seen_at, type: DateTime
   property :created_at, type: DateTime
   property :updated_at, type: DateTime
   property :photos
+  property :about_me, type: String
 
 
   #serialize :country_visited
@@ -30,6 +32,8 @@ class User
 
   before_save { self.email = email.downcase } 
   before_save :encrypt_password
+  before_save :capitalize_names
+  before_save { self.last_seen_at = Time.now }
   
   validates :first_name, presence: true, length: { maximum: 25 }
   validates :last_name, presence: true, length: { maximum: 50 }
@@ -49,6 +53,11 @@ class User
       age_in_days = time1.mjd - self.date_of_birth.mjd
       age = age_in_days/365    
     end
+  end
+
+  def capitalize_names
+    self.first_name.capitalize!
+    self.last_name.capitalize!
   end
 
   def encrypt_password

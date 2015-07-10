@@ -10,6 +10,7 @@ require "action_mailer/railtie"
 require "action_view/railtie"
 require "sprockets/railtie"
 require 'neo4j/railtie'
+require 'neo4j-will_paginate_redux'
 require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems

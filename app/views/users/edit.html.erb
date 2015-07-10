@@ -14,18 +14,7 @@
 		  <%= f.submit "Save name", class: "btn btn-primary" %>
 	    <% end %>
 	</div>
-<!--
-	<div>
-		<br />
-  		<b>Email</b>
-	    <%= form_for(@user) do |f| %>
 
-	  	  <%= f.email_field :email, placeholder: "Email address" %>
-
-		  <%= f.submit "Save email", class: "btn btn-primary" %>
-	    <% end %>
-	</div>
--->
 	<div>
 		<br />
   		<b>Birthdate</b>
@@ -54,6 +43,16 @@
 		  </div>
 
 		  <%= f.submit "Save gender", class: "btn btn-primary" %>
+	    <% end %>
+	</div>
+
+	<div>
+  		<b>About me</b>
+	    <%= form_for(@user) do |f| %>
+
+	      <%= f.text_area :about_me %>
+
+		  <%= f.submit "Save my description", class: "btn btn-primary" %>
 	    <% end %>
 	</div>
 
