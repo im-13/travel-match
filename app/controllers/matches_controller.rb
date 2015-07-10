@@ -7,10 +7,7 @@ class MatchesController < ApplicationController
   end
 
   def index
-
     @matches
-
-    #@users = User.all.paginate(:page => params[:page], :per_page => 10, order: :first_name)
   end
 
   def specific_search
@@ -29,10 +26,15 @@ class MatchesController < ApplicationController
 
       user_birth = user.date_of_birth
       #once country is determined we can do many thing 
+
       #@matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").proxy_as(User, :n).paginate(page: 1, per_page: 10, return: :'distinct n')
       
       @matches = User.all.as(:u).paginate(page: 1, per_page: 4, return: :'distinct u')
 
+      #@matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").proxy_as(User, :n).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct n')
+      
+      #@match = reduce_by_age(user, @match)
+                                                                                                                                                                                                  
       if @matches
         flash.now[:success] = "TravelMatch found."
         #format.html { redirect_to mymatches_url} 
