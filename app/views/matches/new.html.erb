@@ -1,34 +1,36 @@
 <% provide(:title, "Find your TravelMatch") %>
-<h1>Find your TravelMatch</h1>
+<div class="container">
+	<h1>Find your TravelMatch</h1>
 
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= form_for(:match, url: defaultmatch_path) do |f| %>
-	<br />
-  	<b>Country your TravelMatch lives in</b>
-	<%= f.country_select :country_of_residence_code_match, selected: "US" %>
-	<br />
-  	<b>Countries your TravelMatch visited</b>
-	<%= f.text_area :country_visited %>
-	<br />
-  	<b>Countries your TravelMatch wants to visit</b>
-	<%= f.text_area :country_to_visit %>
+	<div class="row">
+	  <div class="col-md-6 col-md-offset-3">
+	    <%= form_for(:match, url: defaultmatch_path) do |f| %>
+		<br />
+	  	<b>Country your TravelMatch lives in</b>
+		<%= f.country_select :country_of_residence_code_match, selected: "US" %>
+		<br />
+	  	<b>Countries your TravelMatch visited</b>
+		<%= f.text_area :country_visited %>
+		<br />
+	  	<b>Countries your TravelMatch wants to visit</b>
+		<%= f.text_area :country_to_visit %>
 
-    <%= f.text_field :match_age, placeholder: "Age of your TravelMatch" %>
+	    <%= f.text_field :match_age, placeholder: "Age of your TravelMatch" %>
 
-      <div>
-	    <label class="radio-inline">
-	      <%= f.radio_button :match_gender, 'female' %> Female
-	    </label>
-	    <label class="radio-inline">
-	      <%= f.radio_button :_match_gender, 'male' %> Male 
-	    </label>
+	      <div>
+		    <label class="radio-inline">
+		      <%= f.radio_button :match_gender, 'female' %> Female
+		    </label>
+		    <label class="radio-inline">
+		      <%= f.radio_button :_match_gender, 'male' %> Male 
+		    </label>
+		  </div>
+
+		  <br />
+
+	      <%= f.submit "Search", class: "btn btn-primary" %>
+	    <% end %>
+
 	  </div>
-
-	  <br />
-
-      <%= f.submit "Search", class: "btn btn-primary" %>
-    <% end %>
-
-  </div>
+	</div>
 </div>
