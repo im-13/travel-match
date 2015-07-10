@@ -7,10 +7,7 @@ class MatchesController < ApplicationController
   end
 
   def index
-
-    @matches
-
-    #@users = User.all.paginate(:page => params[:page], :per_page => 10, order: :first_name)
+    @matches = @matches.paginate(:page => params[:page], :per_page => 10, order: :first_name)
   end
 
   def specific_search
