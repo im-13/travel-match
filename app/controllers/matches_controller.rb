@@ -22,10 +22,14 @@ class MatchesController < ApplicationController
     user = current_user #makes call to the session helper function which will return the session user
     if !user.nil?
       username = user.email
-      target_country = user.query_as(:n).match("n-[:lives_in]->(country:Country)").pluck(:country).first 
+      #core::query
+      #target_country = user.query_as(:n).match("n-[:lives_in]->(country:Country)").pluck(:country).firs
+
+      target_country = user.query_as(:n).match("n-[:lives_in]->(country:Country)").proxy_as(Country, :country).pluck(:country).first
+
       user_birth = user.date_of_birth
       #once country is determined we can do many thing 
-      @matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").pluck(:n)
+      @matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").proxy_as(User, :n).pluck(:n)
       
       #@match = reduce_by_age(user, @match)
 
