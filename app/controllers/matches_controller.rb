@@ -21,6 +21,7 @@ class MatchesController < ApplicationController
     user = current_user
     if !user.nil?
       return_call = false
+      order_call = false
       return_exp = ""
       username = user.email
       target_country = user.lives_in
@@ -29,9 +30,13 @@ class MatchesController < ApplicationController
 
       match_exp = ""
       where_exp = "users.email <> '#{username}'" #by default, user should not get his/herself in the match
+      order_exp = ""
+      return_exp = ""
 
       residence_select = true
       gender_selected = true
+      has_visited_selected = true
+
 
       if residence_select 
         match_exp << 'users-[:lives_in]->(country:Country)'
@@ -46,34 +51,35 @@ class MatchesController < ApplicationController
       if has_visited_selected
 
         return_call = true
+        order_call = true
         match_exp << "<-[:lives_in]-(user2:User), (user2)-[:has_been_to]-(visitedList:Country)"
 
         user_visited_list = user.has_visited
-        name_list = new Array()
+        name_list = Array.new
         user_visited_list.each do |list_item|
-          name_list << "#{list_item.neame}"
+          name_list << "#{list_item.name}"
         end
 
         #convert the array into a string output
-        array_string
+        if name_list.length > 0
+          array_string = "['"+name_list.join("','")+"']"
+        else
+          array_string = "[]"
+        end
 
-        where_exp << " AND visitedList.name IN '#{array_string}'"
-        return_exp = "user2, count(*) as strength ORDER BY strength DESC"
-        
-        #we need an order_by expression as well
-        #working version of the match in literal query
-        #match (user:User)-[:lives_in]->(c:Country)<-[:lives_in]-(user2:User), (user2)-[:has_been_to]-(visitedList:Country) where c.name = "United States" and visitedList.name IN ['Bosnia','Iraq','North Vietnam'] return user2, count(*) as strength ORDER BY strength DESC
-
-        #************return examples, VERY NICE RETURN AS exmaple here***********
-        #   self.class.query_as(:result).where("ID(result)" => self.neo_id).return("LABELS(result) as result_labels").first.result_labels.map(&:to_sym)
-        #more return examples
-        #start_q.query.return("COUNT(#{var}) AS count").first.count > 0
-
-        #order_by(:strength)
+        where_exp << " AND visitedList.name IN #{array_string}"
+        return_exp = " user2, count(*) as strength"
+        order_exp = " ORDER BY strength DESC"
       end
 
       if return_call 
-         @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").return("#{return_exp}").proxy_as(User, user2).paginate(page: 1, per_page: 10)
+        if order_call 
+         #@matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").order(strength: :desc).with(strength: 'count(user2) ').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page:10)
+
+         @matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").order(strength: :desc).with(strength: 'count(user2)').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page:10)
+
+         #.proxy_as(User, :user2).paginate(page: 1, per_page: 10)
+        end
       else
         @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
         @matches = reduce_by_age(@matches, 22, 35)
