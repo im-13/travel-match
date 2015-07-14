@@ -7,160 +7,168 @@
 <!--hr class=""-->
 <div class="container target">
   <div class="row">
-        <div class="col-sm-8">
-          <h1 class="pull-left"> &nbsp <%= @user.first_name %> <%= @user.last_name %> </h1>
-          <div class="col-sm-8">  
-            <button type="button" class="btn btn-success">Connect</button> <button type="button" class="btn btn-info">Send me a message</button>
-          </div>
-<br>
-        </div>
-      <div class="col-sm-3 img-padding"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" <%= gravatar_for @user %> </a>
+    <div class="col-sm-8">
+      <h1 class="pull-left"> &nbsp <%= @user.first_name %> <%= @user.last_name %> </h1>
+      <div class="col-sm-8">  
+        <% if @user != current_user %>
+        <button type="button" class="btn btn-success">Connect</button> <button type="button" class="btn btn-info">Send me a message</button>
+        <% end %>
       </div>
+      <br>
+    </div>
+    <div class="col-sm-3 img-padding"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" <%= gravatar_for @user %> </a>
+    </div>
   </div>
-<br>
-    <div class="row">
-        <div class="col-sm-3">
-            <!--left col-->
-            <ul class="list-group">
-                <li class="list-group-item text-muted" contenteditable="false">Profile</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span><%= @user.created_at.to_time.strftime('%B %e, %Y') %></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Last seen</strong></span><%= time_ago_in_words(@user.last_seen_at) + " ago" %></li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Location</strong></span>New York, New York</li>
 
-            </ul>
-            <div class="panel panel-default">
-             <div class="panel-heading">Available Days To Travel
+  <br>
 
-                </div>
-                <div class="panel-body"><i style="color:green" class="fa fa-check-square"></i> August 1st-September 15th, 2015
+  <div class="row">
+    <div class="col-sm-3">
+    <!--left col-->
+      <ul class="list-group">
+        <li class="list-group-item text-muted" contenteditable="false">Profile</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span><%= @user.created_at.to_time.strftime('%B %e, %Y') %></li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Last seen</strong></span>
+          <% if @user.last_seen_at %>
+            <%= time_ago_in_words(@user.last_seen_at) + " ago" %>  
+          <% else %>
+            N/A
+          <% end %>
+        </li>
 
-                </div>
-            </div>
-          
-            <ul class="list-group">
-                <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i>
-
-                </li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Recommendations</strong></span> 175</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Connections</strong></span> 500</li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Trips</strong></span> 50</li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Followers</strong></span> 250</li>
-            </ul>
-            
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Location</strong></span>New York, New York</li>
+      </ul>
+      <div class="panel panel-default">
+        <div class="panel-heading">Available Days To Travel</div>
+        <div class="panel-body"><i style="color:green" class="fa fa-check-square"></i> August 1st-September 15th, 2015
         </div>
-        <!--/col-3-->
-        <div class="col-sm-9" style="" contenteditable="false">
-            <div class="panel panel-default">
-                <div class="panel-heading">About</div>
-                <div class="panel-body"> 
-                    <table>
-                        <tr>
-                            <th>Date of birth: </th>
-                            <td><%= @user.date_of_birth %></td>
-                        </tr>
-                        <tr>
-                            <th>Email: </th>
-                            <td><%= @user.email %></td>
-                        </tr>
-                        <tr>
-                            <th>Gender: </th>
-                            <td><%= @user.gender %></td>
-                        </tr>
-                        <tr>
-                            <th>Nationality: </th>
-                            <td>American</td>
-                        </tr>
-                        <tr>
-                            <th>Spoken languages: </th>
-                            <td>English, Spanish, French</td>
-                        </tr>
-                        <tr>
-                            <th>Hobby: </th>
-                            <td>Singing</td>
-                        </tr>
-                        <tr>
-                            <th>Looking for: </th>
-                            <td>Friends, Advanture, Soulmate</td>
-                        </tr>
-                        <tr>
-                            <th>I live in: </th>
-                            <td># Retrieve from db</td>
-                        </tr>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Recommendations</strong></span> 175</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Connections</strong></span> 500</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Trips</strong></span> 50</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Followers</strong></span> 250</li>
+      </ul>    
+    </div>
+    <!--/col-3-->
 
-                        <tr>
-                            <th>I visited: </th>
-                            <td># Retrieve from db</td>
-                        </tr>
-                        <tr>
-                            <th>I want to visit: </th>
-                            <td># Retrieve from db</td>
-                        </tr>
-                        <tr>
-                            <th>About me: </th>
-                            <td><%= @user.about_me %></td>
-                        </tr>
-                    </table>
+    <div class="col-sm-9" style="" contenteditable="false">
+      <div class="panel panel-default">
+        <div class="panel-heading">About</div>
+        <div class="panel-body"> 
+          <table>
+            <tr>
+                <th>Date of birth: </th>
+                <td><%= @user.date_of_birth %></td>
+            </tr>
+            <tr>
+                <th>Email: </th>
+                <td><%= @user.email %></td>
+            </tr>
+            <tr>
+                <th>Gender: </th>
+                <td><%= @user.gender %></td>
+            </tr>
+            <tr>
+                <th>Nationality: </th>
+                <td>American</td>
+            </tr>
+            <tr>
+                <th>Spoken languages: </th>
+                <td>English, Spanish, French</td>
+            </tr>
+            <tr>
+                <th>Hobby: </th>
+                <td>Singing</td>
+            </tr>
+            <tr>
+                <th>Looking for: </th>
+                <td>Friends, Adventure, Soulmate</td>
+            </tr>
+            <tr>
+                <th>I live in: </th>
+                <td><%= current_user.lives_in(:l).name %></td>
+            </tr>
+
+            <tr>
+                <th>I visited: </th>
+                <td># Retrieve from db</td>
+            </tr>
+            <tr>
+                <th>I want to visit: </th>
+                <td># Retrieve from db</td>
+            </tr>
+            <tr>
+                <th>About me: </th>
+                <td><%= @user.about_me %></td>
+            </tr>
+          </table>
+        </div>
+      </div>        
+
+      <div class="panel panel-default target">
+        <div class="panel-heading" contenteditable="false">Recent Trips</div>
+          <div class="panel-body">
+            <div class="row">
+
+              <div class="col-md-4">
+                <div class="thumbnail">
+                  <img alt="300x200" src="http://www.amenaviajes.com/wp-content/uploads/2013/11/aruba-cisnes-300x200.jpg">
+                  <div class="caption">
+                    <h3>Aruba</h3>
+                    <p>May 1th-15th, 2015</p>
+                  </div>
                 </div>
-            </div>
-            <div class="panel panel-default target">
-                <div class="panel-heading" contenteditable="false">Recent Trips</div>
-                <div class="panel-body">
-                    <div class="row">
-        <div class="col-md-4">
-          <div class="thumbnail">
-            <img alt="300x200" src="http://www.amenaviajes.com/wp-content/uploads/2013/11/aruba-cisnes-300x200.jpg">
-            <div class="caption">
-              <h3>
-                Aruba
-              </h3>
-              <p>
-                May 1th-15th, 2015
-              </p>
-              <p>
-              
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="thumbnail">
-            <img alt="300x200" src="http://qiito.com/img/cache/thumbs/48e94c36a30439fae216439c90e3bf5c.jpg">
-            <div class="caption">
-              <h3>
-                Thailand
-              </h3>
-              <p>
-                February 5th-13th, 2015
-              </p>
-              <p>
-              
-              </p>
-            </div>
-          </div>
-        </div>
-                      
-        <div class="col-md-4">
-          <div class="thumbnail">
-            <img alt="300x200" src="http://static.fly.co.uk/img/seocms/fly.co.uk/paris/cheap-flights-to-paris.jpg">
-            <div class="caption">
-              <h3>
-                France, Paris
-              </h3>
-              <p>
-                December 23rd - 29th, 2014
-              </p>
-              <p>
-              
-              </p>
-            </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="thumbnail">
+                  <img alt="300x200" src="http://qiito.com/img/cache/thumbs/48e94c36a30439fae216439c90e3bf5c.jpg">
+                  <div class="caption">
+                    <h3>Thailand</h3>
+                    <p>February 5th-13th, 2015</p>
+                  </div>
+                </div>
+              </div>
+                    
+              <div class="col-md-4">
+                <div class="thumbnail">
+                  <img alt="300x200" src="http://static.fly.co.uk/img/seocms/fly.co.uk/paris/cheap-flights-to-paris.jpg">
+                  <div class="caption">
+                    <h3>France, Paris</h3>
+                    <p>December 23rd - 29th, 2014</p>
+                  </div>
                 </div>    
-            </div>         
+              </div>         
             </div>           
-        </div>             
+          </div>             
+      </div>
     </div>
-    </div>
-            <div id="push"></div>
+
+    <div id="push"></div>
+
+  </div>
+
+  <div class="panel panel-default target">
+    <div class="panel-heading" contenteditable="false">My default TravelMatch</div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="container">
+          <% username = @user.email %>
+          <% target_country = @user.lives_in(:l) %>
+          <% user_birth = @user.date_of_birth %>
+          <% @matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n') %>
+          <div class="col-sm-11">
+            <ul class="users">
+              <%= render @matches %>
+            </ul>
+            <%= will_paginate @matches %>
+          </div>
         </div>
+      </div>         
+    </div> 
+  </div>
         
 
   <p>
@@ -172,3 +180,5 @@
     <strong>Remember hash:</strong>
     <%= @user.remember_hash %>
   </p>
+
+</div>

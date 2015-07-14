@@ -26,7 +26,7 @@ class MatchesController < ApplicationController
 
       user_birth = user.date_of_birth
       #once country is determined we can do many thing 
-      @matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").proxy_as(User, :n).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct n')
+      @matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 10, order: :first_name, return: :'distinct n')
       
       #@match = reduce_by_age(user, @match)
                                                                                                                                                                                                     #  :page => params[:page] 
@@ -34,10 +34,10 @@ class MatchesController < ApplicationController
         flash.now[:success] = "TravelMatch found."
         #format.html { redirect_to mymatches_url} 
         #format.json { head :no_content }
-        render "index"
+        render :index
       else
         flash[:danger] = "TravelMatch not found."
-        #format.html { render :new }
+        ender :new 
       end
     end  
   end

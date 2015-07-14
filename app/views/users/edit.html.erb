@@ -6,7 +6,7 @@
   	<%= render 'shared/error_messages' %>
   	<div>
   		<b>Name</b>
-	    <%= form_for(@user) do |f| %>
+	    <%= simple_form_for(@user) do |f| %>
 
 	      <%= f.text_field :first_name, placeholder: "First name" %>
 	      <%= f.text_field :last_name, placeholder: "Last name" %>
@@ -70,11 +70,14 @@
 	<div>
 		<br />
   		<b>Countries I visited</b>
-	    <%= form_for(@user) do |f| %>
+	    <%= simple_form_for(@user) do |f| %>
 
 	  	  <%= f.text_area :country_visited %>
 
-		  <%= f.country_select :country_visited %>
+		  <%= f.country_select :country_visited, multiple: true %>
+		  
+		  <%= f.input :country_visited, as: :select, collection: ["A", "B", "C", "D"], input_html: { multiple: true } %>
+
 
 
 		  <%= f.submit "Save countries I visited", class: "btn btn-primary" %>
