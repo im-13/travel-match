@@ -32,7 +32,14 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'carrierwave'
+gem 'carrierwave-neo4j', require: 'carrierwave/neo4j'
 gem 'cloudinary'
+gem "mini_magick", "~> 4.2.7"
+gem 'rmagick', '~> 2.15.2'
+gem 'simple_form'
+gem 'paperclip'
+gem "neo4jrb-paperclip", :require => "neo4jrb_paperclip"
+gem "aws-s3",            :require => "aws/s3"
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
@@ -42,8 +49,6 @@ gem 'faker', '1.4.2'
 gem 'neo4j-will_paginate_redux'
 # For configuring will_paginate to use Bootstrap’s pagination styles
 gem 'bootstrap-will_paginate', '0.0.10'
-# For forms
-gem 'simple_form'
 # For selecting countries in user forms
 gem 'country_select', github: 'stefanpenner/country_select'
 # For date pickers
@@ -66,11 +71,16 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'log_buddy'
 end
 
 group :test do
   gem 'minitest-reporters', '1.0.5'
   gem 'mini_backtrace',     '0.1.3'
   gem 'guard-minitest',     '2.3.1'
+end
+
+group :development do
+	gem 'thin'
 end
 

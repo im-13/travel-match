@@ -3,9 +3,10 @@ require 'bcrypt'
 class User 
   include Neo4j::ActiveNode
   include BCrypt
+  #include Neo4j::CarrierWave
 
   attr_accessor :password, :remember_token, :country_of_residence_code, 
-                :country_visited, :country_to_visit
+                :country_visited, :country_to_visit, :asset
 
  
   property :first_name, type: String
@@ -30,7 +31,11 @@ class User
   has_one :out, :lives_in, model_class: Country, rel_class: LivesIn
   has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
   has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
+  has_many :out, :is_author_of, model_class: Blog, rel_class: IsAuthorOf
 
+  has_one :out, :asset, model_class: AddAvatarToUser
+  #mount_uploader :asset, AssetUploader
+  
   before_save { self.email = email.downcase } 
   before_save :encrypt_password
   before_save :capitalize_names
@@ -116,6 +121,10 @@ class User
   def country_of_residence
     country = ISO3166::Country[country_of_residence_code]
     country.translations[I18n.locale.to_s] || country.name
+  end
+
+  def full_name
+    first_name + " " + last_name
   end
 
 #  def email_uniqueness

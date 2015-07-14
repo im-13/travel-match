@@ -1,0 +1,30 @@
+<% provide(:title, "Blogs") %>
+<div class="container">
+  <p id="notice"><%= notice %></p>
+
+    <div class="page-helper">
+      <h1>Travel Blog</h1>
+    </div>
+
+     <%= link_to 'Write a New Blog', new_blog_path, class: "btn btn-primary" %>
+
+    <%= will_paginate @blogs %>
+    <% @blogs.each do |blog| %>
+    <div class="blog">
+
+      
+      <strong><%= current_user.full_name %> </strong>
+      <p><%= blog.content %></p>
+      <div class="meta">
+        <%= link_to time_ago_in_words(blog.created_at) + " ago", blog %>
+        
+        <% if current_user.admin? %>
+          | <%= link_to 'Edit', edit_blog_path(blog) %>
+          | <%= link_to 'Delete', blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+</div>
+    

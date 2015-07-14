@@ -68,7 +68,11 @@
             </tr>
             <tr>
                 <th>Gender: </th>
-                <td><%= @user.gender %></td>
+                <% if @user.gender %>
+                  <td><%= @user.gender %></td>
+                <% else %>
+                  <td>N/A</td>
+                <% end %>
             </tr>
             <tr>
                 <th>Nationality: </th>
@@ -88,7 +92,11 @@
             </tr>
             <tr>
                 <th>I live in: </th>
-                <td><%= current_user.lives_in(:l).name %></td>
+                <% if current_user.lives_in(:l).name %>
+                  <td><%= current_user.lives_in(:l).name %></td>
+                <% else %>
+                  <td>N/A</td>
+                <% end %>  
             </tr>
 
             <tr>

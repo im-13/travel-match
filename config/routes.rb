@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :blogs
+  resources :carrierwave_images
   root 'static_pages#home'
   
   get   'home'      => 'static_pages#home'
@@ -11,6 +13,7 @@ Rails.application.routes.draw do
   get   'index'     => 'users#index'
   get   'login'     => 'sessions#new'
   post  'login'     => 'sessions#create'
+  get   'blog'      => 'blogs#index'
   get   'mymatches' => 'matches#new'
   post  'mymatches' => 'matches#create'
   delete 'logout'   => 'sessions#destroy'

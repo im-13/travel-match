@@ -1,0 +1,16 @@
+<div class="container">
+	<p id="notice"><%= notice %></p>
+
+	<p>
+	  <b>Name:</b>
+	  <%= current_user.full_name %> 
+	</p>
+
+	<p>
+	  <b>Content:</b>
+	  <%= @blog.content %>
+	</p>
+
+	<%= link_to 'Edit', edit_blog_path(@blog) %> |
+	<%= link_to 'Back', blogs_path %>
+</div>

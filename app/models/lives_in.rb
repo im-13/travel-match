@@ -13,9 +13,9 @@ class LivesIn
   serialize :comments
 
   def stamp
-  	time = Time.now.to_s
-	time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M")
-	self.date_created = time
+    time = Time.now.to_s
+	 time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M")
+	 self.date_created = time
   end
 
 end
