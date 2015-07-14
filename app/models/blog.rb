@@ -9,5 +9,5 @@ class Blog
   	property :created_at, type: DateTime
   	property :updated_at, type: DateTime
 
-  	has_many :in, :is_author_of, model_class: User
+  	has_many :in, :is_author_of, model_class: User, rel_class: IsAuthorOf
 end
