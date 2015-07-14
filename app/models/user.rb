@@ -3,9 +3,10 @@ require 'bcrypt'
 class User 
   include Neo4j::ActiveNode
   include BCrypt
+  #include Neo4j::CarrierWave
 
   attr_accessor :password, :remember_token, :country_of_residence_code, 
-                :country_visited, :country_to_visit 
+                :country_visited, :country_to_visit, :asset
  
   property :first_name, type: String
   property :last_name, type: String
@@ -19,7 +20,6 @@ class User
   property :updated_at, type: DateTime
   property :photos
 
-
   #serialize :country_visited
   #serialize :country_to_visit
   serialize :photos
@@ -28,6 +28,9 @@ class User
   has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
   has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
 
+  has_one :out, :asset, model_class: AddAvatarToUser
+  #mount_uploader :asset, AssetUploader
+  
   before_save { self.email = email.downcase } 
   before_save :encrypt_password
   

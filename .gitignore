@@ -14,4 +14,6 @@
 # Ignore neo4j graph database
 /db/neo4j
 
+Gemfile.lock
 
+.DS_Store
