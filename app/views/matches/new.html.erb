@@ -1,5 +1,5 @@
-<% provide(:title, "Find your TravelMatch") %>
-<h1>Find your TravelMatch</h1>
+<% provide(:title, "Find my Travel Match") %>
+<h1>Find my Travel Match</h1>
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
@@ -10,14 +10,14 @@
 	<div> 
 	  <div class="checkbox-inline">
 		<%= check_box_tag(:check_box_country_of_residence_code_match) %>
-		<%= label_tag(:check_box_country_of_residence_code_match, "Country your TravelMatch lives in") %>
+		<%= label_tag(:check_box_country_of_residence_code_match, "Country my Travel Match lives in") %>
 	  </div>
 	  <%= f.country_select :country_of_residence_code_match, selected: "US" %>
 	</div>
 	<div> 
 	  <div class="checkbox-inline">
 		<%= check_box_tag(:check_box_country_visited_codes_match) %>
-		<%= label_tag(:check_box_country_visited_codes_match, "Countries your TravelMatch visited") %>
+		<%= label_tag(:check_box_country_visited_codes_match, "Countries my Travel Match visited") %>
 	  </div>
 	  <%= f.text_area :country_visited_codes_match %>
 	  <%=  %>
@@ -25,14 +25,14 @@
 	<div> 
 	  <div class="checkbox-inline">
 		<%= check_box_tag(:check_box_country_to_visit_codes_match) %>
-		<%= label_tag(:check_box_country_to_visit_codes_match, "Countries your TravelMatch wants to visit") %>
+		<%= label_tag(:check_box_country_to_visit_codes_match, "Countries my Travel Match wants to visit") %>
 	  </div>
 	  <%= f.text_area :country_to_visit_codes_match %>
 	</div>
 	<div> 
 	  <div class="checkbox-inline">
 		<%= check_box_tag(:check_box_age_match) %>
-		<%= label_tag(:check_box_age_match, "Age of your TravelMatch") %>
+		<%= label_tag(:check_box_age_match, "Age of my Travel Match") %>
 	  </div>
 	  <div class ="inline">
 		from<%= number_field(:match, :age_from_match, in: 18..100, step: 1) %>
@@ -42,7 +42,7 @@
 	<div> 
 	  <div class="checkbox-inline">
 		<%= check_box_tag(:check_box_gender_match) %>
-		<%= label_tag(:check_box_gender_match, "Gender of your TravelMatch") %>
+		<%= label_tag(:check_box_gender_match, "Gender of my Travel Match") %>
 	  </div>
 	  <div>
 		<label class="radio-inline">
