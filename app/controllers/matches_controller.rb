@@ -14,10 +14,7 @@ class MatchesController < ApplicationController
     end
   end
 
-  def specific_search_new
-  end
-
-  def specific_search_create
+  def create
     user = current_user
     if !user.nil?
       return_call = false
@@ -38,17 +35,17 @@ class MatchesController < ApplicationController
       has_visited_selected = true
 
 
-      if residence_select 
+      if :check_box_country_of_residence_code_match 
         match_exp << 'users-[:lives_in]->(country:Country)'
         where_exp << " AND country.name = '#{target_country.name}'"
       end
 
-      if gender_selected
-        gender_choice = 'female'
+      if :check_box_gender_match
+        gender_choice = :gender_match
         where_exp << " AND users.gender = '#{gender_choice}'"
       end
 
-      if has_visited_selected
+      if :check_box_country_visited_codes_match
 
         return_call = true
         order_call = true
@@ -86,22 +83,6 @@ class MatchesController < ApplicationController
       end
 
     end
-  end
-
-  def create
-    user = current_user #makes call to the session helper function which will return the session user
-    if !user.nil?
-      username = user.email
-      #core::query
-      #target_country = user.query_as(:n).match("n-[:lives_in]->(country:Country)").pluck(:country).firs
-      target_country = user.lives_in
-      user_birth = user.date_of_birth
-      #once country is determined we can do many thing 
-      #@matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").proxy_as(User, :n).paginate(page: 1, per_page: 10, return: :'distinct n')
-      @matches = User.all.as(:u).paginate(page: 1, per_page: 4, return: :'distinct u')
-      #@matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").proxy_as(User, :n).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct n')
-      #@match = reduce_by_age(user, @match)
-    end 
   end
 
 end

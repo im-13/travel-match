@@ -3,31 +3,60 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(:match, url: defaultmatch_path) do |f| %>
-	<br />
-  	<b>Country your TravelMatch lives in</b>
-	<%= f.country_select :country_of_residence_code_match, selected: "US" %>
-	<br />
-  	<b>Countries your TravelMatch visited</b>
-	<%= f.text_area :country_visited %>
-	<br />
-  	<b>Countries your TravelMatch wants to visit</b>
-	<%= f.text_area :country_to_visit %>
+    <%= form_for(:match, url: mymatches_path) do |f| %>
 
-    <%= f.text_field :match_age, placeholder: "Age of your TravelMatch" %>
+	<br />
 
-      <div>
-	    <label class="radio-inline">
-	      <%= f.radio_button :match_gender, 'female' %> Female
-	    </label>
-	    <label class="radio-inline">
-	      <%= f.radio_button :_match_gender, 'male' %> Male 
-	    </label>
+	<div> 
+	  <div class="checkbox-inline">
+		<%= check_box_tag(:check_box_country_of_residence_code_match) %>
+		<%= label_tag(:check_box_country_of_residence_code_match, "Country your TravelMatch lives in") %>
 	  </div>
+	  <%= f.country_select :country_of_residence_code_match, selected: "US" %>
+	</div>
+	<div> 
+	  <div class="checkbox-inline">
+		<%= check_box_tag(:check_box_country_visited_codes_match) %>
+		<%= label_tag(:check_box_country_visited_codes_match, "Countries your TravelMatch visited") %>
+	  </div>
+	  <%= f.text_area :country_visited_codes_match %>
+	  <%=  %>
+	</div>
+	<div> 
+	  <div class="checkbox-inline">
+		<%= check_box_tag(:check_box_country_to_visit_codes_match) %>
+		<%= label_tag(:check_box_country_to_visit_codes_match, "Countries your TravelMatch wants to visit") %>
+	  </div>
+	  <%= f.text_area :country_to_visit_codes_match %>
+	</div>
+	<div> 
+	  <div class="checkbox-inline">
+		<%= check_box_tag(:check_box_age_match) %>
+		<%= label_tag(:check_box_age_match, "Age of your TravelMatch") %>
+	  </div>
+	  <div class ="inline">
+		from<%= number_field(:match, :age_from_match, in: 18..100, step: 1) %>
+		to<%= number_field(:match, :age_to_match, in: 18..100, step: 1) %>
+	  </div>
+	</div>
+	<div> 
+	  <div class="checkbox-inline">
+		<%= check_box_tag(:check_box_gender_match) %>
+		<%= label_tag(:check_box_gender_match, "Gender of your TravelMatch") %>
+	  </div>
+	  <div>
+		<label class="radio-inline">
+		  <%= f.radio_button :gender_match, 'female' %> Female
+		</label>
+		<label class="radio-inline">
+		  <%= f.radio_button :gender_match, 'male' %> Male 
+		</label>
+	  </div>
+	</div>
 
-	  <br />
+	<br />
 
-      <%= f.submit "Search", class: "btn btn-primary" %>
+    <%= f.submit "Search", class: "btn btn-primary" %>
     <% end %>
 
   </div>

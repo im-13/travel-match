@@ -5,7 +5,8 @@ class User
   include BCrypt
 
   attr_accessor :password, :remember_token, :country_of_residence_code, 
-                :country_visited, :country_to_visit 
+                :country_visited, :country_to_visit
+
  
   property :first_name, type: String
   property :last_name, type: String
@@ -22,8 +23,8 @@ class User
   property :about_me, type: String
 
 
-  #serialize :country_visited
-  #serialize :country_to_visit
+  serialize :country_visited
+  serialize :country_to_visit
   serialize :photos
 
   has_one :out, :lives_in, model_class: Country, rel_class: LivesIn
