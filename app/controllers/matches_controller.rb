@@ -7,11 +7,14 @@ class MatchesController < ApplicationController
   end
 
   def index
+    @matches
+=begin
     if @matches
       @matches
     else
-      @match = specific_search_create
+      @match = create
     end
+=end
   end
 
   def create
@@ -35,18 +38,20 @@ class MatchesController < ApplicationController
       has_visited_selected = true
 
 
-      if :check_box_country_of_residence_code_match 
+      #if :check_box_country_of_residence_code_match 
+      if residence_select
         match_exp << 'users-[:lives_in]->(country:Country)'
         where_exp << " AND country.name = '#{target_country.name}'"
       end
 
-      if :check_box_gender_match
-        gender_choice = :gender_match
+      #if :check_box_gender_match
+      if gender_selected 
+        gender_choice = "female"
         where_exp << " AND users.gender = '#{gender_choice}'"
       end
 
-      if :check_box_country_visited_codes_match
-
+      #if :check_box_country_visited_codes_match
+      if has_visited_selected
         return_call = true
         order_call = true
         match_exp << "<-[:lives_in]-(user2:User), (user2)-[:has_been_to]-(visitedList:Country)"
@@ -69,19 +74,33 @@ class MatchesController < ApplicationController
         order_exp = " ORDER BY strength DESC"
       end
 
-      if return_call 
+      @matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").with(:user2, strength: 'count(user2)').order('strength DESC').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page: 10, return: :'distinct user2')
+      #@matches.paginate(page: 1, per_page:10)
+
+         #working version
+      #@matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
+
+      render 'index'
+=begin
+      if return_call
         if order_call 
-         #@matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").order(strength: :desc).with(strength: 'count(user2) ').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page:10)
+         #@matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").with(:user2, strength: 'count(user2)').order(strength: :desc).return(:user2).proxy_as(User, :user2)
+         #@matches.paginate(page: 1, per_page:10)
 
-         @matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").order(strength: :desc).with(strength: 'count(user2)').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page:10)
+         @matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :user2).paginate(page: 1, per_page:10, return: :'distinct user2')
 
+         
+
+         #@matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page:10)
+         
+         #@matches = User.query("MATCH (users:`User`), (user2:`User`), users-[:lives_in]->(country:Country)<-[:lives_in]-(user2:User), (user2)-[:has_been_to]-(visitedList:Country) WHERE (users.email <> 'testuser1@mailinator.com' AND country.name = 'United States' AND users.gender = 'female' AND visitedList.name IN ['North Korea','Vietnam','Iraq','Bosnia']) with user2, count(user2) as strength order by strength desc return user2").proxy_as(User, :users).paginate(page: 1, per_page: 10)
          #.proxy_as(User, :user2).paginate(page: 1, per_page: 10)
         end
       else
         @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
         @matches = reduce_by_age(@matches, 22, 35)
       end
-
+=end
     end
   end
 
