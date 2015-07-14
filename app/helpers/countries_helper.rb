@@ -20,10 +20,10 @@ module CountriesHelper
     if rel_type == 1 #lives_in
       #use the following
       country_by_relation = user.query_as(:s).match('s-[rel1:`lives_in`]->n2').pluck(:n2)
-    elsif rel_type == 2 #wants_to_go_to
-      country_by_relation = user.query_as(:s).match('s-[rel1:`wants_to_go_to`]->n2').pluck(:n2)
-    elsif rel_type == 3 #has_been_to
+    elsif rel_type == 2 #has been to
       country_by_relation = user.query_as(:s).match('s-[rel1:`has_been_to`]->n2').pluck(:n2)
+    elsif rel_type == 3 #wants to go to
+      country_by_relation = user.query_as(:s).match('s-[rel1:`wants_to_go_to`]->n2').pluck(:n2)
     end
 
     #list of countries to create the relationship with
