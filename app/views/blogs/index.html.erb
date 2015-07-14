@@ -1,6 +1,6 @@
 <% provide(:title, "Blogs") %>
 <div class="container">
-  <!--p id="notice"><%= notice %></p-->
+  <p id="notice"><%= notice %></p>
 
     <div class="page-helper">
       <h1>Travel Blog</h1>
@@ -10,11 +10,11 @@
 
     <% @blogs.each do |blog| %>
     <div class="blog">
-      <strong><%= blog.name %></strong>
+      <strong><%= current_user.full_name %> </strong>
       <p><%= blog.content %></p>
       <div class="meta">
         <%= link_to 'Show', blog %>
-        <!--%= link_to time_ago_in_words(blog.created_at) + " ago", blog %-->
+        <%= link_to time_ago_in_words(blog.created_at) + " ago", blog %>
         <span class="admin">
            <!--%= link_to 'Show', blog %-->
           | <%= link_to 'Edit', edit_blog_path(blog) %>

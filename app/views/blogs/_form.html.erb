@@ -1,5 +1,5 @@
 <div class="container">
-  <%= form_for(@blog) do |f| %>
+  <%= simple_form_for(@blog, html: { class: 'form-horizontal' }) do |f| %>
     <% if @blog.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
@@ -12,16 +12,12 @@
       </div>
     <% end %>
 
-    <div class="field">
-      <%= f.label :name %><br>
-      <%= f.text_field :name %>
-    </div>
-    <div class="field">
-      <%= f.label :content %><br>
-      <%= f.text_area :content %>
-    </div>
-    <div class="actions">
-      <%= f.submit %>
+    
+    <!--%= f.input :email, collection: User.all, label_mathod: full_name %-->
+    <%= f.input :content %>
+
+    <div class="form-actions">
+      <%= f.button :submit, class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>
