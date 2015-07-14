@@ -10,7 +10,7 @@ User.create(first_name: "Ilona",
             password:              "test",
             password_confirmation: "test",
             admin: true)
-
+=begin
 99.times do |n|
   f_name  = Faker::Name.first_name
   l_name  = Faker::Name.last_name
@@ -24,4 +24,4 @@ User.create(first_name: "Ilona",
               password:              password,
               password_confirmation: password,
               country_of_residence_code: country_code)
-end
+=end

@@ -7,6 +7,7 @@ class User
 
   attr_accessor :password, :remember_token, :country_of_residence_code, 
                 :country_visited, :country_to_visit, :asset
+
  
   property :first_name, type: String
   property :last_name, type: String
@@ -16,12 +17,15 @@ class User
   property :password_hash, type: String
   property :remember_hash, type: String
   property :admin, type: Boolean, default: false
+  property :last_seen_at, type: DateTime
   property :created_at, type: DateTime
   property :updated_at, type: DateTime
   property :photos
+  property :about_me, type: String
 
-  #serialize :country_visited
-  #serialize :country_to_visit
+
+  serialize :country_visited
+  serialize :country_to_visit
   serialize :photos
 
   has_one :out, :lives_in, model_class: Country, rel_class: LivesIn
@@ -34,6 +38,8 @@ class User
   
   before_save { self.email = email.downcase } 
   before_save :encrypt_password
+  before_save :capitalize_names
+  before_save { self.last_seen_at = Time.now }
   
   validates :first_name, presence: true, length: { maximum: 25 }
   validates :last_name, presence: true, length: { maximum: 50 }
@@ -53,6 +59,11 @@ class User
       age_in_days = time1.mjd - self.date_of_birth.mjd
       age = age_in_days/365    
     end
+  end
+
+  def capitalize_names
+    self.first_name.capitalize!
+    self.last_name.capitalize!
   end
 
   def encrypt_password

@@ -8,6 +8,7 @@
 
      <%= link_to 'Write a New Blog', new_blog_path, class: "btn btn-primary" %>
 
+    <%= will_paginate @blogs %>
     <% @blogs.each do |blog| %>
     <div class="blog">
       <strong><%= current_user.full_name %> </strong>

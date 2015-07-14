@@ -3,6 +3,7 @@ module SessionsHelper
 	# Logs in the given user.
   def log_in(user)
     session[:user_id] = user.uuid
+    user.update(last_seen_at: Time.now)
   end
 
   # Remembers a user in a persistent session.
@@ -44,6 +45,7 @@ module SessionsHelper
 
   # Logs out the current user.
   def log_out
+    current_user.update(last_seen_at: Time.now)
     forget(current_user)
     session.delete(:user_id)
     @current_user = nil

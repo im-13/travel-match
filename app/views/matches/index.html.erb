@@ -1,8 +1,10 @@
 <% provide(:title, 'Your TravelMatch') %>
 <div class="container">
 	<h1>Your TravelMatch</h1>
+	
+	<ul class="users">
+	  <%= render @matches %>
+	</ul>	
 
-	<ul class="matches">
-	  <%= render @match %>
-	</ul>
 </div>
+
