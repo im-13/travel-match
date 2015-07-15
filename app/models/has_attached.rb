@@ -1,21 +1,17 @@
-class AddUserIdToBlog 
-  include Neo4j::ActiveRel
+class HasAttached 
+  include Neo4j::ActiveNode
   require 'date'
 
   before_save :stamp
-  from_class User
-  to_class Blog
-  type 'add_user_id_to_blog'
+  from_class Blog
+  to_class Document
+  type 'has_attached'
  
   property :date_created, type: Date
-  property :comments
-
-  serialize :comments
 
   def stamp
   	time = Time.now.to_s
 	time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M")
 	self.date_created = time
   end
-
 end

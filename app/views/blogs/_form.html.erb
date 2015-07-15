@@ -14,7 +14,12 @@
 
     
     <!--%= f.input :email, collection: User.all, label_mathod: full_name %-->
-    <%= f.input :content %>
+    <%= f.input :content, input_html: {rows: 4, class: 'input-xxlarge'} %>
+    <!--%= f.field_for :carrierwave_image do |carrierwave_image_field|%-->
+
+      
+
+    <% end %>
 
     <div class="form-actions">
       <%= f.button :submit, class: "btn btn-primary" %>

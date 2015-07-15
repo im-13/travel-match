@@ -25,15 +25,13 @@ class BlogsController < ApplicationController
   # POST /blogs.json
   def create
     @blog = Blog.new(blog_params)
-   
+    document = Document.create
 
     respond_to do |format|
       if @blog.save
 
-         bloglink = AddUserIdToBlog.new(from_node: current_user, to_node: @blog)
-          #bloglink.from_node = current_user
-          #bloglink.to_node = @blog
-          bloglink.save
+        bloglink = AddUserIdToBlog.new(from_node: current_user, to_node: @blog)
+        bloglink.save
 
         format.html { redirect_to @blog, notice: 'Blog was successfully created.' }
         format.json { render :show, status: :created, location: @blog }
