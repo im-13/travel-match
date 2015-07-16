@@ -4,7 +4,7 @@ class BlogsController < ApplicationController
   # GET /blogs
   # GET /blogs.json
   def index
-    @blogs = Blog.all.paginate(:page => params[:page], :per_page => 10, order: :first_name)
+    @blogs = Blog.all.paginate(:page => params[:page], :per_page => 10, :order => { created_at: :desc })
   end
 
   # GET /blogs/1
@@ -25,17 +25,16 @@ class BlogsController < ApplicationController
   # POST /blogs.json
   def create
     @blog = Blog.new(blog_params)
-   
+    @blog.user_name = current_user.first_name + " " + current_user.last_name
+    @blog.user_uuid = current_user.uuid
 
     respond_to do |format|
       if @blog.save
 
-         bloglink = IsAuthorOf.new(from_node: current_user, to_node: @blog)
-          #bloglink.from_node = current_user
-          #bloglink.to_node = @blog
-          bloglink.save
+        bloglink = IsAuthorOf.new(from_node: current_user, to_node: @blog)
+        bloglink.save
 
-        format.html { redirect_to @blog, notice: 'Blog was successfully created.' }
+        format.html { redirect_to @blog, notice: 'Blog entry was successfully created.' }
         format.json { render :show, status: :created, location: @blog }
       else
         format.html { render :new }
@@ -49,7 +48,7 @@ class BlogsController < ApplicationController
   def update
     respond_to do |format|
       if @blog.update(blog_params)
-        format.html { redirect_to @blog, notice: 'Blog was successfully updated.' }
+        format.html { redirect_to @blog, notice: 'Blog entry was successfully updated.' }
         format.json { render :show, status: :ok, location: @blog }
       else
         format.html { render :edit }
@@ -63,7 +62,7 @@ class BlogsController < ApplicationController
   def destroy
     @blog.destroy
     respond_to do |format|
-      format.html { redirect_to blogs_url, notice: 'Blog was successfully destroyed.' }
+      format.html { redirect_to blogs_url, notice: 'Blog entry was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
