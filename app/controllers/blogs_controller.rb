@@ -34,7 +34,8 @@ class BlogsController < ApplicationController
         bloglink = IsAuthorOf.new(from_node: current_user, to_node: @blog)
         bloglink.save
 
-        format.html { redirect_to @blog, notice: 'Blog entry was successfully created.' }
+        flash[:success] = "Blog entry was successfully created."
+        format.html { redirect_to current_user }
         format.json { render :show, status: :created, location: @blog }
       else
         format.html { render :new }
@@ -48,7 +49,9 @@ class BlogsController < ApplicationController
   def update
     respond_to do |format|
       if @blog.update(blog_params)
-        format.html { redirect_to @blog, notice: 'Blog entry was successfully updated.' }
+
+        flash[:success] = "Blog entry was successfully created."
+        format.html { redirect_to current_user }
         format.json { render :show, status: :ok, location: @blog }
       else
         format.html { render :edit }
