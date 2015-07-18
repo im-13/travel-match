@@ -1,11 +1,15 @@
 require 'bcrypt'
 
+#Added on the branch to test
+
 class User 
   include Neo4j::ActiveNode
   include BCrypt
   #include Neo4j::CarrierWave
 
-  attr_accessor :password, :remember_token, :country_of_residence_code, 
+  # is password required here???
+  attr_accessor :password, :remember_token, :activation_token,
+                :country_of_residence_code, 
                 :country_visited, :country_to_visit, :asset
 
  
@@ -21,7 +25,9 @@ class User
   property :created_at, type: DateTime
   property :updated_at, type: DateTime
   property :about_me, type: String
-
+  property :activation_hash, type: String
+  property :activated, type: Boolean, default: false
+  property :activated_at, type: DateTime
 
   serialize :country_visited
   serialize :country_to_visit
@@ -35,10 +41,11 @@ class User
   #has_one :out, :asset, model_class: AddAvatarToUser, rel_class: 
   #mount_uploader :asset, AssetUploader
   
-  before_save { self.email = email.downcase } 
+  before_save :downcase_email
   before_save :encrypt_password
   before_save :capitalize_names
   before_save { self.last_seen_at = Time.now }
+  before_create :create_activation_hash
   
   validates :first_name, presence: true, length: { maximum: 25 }
   validates :last_name, presence: true, length: { maximum: 50 }
@@ -125,6 +132,17 @@ class User
   def full_name
     first_name + " " + last_name
   end
+
+  private
+
+    def create_activation_hash
+      self.activation_token  = User.new_token
+      self.activation_hash = User.digest(self.activation_token)
+    end
+
+    def downcase_email
+      self.email = email.downcase
+    end
 
 #  def email_uniqueness
 #    undefined method `find_by' - how to call it inside User class?
