@@ -3,5 +3,5 @@ class CarrierwaveImage
   property :asset, type: String
   mount_uploader :asset, AssetUploader
 
-  #has_many :in, :has_attached, model_class: Blog
+  has_many :in, :has_attached, model_class: Blog, rel_class: HasAttached
 end

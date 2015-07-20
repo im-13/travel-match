@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby "2.2.2"
 
 # For Neo4j graph database
-gem 'neo4j', '~> 4.1.0'
+gem 'neo4j', '~> 5.0.0'
 # Sinatra
 gem 'sinatra', '1.1.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -49,8 +49,6 @@ gem 'faker', '1.4.2'
 gem 'neo4j-will_paginate_redux'
 # For configuring will_paginate to use Bootstrap’s pagination styles
 gem 'bootstrap-will_paginate', '0.0.10'
-# For forms
-gem 'simple_form'
 # For selecting countries in user forms
 gem 'country_select', github: 'stefanpenner/country_select'
 # For date pickers

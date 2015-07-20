@@ -2,7 +2,7 @@
 # database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside 
 # the db with db:setup).
-
+=begin
 User.create(first_name: "Ilona",
 			      last_name: "Michalowska",
 			      gender: "female",
@@ -10,13 +10,13 @@ User.create(first_name: "Ilona",
             password:              "test",
             password_confirmation: "test",
             admin: true)
-=begin
-99.times do |n|
+=end
+10.times do |n|
   f_name  = Faker::Name.first_name
   l_name  = Faker::Name.last_name
   country_code = Faker::Address.country_code
   email = "example-#{n+1}@fakeemail.org"
-  password = "password"
+  password = "test"
   User.create(first_name:  f_name,
   			      last_name:  l_name,
   			      gender: "n/a",
@@ -24,4 +24,4 @@ User.create(first_name: "Ilona",
               password:              password,
               password_confirmation: password,
               country_of_residence_code: country_code)
-=end
+end

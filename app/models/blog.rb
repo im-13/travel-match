@@ -1,14 +1,16 @@
 class Blog 
   	include Neo4j::ActiveNode
 	
-	attr_accessor 
+	attr_accessor :carrierwave_image_attributes
 
-	property :email, type: String
+  	property :user_name, type: String
+  	property :user_uuid, type: String
   	property :content, type: String
   	property :created_at, type: DateTime
   	property :updated_at, type: DateTime
 
-  	has_many :in, :add_user_id_to_blog, model_class: User
-  	has_many :out, :has_attached, model_class: Document
+  	has_many :in, :is_author_of, model_class: User, rel_class: IsAuthorOf
+  	has_many :out, :has_attached, model_class: CarrierwaveImage, rel_class: HasAttached
 
+  	#accepts_nested_attributes_for :asset, :reject_if => proc { |attributes| attributes[:title].blank? }
 end

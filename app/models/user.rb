@@ -20,8 +20,9 @@ class User
   property :last_seen_at, type: DateTime
   property :created_at, type: DateTime
   property :updated_at, type: DateTime
-  property :photos
   property :about_me, type: String
+  property :avatar, type: String
+  mount_uploader :avatar, AssetUploader
 
 
   serialize :country_visited
@@ -31,9 +32,9 @@ class User
   has_one :out, :lives_in, model_class: Country, rel_class: LivesIn
   has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
   has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
-  has_many :out, :add_user_id_to_blog, model_class: Blog, rel_class: AddUserIdToBlog
+  has_many :out, :is_author_of, model_class: Blog, rel_class: IsAuthorOf
 
-  has_one :out, :asset, model_class: AddAvatarToUser
+  #has_one :out, :asset, model_class: AddAvatarToUser, rel_class: 
   #mount_uploader :asset, AssetUploader
   
   before_save { self.email = email.downcase } 
@@ -52,6 +53,7 @@ class User
   validates :password, presence: true, allow_nil: true
   validates_confirmation_of :password
   #  validate :email_uniqueness
+  validates :avatar, presence: true, allow_nil: true
 
   def get_age
     if self.date_of_birth?
@@ -125,6 +127,14 @@ class User
 
   def full_name
     first_name + " " + last_name
+  end
+
+  def gravatar_url
+    stripped_email = email.strip
+    downcase_email = stripped_email.downcase
+    hash = Digest::MD5.hexdigest(downcase_email)
+
+    "http://gravatar.com/avatar/#{hash}"
   end
 
 #  def email_uniqueness

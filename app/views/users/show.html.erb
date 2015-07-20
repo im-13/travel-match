@@ -5,10 +5,11 @@
 
 <script src="js/navbarVolunteer.js"></script>
 <!--hr class=""-->
+<br>
 <div class="container target">
   <div class="row">
     <div class="col-sm-8">
-      <h1 class="pull-left"> &nbsp <%= @user.first_name %> <%= @user.last_name %> </h1>
+      <h1 class="pull-left"> &nbsp <%= @user.first_name %> <%= @user.last_name %></h1>
       <div class="col-sm-8">  
         <% if @user != current_user %>
         <button type="button" class="btn btn-success">Connect</button> <button type="button" class="btn btn-info">Send me a message</button>
@@ -68,7 +69,11 @@
             </tr>
             <tr>
                 <th>Gender: </th>
-                <td><%= @user.gender %></td>
+                <% if @user.gender %>
+                  <td><%= @user.gender %></td>
+                <% else %>
+                  <td>N/A</td>
+                <% end %>
             </tr>
             <tr>
                 <th>Nationality: </th>
@@ -88,7 +93,11 @@
             </tr>
             <tr>
                 <th>I live in: </th>
-                <td><%= current_user.lives_in(:l).name %></td>
+                <% if current_user.lives_in(:l).name %>
+                  <td><%= current_user.lives_in(:l).name %></td>
+                <% else %>
+                  <td>N/A</td>
+                <% end %>  
             </tr>
 
             <tr>

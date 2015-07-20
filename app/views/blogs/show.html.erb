@@ -1,16 +1,31 @@
 <div class="container">
 	<p id="notice"><%= notice %></p>
 
-	<p>
-	  <b>Name:</b>
-	  <%= current_user.full_name %> 
-	</p>
+	<script src="js/navbarVolunteer.js"></script>
+	<div class="container target">
+	<h1 class="pull-left">
+		<br>
+		<%= current_user.full_name %>
+		<br>
+		<small><%= time_ago_in_words(@blog.created_at) + " ago" %></small>
+		<br>
+		<br>		
+	</h1>
 
+		<br>
+		<div class="col-sm-6 img-padding"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" <%= gravatar_for current_user %> </a> </div>
+		<br>
+	</div>		
+		
 	<p>
-	  <b>Content:</b>
 	  <%= @blog.content %>
 	</p>
 
-	<%= link_to 'Edit', edit_blog_path(@blog) %> |
-	<%= link_to 'Back', blogs_path %>
+	<hr />
+
+	<div class="meta">
+      <%= link_to "Back", blogs_path, class: 'btn btn-primary' %>
+      <%= link_to "Edit", edit_blog_path(@blog), class: 'btn btn-primary' %> 
+    </div>
+
 </div>

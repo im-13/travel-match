@@ -15,6 +15,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     # get user's country_of_residence, 2 arrays of user's countries, 
     # array of hobbies
+
+    @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
+
+    @user_country_of_residence = @user.lives_in(:l)
+    @user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
   end
 
   # GET /users/new
@@ -119,7 +124,7 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
                                   :country_of_residence_code, :country_visited, :country_to_visit,                                   
-                                  :password, :password_confirmation, :about_me)
+                                  :password, :password_confirmation, :about_me, :avatar)
                                 #  :password_hash, :remember_hash)                                
     end
 

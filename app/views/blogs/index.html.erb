@@ -1,4 +1,4 @@
-<% provide(:title, "Blogs") %>
+<% provide(:title, 'Travel Blog') %>
 <div class="container">
   <p id="notice"><%= notice %></p>
 
@@ -6,24 +6,32 @@
       <h1>Travel Blog</h1>
     </div>
 
-     <%= link_to 'Write a New Blog', new_blog_path, class: "btn btn-primary" %>
-
-    <%= will_paginate @blogs %>
-    <% @blogs.each do |blog| %>
-    <div class="blog">
-      <strong><%= current_user.full_name %> </strong>
-      <p><%= blog.content %></p>
-      <div class="meta">
-        <%= link_to 'Show', blog %>
-        <%= link_to time_ago_in_words(blog.created_at) + " ago", blog %>
-        <span class="admin">
-           <!--%= link_to 'Show', blog %-->
-          | <%= link_to 'Edit', edit_blog_path(blog) %>
-          | <%= link_to 'Delete', blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } %>
-        </span>
-      </div>
+    <div class="meta">
+      <%= link_to 'Write a New Blog', new_blog_path, class: "btn btn-primary" %>
+      <br>
+    <small><%= will_paginate @blogs %></small>
+    <br>
     </div>
-  <% end %>
 
+    <!--ul class="user"-->
+
+      <% @blogs.each do |blog| %>
+      <div class="blog">
+          <strong><%= blog.user_name %></strong>
+          <!--%image_tag blog.user_gravatar_url %-->
+          <!--%= link_to blog.user_name, User.find(blog.user_uuid) %-->
+          <p><%= blog.content %></p>
+          <div class="meta">
+            <%= link_to time_ago_in_words(blog.created_at) + " ago", blog %>
+            <span class="admin">
+            <!--% if current_user.admin? %-->
+              | <%= link_to 'Edit', edit_blog_path(blog) %>
+              | <%= link_to 'Delete', blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } %>
+            </span>
+        </div>
+      </div>
+    <!--/ul-->
+<% end %>
 </div>
+
     

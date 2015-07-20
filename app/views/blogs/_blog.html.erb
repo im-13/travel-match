@@ -1,0 +1,9 @@
+<li>
+  <%= link_to blog.user_name, User.find(blog.user_uuid) %> 
+  <%= time_ago_in_words(blog.created_at) + " ago" %>
+  <% if current_user.admin? || current_user.uuid == blog.user_uuid %>
+    <%= link_to 'Edit', edit_blog_path(blog) %>
+    | <%= link_to 'Delete', blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog entry?' } %>
+  <% end %>
+  <p><%= blog.content %></p>
+</li>

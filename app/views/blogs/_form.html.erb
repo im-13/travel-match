@@ -1,5 +1,5 @@
 <div class="container">
-  <%= simple_form_for(@blog, html: { class: 'form-horizontal' }) do |f| %>
+  <%= simple_form_for(@blog, html: { class: 'form-horizontal', multipart: true }) do |f| %>
     <% if @blog.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
@@ -12,17 +12,21 @@
       </div>
     <% end %>
 
+  
     
     <!--%= f.input :email, collection: User.all, label_mathod: full_name %-->
-    <%= f.input :content, input_html: {rows: 4, class: 'input-xxlarge'} %>
-    <!--%= f.field_for :carrierwave_image do |carrierwave_image_field|%-->
-
-      
+    <%= f.input :content, as: :text, input_html: { rows: "10", class: 'input-xlarge'} %>
+    <%= f.fields_for :asset do |attachment_fields|%>
+    <%= attachment_fields.input :asset, as: :file %>
 
     <% end %>
 
+
+
     <div class="form-actions">
-      <%= f.button :submit, class: "btn btn-primary" %>
+      <button><%= f.button :submit, class: "btn btn-primary btn-active" %></button>
+      <%= link_to "Show", @blog, class: 'btn btn-default' %> 
+      <%= link_to "Back", blogs_path, class: 'btn btn-default' %>
     </div>
   <% end %>
 </div>
