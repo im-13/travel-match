@@ -6,7 +6,8 @@ class User
   #include Neo4j::CarrierWave
 
   # is password required here???
-  attr_accessor :password, :remember_token, :activation_token,
+  attr_accessor :password, 
+                :remember_token, :activation_token, :reset_token,
                 :country_of_residence_code, 
                 :country_visited, :country_to_visit, :asset
 
@@ -26,6 +27,8 @@ class User
   property :activation_hash, type: String
   property :activated, type: Boolean, default: false
   property :activated_at, type: DateTime
+  property :reset_hash, type: String
+  property :reset_sent_at, type: DateTime
 
   serialize :country_visited
   serialize :country_to_visit
@@ -117,6 +120,23 @@ class User
   # Sends activation email.
   def send_activation_email
     UserMailer.account_activation(self).deliver_now
+  end
+
+   # Sets the password reset attributes.
+  def create_reset_hash
+    self.reset_token = User.new_token
+    update(reset_hash: User.digest(reset_token))
+    update(reset_sent_at: Time.zone.now)
+  end
+
+  # Sends password reset email.
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  # Returns true if a password reset has expired.
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
   end
 
   # Forgets a user.
