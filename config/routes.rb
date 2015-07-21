@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   resources :blogs
   resources :carrierwave_images
   root 'static_pages#home'

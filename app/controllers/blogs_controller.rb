@@ -25,7 +25,7 @@ class BlogsController < ApplicationController
   # POST /blogs.json
   def create
     @blog = Blog.new(blog_params)
-    @blog.user_name = current_user.first_name + " " + current_user.last_name
+    @blog.user_name = current_user.full_name
     @blog.user_uuid = current_user.uuid
 
     respond_to do |format|

@@ -1,3 +1,30 @@
+<script language=JavaScript>
+<!--
+function check_length(my_form)
+{
+  maxLen = 20; // max number of characters allowed
+  if (my_form.my_text.value.length >= maxLen) {
+    // Alert message if maximum limit is reached. 
+    // If required Alert can be removed. 
+    var msg = "You have reached your maximum limit of characters allowed";
+    alert(msg);
+    // Reached the Maximum length so trim the textarea
+    my_form.my_text.value = my_form.my_text.value.substring(0, maxLen);
+  }
+  else{ // Maximum length not reached so update the value of my_text counter
+    my_form.text_num.value = maxLen - my_form.my_text.value.length;}
+  }
+//-->
+</script>
+
+<form name=my_form method=post>
+  <textarea onKeyPress=check_length(this.form); onKeyDown=check_length(this.form); 
+  name=my_text rows=4 cols=30></textarea>
+  <br> 
+  <input size=1 value=50 name=text_num> Characters Left
+</form>
+
+
 <%= simple_form_for(@blog, html: { class: 'form-horizontal' }) do |f| %>
   <% if @blog.errors.any? %>
     <div id="error_explanation">

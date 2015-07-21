@@ -1,7 +1,5 @@
 require 'bcrypt'
 
-#Added on the branch to test
-
 class User 
   include Neo4j::ActiveNode
   include BCrypt
@@ -44,7 +42,7 @@ class User
   before_save :downcase_email
   before_save :encrypt_password
   before_save :capitalize_names
-  before_save { self.last_seen_at = Time.now }
+  before_save { self.last_seen_at = Time.zone.now }
   before_create :create_activation_hash
   
   validates :first_name, presence: true, length: { maximum: 25 }
@@ -61,15 +59,10 @@ class User
 
   def get_age
     if self.date_of_birth?
-      time1 = Date.parse(Time.now.to_s)
+      time1 = Date.parse(Time.zone.now.to_s)
       age_in_days = time1.mjd - self.date_of_birth.mjd
       age = age_in_days/365    
     end
-  end
-
-  def capitalize_names
-    self.first_name.capitalize!
-    self.last_name.capitalize!
   end
 
   def encrypt_password
@@ -109,10 +102,21 @@ class User
   end
 
   # Returns true if the given token matches the digest.
-  def authenticated?(remember_token)
-    puts "INSIDE authenticated?"
-    return false if self.remember_hash.nil?
-    BCrypt::Password.new(self.remember_hash) == remember_token
+  def authenticated?(attribute, token)
+    hash = send("#{attribute}_hash")
+    return false if hash.nil?
+    BCrypt::Password.new(hash) == token
+  end
+
+  # Activates an account.
+  def activate
+    update(activated: true)
+    update(activated_at: Time.zone.now)
+  end
+
+  # Sends activation email.
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
   end
 
   # Forgets a user.
@@ -142,6 +146,11 @@ class User
 
     def downcase_email
       self.email = email.downcase
+    end
+
+    def capitalize_names
+      self.first_name.capitalize!
+      self.last_name.capitalize!
     end
 
 #  def email_uniqueness
