@@ -1,4 +1,4 @@
-<% provide(:title, @user.email) %>
+<% provide(:title, @user.full_name) %>
 <div class="container">
   <p id="notice"><%= notice %></p>
 
@@ -8,7 +8,7 @@
 <div class="container target">
   <div class="row">
     <div class="col-sm-8">
-      <h1 class="pull-left"> &nbsp <%= @user.first_name %> <%= @user.last_name %> </h1>
+      <h1 class="pull-left"> &nbsp <%= @user.full_name %> </h1>
       <div class="col-sm-8">  
         <% if @user != current_user %>
         <button type="button" class="btn btn-success">Connect</button> <button type="button" class="btn btn-info">Send me a message</button>
@@ -54,7 +54,7 @@
     <!--/col-3-->
 
     <div class="col-sm-9" style="" contenteditable="false">
-      <div class="panel panel-default">
+      <div class="panel panel-default" >
         <div class="panel-heading">About</div>
         <div class="panel-body"> 
           <table>
@@ -68,7 +68,11 @@
             </tr>
             <tr>
                 <th>Gender: </th>
-                <td><%= @user.gender %></td>
+                <% if @user.gender %>
+                  <td><%= @user.gender %></td>
+                <% else %>
+                  <td>N/A</td>
+                <% end %>
             </tr>
             <tr>
                 <th>Nationality: </th>
@@ -88,7 +92,11 @@
             </tr>
             <tr>
                 <th>I live in: </th>
-                <td><%= current_user.lives_in(:l).name %></td>
+                <% if @user_country_of_residence %>
+                  <td><%= @user_country_of_residence.name %></td>
+                <% else %>
+                  <td>N/A</td>
+                <% end %>  
             </tr>
 
             <tr>
@@ -105,7 +113,22 @@
             </tr>
           </table>
         </div>
-      </div>        
+      </div> 
+
+      <div class="panel panel-default">
+        <div class="panel-heading">Blog</div>
+        <div class="panel-body">
+          <% if @user == current_user %>
+            <%= link_to 'New Post', new_blog_path, class: "btn btn-primary" %>
+            <br>
+          <% end %>
+          <ul class="blog">
+            <%= render @user_blog %>
+          </ul>
+            <%= will_paginate @user_blog %>
+            
+        </div>
+      </div>       
 
       <div class="panel panel-default target">
         <div class="panel-heading" contenteditable="false">Recent Trips</div>
@@ -155,15 +178,11 @@
     <div class="panel-body">
       <div class="row">
         <div class="container">
-          <% username = @user.email %>
-          <% target_country = @user.lives_in(:l) %>
-          <% user_birth = @user.date_of_birth %>
-          <% @matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{target_country.name}' AND n.email <> '#{username}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n') %>
           <div class="col-sm-11">
             <ul class="users">
-              <%= render @matches %>
+              <%= render @user_matches %>
             </ul>
-            <%= will_paginate @matches %>
+            <%= will_paginate @user_matches %>
           </div>
         </div>
       </div>         

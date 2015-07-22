@@ -20,7 +20,6 @@ class User
   property :last_seen_at, type: DateTime
   property :created_at, type: DateTime
   property :updated_at, type: DateTime
-  property :photos
   property :about_me, type: String
 
 
@@ -31,9 +30,8 @@ class User
   has_one :out, :lives_in, model_class: Country, rel_class: LivesIn
   has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
   has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
-  has_many :out, :add_user_id_to_blog, model_class: Blog, rel_class: AddUserIdToBlog
+  has_many :out, :is_author_of, model_class: Blog, rel_class: IsAuthorOf
 
-  #has_one :out, :asset, model_class: AddAvatarToUser
   #mount_uploader :asset, AssetUploader
   
   before_save { self.email = email.downcase } 

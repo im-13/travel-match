@@ -1,14 +1,12 @@
-class AddUserIdToBlog 
+class IsAuthorOf 
   include Neo4j::ActiveRel
   require 'date'
 
   before_save :stamp
   from_class User
   to_class Blog
-  type 'add_user_id_to_blog'
+  type 'is_author_of'
 
-  #property :uuid, type: Integer
-  #property :email, type: String
   property :date_created, type: Date
   property :comments
 

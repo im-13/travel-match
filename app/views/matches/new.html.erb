@@ -1,10 +1,10 @@
+
 <% provide(:title, "Find your TravelMatch") %>
 <div class="container">
 	<h1>Find your TravelMatch</h1>
 	<div class="row">
 	  <div class="col-md-6 col-md-offset-3">
 	    <%= form_for(:match, url: mymatches_path) do |f| %>
-
 		<br />
 
 		<div> 
@@ -53,13 +53,10 @@
 			</label>
 		  </div>
 		</div>
-
-		<br />
-
-	    <%= f.submit "Search", class: "btn btn-primary" %>
+			<br />
+		    <%= f.submit "Search", class: "btn btn-primary" %>
 	    <% end %>
 
-
-		  </div>
-		</div>
+	  </div>
+	</div>
 </div>
