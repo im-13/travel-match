@@ -35,8 +35,8 @@
 			<%= label_tag(:check_box_age_match, "Age of your TravelMatch") %>
 		  </div>
 		  <div class ="inline">
-			from<%= number_field(:match, :age_from_match, in: 18..100, step: 1) %>
-			to<%= number_field(:match, :age_to_match, in: 18..100, step: 1) %>
+			from<%= number_field_tag(:age_from_match, in: 18..100, step: 1) %>
+			to<%= number_field_tag(:age_to_match, in: 18..100, step: 1) %>
 		  </div>
 		</div>
 		<div> 
@@ -46,10 +46,10 @@
 		  </div>
 		  <div>
 			<label class="radio-inline">
-			  <%= f.radio_button :gender_match, 'female' %> Female
+			  <%= radio_button_tag(:gender_match, 'female') %> Female
 			</label>
 			<label class="radio-inline">
-			  <%= f.radio_button :gender_match, 'male' %> Male 
+			  <%= radio_button_tag(:gender_match, 'male') %> Male 
 			</label>
 		  </div>
 		</div>

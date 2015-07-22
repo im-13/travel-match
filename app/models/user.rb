@@ -11,7 +11,7 @@ class User
  
   property :first_name, type: String
   property :last_name, type: String
-  property :email, type: String#, constraint: :unique
+  property :email, type: String #constraint: :unique
   property :date_of_birth, type: Date
   property :gender, type: String
   property :password_hash, type: String
@@ -33,7 +33,7 @@ class User
   has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
   has_many :out, :add_user_id_to_blog, model_class: Blog, rel_class: AddUserIdToBlog
 
-  has_one :out, :asset, model_class: AddAvatarToUser
+  #has_one :out, :asset, model_class: AddAvatarToUser
   #mount_uploader :asset, AssetUploader
   
   before_save { self.email = email.downcase } 
@@ -127,6 +127,33 @@ class User
     first_name + " " + last_name
   end
 
+  def get_country_visited
+    countries = self.has_visited
+    return stringify(countries)
+=begin
+    ret = ""
+    countries.each do |country|
+      ret << country.name+","
+    end
+    return ret
+=end
+  end
+
+  def get_country_to_visit
+    countries = self.want_to_visit
+    return stringify( countries )
+  end
+
+  def stringify( countries )
+    ret = ""
+    countries.each do |country|
+      ret << country.name+","
+    end
+    if ret.length > 1
+      ret = ret[0..-2]
+    end
+    return ret
+  end 
 #  def email_uniqueness
 #    undefined method `find_by' - how to call it inside User class?
 #    user = Neo4j::ActiveNode::User.find_by(email: "#{self.email}")

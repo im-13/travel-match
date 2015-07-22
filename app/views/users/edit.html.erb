@@ -2,118 +2,112 @@
 <h1>Update my profile</h1>
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
-  <%= render 'shared/error_messages' %>
-  <div>
-  <b>Name</b>
-    <%= simple_form_for(@user) do |f| %>
+  <div class="col-md-6 col-md-offset-3">
+    <%= render 'shared/error_messages' %>
 
-      <%= f.text_field :first_name, placeholder: "First name" %>
-      <%= f.text_field :last_name, placeholder: "Last name" %>
+    <div>
+	  <b>Name</b>
+	  <%= simple_form_for(@user) do |f| %>
 
-  <%= f.submit "Save name", class: "btn btn-primary" %>
-    <% end %>
+	    <%= f.text_field :first_name, placeholder: "First name" %>
+	    <%= f.text_field :last_name, placeholder: "Last name" %>
+
+	    <%= f.submit "Save name", class: "btn btn-primary" %>
+	  <% end %>
+	</div>
+
+	<br />
+
+	<div>
+	  <b>Birthdate</b>
+	  <%= form_for(@user) do |f| %>
+	    <%= f.date_select :date_of_birth, :start_year => Date.today.year - 120, :end_year => Date.today.year %>
+	    <%= f.submit "Save birthdate", class: "btn btn-primary" %>
+	  <% end %>
+	</div>
+
+	<br />
+
+	<div>
+	  <b>Gender</b>
+	  <%= form_for(@user) do |f| %>
+
+		<div>
+		  <label class="radio-inline">
+		    <%= f.radio_button :gender, 'female' %> Female
+		  </label>
+		  <label class="radio-inline">
+		    <%= f.radio_button :gender, 'male' %> Male 
+		  </label>
+		</div>
+
+		<%= f.submit "Save gender", class: "btn btn-primary" %>
+	  <% end %>
+	</div>
+
+	<br />
+
+	<div>
+	  <b>About me</b>
+	  <%= form_for(@user) do |f| %>
+
+	    <%= f.text_area :about_me %>
+
+	    <%= f.submit "Save my description", class: "btn btn-primary" %>
+	  <% end %>
+	</div>
+
+	<br />
+
+	<div>
+	  <b>Country of residence</b>
+	  <%= form_for(@user) do |f| %>
+	    <%= f.country_select :country_of_residence_code, selected: "#{@user.lives_in.code}" %>
+	    <%= f.submit "Save country of residence", class: "btn btn-primary" %>
+	  <% end %>
+	</div>
+
+	<br />
+
+	<div>
+	  <b>Countries I visited</b>
+		  <%= simple_form_for(@user) do |f| %>
+			<% countries_been_to = @user.get_country_visited %>
+			<%= f.text_area :country_visited, :value => "#{countries_been_to}" %>
+		    <%= f.submit "Save countries I visited", class: "btn btn-primary" %>
+		  <% end %>	
+	</div>
+
+	<br />
+
+	<div>
+	  <b>Countries I want to visit</b>
+		<%= simple_form_for(@user) do |f| %>
+			<% countries_been_to = @user.get_country_to_visit %>
+			<%= f.text_area :country_to_visit, :value => "#{countries_been_to}" %>
+		    <%= f.submit "Save countries I visited", class: "btn btn-primary" %>
+		  <% end %>	
+	</div>
+
+	<br />
+
+	<div>
+	  <b>Password</b>
+	  <%= form_for(@user) do |f| %>
+	    <%= f.password_field :password, placeholder: "New password" %>
+	    <%= f.password_field :password_confirmation, placeholder: "Re-enter new password" %>
+	    <%= f.submit "Save password", class: "btn btn-primary" %>
+	  <% end %>
+	</div>
+
+	<br />
+
+	<div>
+	<b>Profile picture</b>
+	  <div class="gravatar_edit">
+		<%= gravatar_for @user %>
+		<a href="http://gravatar.com/emails" target="_blank">Change my profile picture</a>
+	  </div>
+	</div>
+  </div>
 </div>
-
-<div>
-<br />
-  <b>Birthdate</b>
-    <%= form_for(@user) do |f| %>
-
-    <%= f.date_select :date_of_birth,
-                    :start_year => Date.today.year - 120,
-                    :end_year => Date.today.year %>
-
-  <%= f.submit "Save birthdate", class: "btn btn-primary" %>
-    <% end %>
-</div>
-
-<div>
-<br />
-  <b>Gender</b>
-    <%= form_for(@user) do |f| %>
-
-  <div>
-    <label class="radio-inline">
-      <%= f.radio_button :gender, 'female' %> Female
-    </label>
-    <label class="radio-inline">
-      <%= f.radio_button :gender, 'male' %> Male 
-    </label>
-  </div>
-
-  <%= f.submit "Save gender", class: "btn btn-primary" %>
-    <% end %>
-</div>
-
-<div>
-  <b>About me</b>
-    <%= form_for(@user) do |f| %>
-
-      <%= f.text_area :about_me %>
-
-  <%= f.submit "Save my description", class: "btn btn-primary" %>
-    <% end %>
-</div>
-
-<div>
-<br />
-  <b>Country of residence</b>
-    <%= form_for(@user) do |f| %>
-
-    <%= f.country_select :country_of_residence_code, selected: "US" %>
-
-  <%= f.submit "Save country of residence", class: "btn btn-primary" %>
-    <% end %>
-</div>
-
-<div>
-<br />
-  <b>Countries I visited</b>
-    <%= simple_form_for(@user) do |f| %>
-
-    <%= f.text_area :country_visited %>
-
-  <%= f.country_select :country_visited, multiple: true %>
-  
-  <%= f.input :country_visited, as: :select, collection: ["A", "B", "C", "D"], input_html: { multiple: true } %>
-
-
-
-  <%= f.submit "Save countries I visited", class: "btn btn-primary" %>
-    <% end %>
-</div>
-
-<div>
-<br />
-  <b>Countries I want to visit</b>
-    <%= form_for(@user) do |f| %>
-
-    <%= f.text_area :country_to_visit %>
-
-  <%= f.submit "Save countries I want to visit", class: "btn btn-primary" %>
-    <% end %>
-</div>
-
-<div>
-<br />
-  <b>Password</b>
-    <%= form_for(@user) do |f| %>
-
-      <%= f.password_field :password, placeholder: "New password" %>
-  <%= f.password_field :password_confirmation, placeholder: "Re-enter new password" %>
-
-  <%= f.submit "Save password", class: "btn btn-primary" %>
-    <% end %>
-</div>
-
-<div>
-<br />
-<b>Profile picture</b>
-    <div class="gravatar_edit">
-      <%= gravatar_for @user %>
-      <a href="http://gravatar.com/emails" target="_blank">Change my profile picture</a>
-    </div>
-  </div>
-</div>
-

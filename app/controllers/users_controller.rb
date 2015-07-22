@@ -75,16 +75,26 @@ class UsersController < ApplicationController
 
         if params[:user][:country_visited]
           #we need to accumulate the country_visited somehow
-          visited = params[:user][:country_visited] #wait for ilona's accumulation
+          visited = params[:user][:country_visited] 
           visitedArr = visited.split(",")
-          make_decision(@user, visitedArr, 2)
+          if country_check(visitedArr)
+            make_decision(@user, visitedArr, 2)
+          else
+            format.html { render :edit }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
         end
         
 
         if params[:user][:country_to_visit]
-          tovisit = params[:user][:country_to_visit] #wait for ilona's accumulation
+          tovisit = params[:user][:country_to_visit] 
           tovisitArr = tovisit.split(",")
-          make_decision(@user, tovisitArr, 3)
+          if country_check(tovisitArr)
+            make_decision(@user, tovisitArr, 3)
+          else
+            format.html { render :edit }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
         end
 
 

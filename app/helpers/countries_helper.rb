@@ -1,5 +1,30 @@
 module CountriesHelper
 
+  def country_check( countryArr )
+    ret = true
+    index = 0
+    countryArr.each do |country|
+      country_str = clean_name(country)
+      #debugging
+      #open('myfile.out', 'a') { |f|
+      #  f.puts country_str
+      #}
+      country = ISO3166::Country.find_country_by_name(country_str)
+      if country.nil?
+        ret = false
+        break
+      else
+        if /,/.match(country.name) 
+          countryArr[index] = country_str
+        else
+          countryArr[index] = country.name
+        end
+      end
+      index += 1
+    end
+    return ret
+  end
+
 	def create_if_not_found ( countryName )
 		countryFound = Country.find_by( name: "#{countryName}" )
         if countryFound
@@ -7,6 +32,7 @@ module CountriesHelper
         else
           countrycreated = Country.new
           countrycreated.name = countryName
+          countrycreated.code = countrycreated.set_code
           countrycreated.save
           countrycreated
         end
@@ -85,9 +111,9 @@ module CountriesHelper
     if rel_type == 1 #lives_in
       return LivesIn.new
     elsif rel_type == 2 #wants_to_go_to
-      return WantsToGoTo.new
-    elsif rel_type == 3 #has_been_to
       return HasBeenTo.new
+    elsif rel_type == 3 #has_been_to
+      return WantsToGoTo.new
     end
   end 
 
@@ -95,9 +121,9 @@ module CountriesHelper
     if rel_type == 1 #lives_in
       return "lives_in"
     elsif rel_type == 2 #wants_to_go_to
-      return "wants_to_go_to"
-    elsif rel_type == 3 #has_been_to
       return "has_been_to"
+    elsif rel_type == 3 #has_been_to
+      return "wants_to_go_to"
     end
   end
 
