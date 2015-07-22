@@ -62,52 +62,50 @@
 
 		<br />
 
-		<div>
-		  <b>Country of residence</b>
-		  <%= form_for(@user) do |f| %>
 
-		    <%= f.country_select :country_of_residence_code, selected: "US" %>
+	<div>
+	  <b>Country of residence</b>
+	  <%= form_for(@user) do |f| %>
+	    <%= f.country_select :country_of_residence_code, selected: "#{@user.lives_in.code}" %>
+	    <%= f.submit "Save country of residence", class: "btn btn-primary" %>
+	  <% end %>
+	</div>
 
-		    <%= f.submit "Save country of residence", class: "btn btn-primary" %>
-		  <% end %>
-		</div>
 
 		<br />
 
-		<div>
-		  <b>Countries I visited</b>
+	<div>
+	  <b>Countries I visited</b>
 		  <%= simple_form_for(@user) do |f| %>
-
-		    <%= f.text_area :country_visited %>
-
+			<% countries_been_to = @user.get_country_visited %>
+			<%= f.text_area :country_visited, :value => "#{countries_been_to}" %>
 		    <%= f.submit "Save countries I visited", class: "btn btn-primary" %>
-		  <% end %>
-		</div>
+		  <% end %>	
+	</div>
+
 
 		<br />
 
-		<div>
-		  <b>Countries I want to visit</b>
-		   <%= form_for(@user) do |f| %>
+	<div>
+	  <b>Countries I want to visit</b>
+		<%= simple_form_for(@user) do |f| %>
+			<% countries_been_to = @user.get_country_to_visit %>
+			<%= f.text_area :country_to_visit, :value => "#{countries_been_to}" %>
+		    <%= f.submit "Save countries I visited", class: "btn btn-primary" %>
+		  <% end %>	
+	</div>
 
-		    <%= f.text_area :country_to_visit %>
-
-		    <%= f.submit "Save countries I want to visit", class: "btn btn-primary" %>
-		  <% end %>
-		</div>
 
 		<br />
 
-		<div>
-		  <b>Password</b>
-		  <%= form_for(@user) do |f| %>
-
-		    <%= f.password_field :password, placeholder: "New password" %>
-		    <%= f.password_field :password_confirmation, placeholder: "Re-enter new password" %>
-
-		    <%= f.submit "Save password", class: "btn btn-primary" %>
-		  <% end %>
-		</div>
+	<div>
+	  <b>Password</b>
+	  <%= form_for(@user) do |f| %>
+	    <%= f.password_field :password, placeholder: "New password" %>
+	    <%= f.password_field :password_confirmation, placeholder: "Re-enter new password" %>
+	    <%= f.submit "Save password", class: "btn btn-primary" %>
+	  <% end %>
+	</div>
 
 		<br />
 
@@ -121,4 +119,3 @@
 	  </div>
 	</div>
 </div>
-

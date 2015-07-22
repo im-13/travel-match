@@ -12,4 +12,20 @@ module MatchesHelper
 
 		return result
 	end
+
+	def get_name_list(enum_list)
+		name_list = Array.new
+        enum_list.each do |list_item|
+          name_list << "#{list_item.name}"
+        end
+        array_string = ""
+        #convert the array into a string output
+        if name_list.length > 0
+          array_string = "['"+name_list.join("','")+"']"
+        else
+          array_string = "[]"
+        end
+        return array_string
+	end
+
 end

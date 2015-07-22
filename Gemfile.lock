@@ -326,6 +326,7 @@ DEPENDENCIES
   carrierwave-neo4j
   cloudinary
   coffee-rails (~> 4.1.0)
+  countries
   country_select!
   faker (= 1.4.2)
   guard-minitest (= 2.3.1)
