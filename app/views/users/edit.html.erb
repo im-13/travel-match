@@ -3,8 +3,8 @@
 	<h1>Update my profile</h1>
 
 	<div class="row">
-	  <div class="col-md-6 col-md-offset-3">
-	    <%= render 'shared/error_messages' %>
+	  <div class="col-md-6 col-md-offset-3">
+	    <%= render 'shared/error_messages' %>
 
 	    <div>
 		  <b>Name</b>
@@ -13,7 +13,7 @@
 		    <%= f.text_field :first_name, placeholder: "First name" %>
 		    <%= f.text_field :last_name, placeholder: "Last name" %>
 
-		    <%= f.submit "Save name", class: "btn btn-primary" %>
+		    <%= f.submit "Save name", class: "btn btn-primary" %>
 		  <% end %>
 		</div>
 
@@ -25,15 +25,15 @@
 
 		    <%= f.date_select :date_of_birth, :start_year => Date.today.year - 120, :end_year => Date.today.year %>
 
-		    <%= f.submit "Save birthdate", class: "btn btn-primary" %>
+		    <%= f.submit "Save birthdate", class: "btn btn-primary" %>
 		  <% end %>
 		</div>
 
 		<br />
 
 		<div>
-			<b>Gender</b>
-			<%= form_for(@user) do |f| %>
+		  <b>Gender</b>
+		  <%= form_for(@user) do |f| %>
 
 			<div>
 			  <label class="radio-inline">
@@ -45,7 +45,7 @@
 			</div>
 
 			<%= f.submit "Save gender", class: "btn btn-primary" %>
-		   <% end %>
+		  <% end %>
 		</div>
 
 		<br />
@@ -56,7 +56,7 @@
 
 		    <%= f.text_area :about_me %>
 
-		    <%= f.submit "Save my description", class: "btn btn-primary" %>
+		    <%= f.submit "Save my description", class: "btn btn-primary" %>
 		  <% end %>
 		</div>
 
@@ -80,7 +80,7 @@
 
 		    <%= f.text_area :country_visited %>
 
-		    <%= f.submit "Save countries I visited", class: "btn btn-primary" %>
+		    <%= f.submit "Save countries I visited", class: "btn btn-primary" %>
 		  <% end %>
 		</div>
 
@@ -92,7 +92,7 @@
 
 		    <%= f.text_area :country_to_visit %>
 
-		    <%= f.submit "Save countries I want to visit", class: "btn btn-primary" %>
+		    <%= f.submit "Save countries I want to visit", class: "btn btn-primary" %>
 		  <% end %>
 		</div>
 
@@ -103,12 +103,11 @@
 		  <%= form_for(@user) do |f| %>
 
 		    <%= f.password_field :password, placeholder: "New password" %>
-		    <%= f.password_field :password_confirmation, placeholder: "Re-enter new password" %>
+		    <%= f.password_field :password_confirmation, placeholder: "Re-enter new password" %>
 
-		    <%= f.submit "Save password", class: "btn btn-primary" %>
+		    <%= f.submit "Save password", class: "btn btn-primary" %>
 		  <% end %>
 		</div>
-
 
 		<br />
 
@@ -116,15 +115,24 @@
 			<b>Profile picture</b>		
 			<%= simple_form_for(@user) do |f| %>
 				<%= f.file_field :avatar, as: :file %>
-				<!--% if f.object.avatar? %-->
-					<!--%= image_tag f.object.avatar.url %-->
-					<!--% end %-->
-
+				<% if f.object.avatar? %>
+					<a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= image_tag f.object.avatar.thumb.url %></a> 
+				<% else %>
+					<div class="gravatar_edit">
+						<a class="pull-right"><img title="profile image" class="img-circle img-responsive" <%= gravatar_for @user %> </a>
+						<a href="http://gravatar.com/emails" target="_blank">Change my gravatar picture </a>
+					</div>
+				<% end %>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<%= f.submit "Update profile picture", class: "btn btn-primary" %>
 			<% end %>
-			<div class="gravatar_edit">
-				<a class="pull-right"><img title="profile image" class="img-circle img-responsive" <%= gravatar_for @user %> </a>
-				<a href="http://gravatar.com/emails" target="_blank">Change my profile picture</a>
-			</div>
 		</div>
 	  </div>
 	</div>

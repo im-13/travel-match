@@ -21,6 +21,5 @@ class AddAvatarToUser
 	  time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M")
 	  self.date_created = time
   end
-end
 
 end

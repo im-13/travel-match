@@ -5,28 +5,26 @@
         <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
 
         <ul>
-        <% @blog.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
+          <% @blog.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
         </ul>
       </div>
     <% end %>
-
-  
     
-    <!--%= f.input :email, collection: User.all, label_mathod: full_name %-->
     <%= f.input :content, as: :text, input_html: { rows: "10", class: 'input-xlarge'} %>
-    <%= f.fields_for :asset do |attachment_fields|%>
-    <%= attachment_fields.input :asset, as: :file %>
-
+    <%= f.file_field :image do |attachment_fields|%>
+      <%= attachment_fields.input :image, as: :file %>
+      <% if f.object.image? %>
+        <%= image_tag f.object.image.url %>
+      <% end %>
     <% end %>
-
-
 
     <div class="form-actions">
       <button><%= f.button :submit, class: "btn btn-primary btn-active" %></button>
-      <%= link_to "Show", @blog, class: 'btn btn-default' %> 
-      <%= link_to "Back", blogs_path, class: 'btn btn-default' %>
+      <%= link_to "Show", @blog, class: 'btn btn-info' %> 
+      <%= link_to "Back to all posts", blogs_path, class: 'btn btn-info' %>
+      <%= link_to "Back to my profile", current_user, class: 'btn btn-info' %>
     </div>
-  <% end %>
-</div>
+<% end %>
+

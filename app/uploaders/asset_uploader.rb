@@ -16,17 +16,25 @@ class AssetUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
+  #An uploaded image would be scaled to be no larger than 800 by 800 
+  process resize_to_fit: [800, 800]
+
   version :medium do
-    process :resize_to_fit => [300, 300]
+    process :resize_to_fit => [400, 400]
   end
 
   version :small do
-    process :resize_to_fit => [140, 140]
+    process :resize_to_fill => [80, 80]
   end
 
   version :thumb do
-    process :resize_to_fill => [120, 120]
+    process :resize_to_fill  => [150, 150]
   end
+
+  version :small_thumb do
+    process :resize_to_fill => [80, 80]
+  end
+
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url
   #   # For Rails 3.1+ asset pipeline compatibility:

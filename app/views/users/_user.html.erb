@@ -1,5 +1,5 @@
 <li>
-	<%= gravatar_for user, size: 50 %>
+	<%= small_avatar_profile_link user, {}, class: 'pull-right' %>
 	<%= link_to user.first_name + " " + user.last_name, user %>
 	<br>
 	<%= user.get_age.to_s + " years old " + user.gender + " from " + user.lives_in(:l).name %>
@@ -8,3 +8,4 @@
 	                                  data: { confirm: "Are you sure you want to delete user?" } %>
 	<% end %>
 </li>
+

@@ -26,11 +26,12 @@ class BlogsController < ApplicationController
   # POST /blogs.json
   def create
     @blog = Blog.new(blog_params)
+    #@blog.author = User.find_by(:email "#{current_user.email}")
     @blog.user_name = current_user.first_name + " " + current_user.last_name
     @blog.user_uuid = current_user.uuid
-    #@blog.user_gravatar_url = current_user.gravatar_url
-    @blog.CarrierwaveImage = CarrierwaveImage.create
-
+    @blog.user_gravatar_url = current_user.gravatar_url 
+    @blog.user_email = current_user.email 
+    @CarrierwaveImage = CarrierwaveImage.create
     respond_to do |format|
       if @blog.save
 
@@ -39,7 +40,9 @@ class BlogsController < ApplicationController
         imagelink.save
         bloglink.save
 
-        format.html { redirect_to @blog, notice: 'Blog entry was successfully created.' }
+        flash[:success] = "Blog entry was successfully created."
+        format.html { redirect_to @blog }
+        #format.html { redirect_to current_user }
         format.json { render :show, status: :created, location: @blog }
       else
         format.html { render :new }
@@ -53,7 +56,9 @@ class BlogsController < ApplicationController
   def update
     respond_to do |format|
       if @blog.update(blog_params)
-        format.html { redirect_to @blog, notice: 'Blog entery was successfully updated.' }
+        flash[:success] = "Blog entry was successfully created."
+        format.html { redirect_to @blog }
+        #format.html { redirect_to current_user }
         format.json { render :show, status: :ok, location: @blog }
       else
         format.html { render :edit }
@@ -67,7 +72,9 @@ class BlogsController < ApplicationController
   def destroy
     @blog.destroy
     respond_to do |format|
-      format.html { redirect_to blogs_url, notice: 'Blog entery was successfully destroyed.' }
+      flash[:success] = "Blog entry was successfully destroyed."
+      format.html { redirect_to blogs_url }
+      #format.html { redirect_to current_user }
       format.json { head :no_content }
     end
   end
