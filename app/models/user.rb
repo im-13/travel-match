@@ -9,7 +9,7 @@ class User
   attr_accessor :password, 
                 :remember_token, :activation_token, :reset_token,
                 :country_of_residence_code, 
-                :country_visited, :country_to_visit, :asset
+                :country_visited, :country_to_visit, :asset, :gravatar_url
 
  
   property :first_name, type: String
@@ -24,6 +24,8 @@ class User
   property :created_at, type: DateTime
   property :updated_at, type: DateTime
   property :about_me, type: String
+  property :avatar, type: String
+  mount_uploader :avatar, AssetUploader
   property :activation_hash, type: String
   property :activated, type: Boolean, default: false
   property :activated_at, type: DateTime
@@ -60,6 +62,7 @@ class User
   validates :password, presence: true, allow_nil: true
   validates_confirmation_of :password
   #  validate :email_uniqueness
+  #  validates :avatar, presence: true, allow_nil: true
 
   def get_age
     if self.date_of_birth?
@@ -156,6 +159,24 @@ class User
 
   def full_name
     first_name + " " + last_name
+  end
+
+  def self.get_gravatars
+    all.each do |user|
+      if !user.avatar?
+        user.avatar = URI.parse(user.gravatar_url)
+        user.save
+        print "."
+      end
+    end
+  end
+
+  def gravatar_url
+    stripped_email = email.strip
+    downcased_email= stripped_email.downcase
+    hash = Digest::MD5.hexdigest(downcased_email)
+
+    "http://gravatar.com/avatar/#{hash}?"
   end
 
   def get_country_visited

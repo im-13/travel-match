@@ -2,9 +2,8 @@
 <div class="container">
   <p id="notice"><%= notice %></p>
 
-
 <script src="js/navbarVolunteer.js"></script>
-<!--hr class=""-->
+<br>
 <div class="container target">
   <div class="row">
     <div class="col-sm-8">
@@ -16,7 +15,11 @@
       </div>
       <br>
     </div>
-    <div class="col-sm-3 img-padding"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" <%= gravatar_for @user %> </a>
+      <% if @user.avatar? %>
+        <a class="pull-right"><img title="profile image" class="img-circle img-responsive" <%= image_tag @user.avatar.thumb.url %> </a> 
+      <% else %>
+          <a class="pull-right"><img title="profile image" class="img-circle img-responsive" <%= gravatar_for @user %> </a>
+      <% end %>
     </div>
   </div>
 
@@ -117,16 +120,13 @@
 
       <div class="panel panel-default">
         <div class="panel-heading">Blog</div>
-        <div class="panel-body">
-          <% if @user == current_user %>
-            <%= link_to 'New Post', new_blog_path, class: "btn btn-primary" %>
-            <br>
-          <% end %>
+        <div class="panel-body"> 
+          <%= link_to 'New Post', new_blog_path, class: "btn btn-info" %>
+          <br>
           <ul class="blog">
             <%= render @user_blog %>
           </ul>
-            <%= will_paginate @user_blog %>
-            
+          <%= will_paginate @user_blog %>
         </div>
       </div>       
 
@@ -163,14 +163,13 @@
                     <p>December 23rd - 29th, 2014</p>
                   </div>
                 </div>    
-              </div>         
+              </div> 
+
             </div>           
           </div>             
+        </div>
       </div>
-    </div>
-
     <div id="push"></div>
-
   </div>
 
   <div class="panel panel-default target">

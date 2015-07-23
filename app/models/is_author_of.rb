@@ -5,6 +5,7 @@ class IsAuthorOf
   before_save :stamp
   from_class User
   to_class Blog
+
   type 'is_author_of'
 
   property :date_created, type: Date

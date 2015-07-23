@@ -18,13 +18,17 @@
 	      </div>
 	    <% end %>
 
-		<%= f.text_area :content %>
-  		<%= f.submit "Edit my post", class: "btn btn-primary" %>
+		<%= f.text_area :content, { rows: "15", class: 'input-xlarge'} %>
 
-		<%= link_to 'Back to my Profile', current_user %>
-	  <% end %>
+
+	  <div class="form-actions">
+	  	<button type="button"><%= f.submit "Edit my post", class: "btn btn-success " %></button>
+      	<%= link_to "Show My Post", @blog, class: 'btn btn-info' %> 
+      	<%= link_to "Back To All Posts", blogs_path, class: 'btn btn-info' %>
+      	<%= link_to "Back To My Profile", current_user, class: 'btn btn-info' %>
+      	<a href="#" class="btn btn-info btn-large"><i class="glyphicon glyphicon-trash"></i> Delete </a>      
+      <% end %>
 
 	  </div>
 	</div>
-
 </div>

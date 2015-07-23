@@ -110,12 +110,29 @@
 		<br />
 
 		<div>
-		<b>Profile picture</b>
-		  <div class="gravatar_edit">
-			<%= gravatar_for @user %>
-			<a href="http://gravatar.com/emails" target="_blank">Change my profile picture</a>
-		  </div>
+			<b>Profile picture</b>		
+			<%= simple_form_for(@user) do |f| %>
+				<%= f.file_field :avatar, as: :file %>
+				<% if f.object.avatar? %>
+					<a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= image_tag f.object.avatar.thumb.url %></a> 
+				<% else %>
+					<div class="gravatar_edit">
+						<a class="pull-right"><img title="profile image" class="img-circle img-responsive" <%= gravatar_for @user %> </a>
+						<a href="http://gravatar.com/emails" target="_blank">Change my gravatar picture </a>
+					</div>
+				<% end %>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<%= f.submit "Update profile picture", class: "btn btn-primary" %>
+			<% end %>
 		</div>
-	  </div>
+	  </div>
 	</div>
 </div>
+

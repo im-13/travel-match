@@ -2,7 +2,8 @@ $brand-primary: #532F8C;
 $brand-language: #B01302;
 
 .jumbotron {
-  background: $brand-primary;
+  background: url('/assets/pg.jpg') no-repeat center center;
+
   color: white;
   padding-bottom: 80px;
 
@@ -10,12 +11,12 @@ $brand-language: #B01302;
     background: lighten($brand-primary, 20%);
     border-color: lighten($brand-primary, 20%);
     &:hover {
-      background: lighten($brand-primary, 15%);
+      background: lighten($brand-primary, 2%);
     }
   }
 
   p {
-    color: lighten($brand-primary, 50%);
+    color: lighten($brand-primary, 65%);
     max-width: 75%;
     margin: 1em auto 2em;
   }

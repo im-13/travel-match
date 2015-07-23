@@ -9,6 +9,16 @@ module ApplicationHelper
 	    end
 	end
 
+	def avatar_profile_link(user, image_options={ }, html_options={})
+		avatar_url = user.avatar? ? user.avatar_url(:thumb) : user.gravatar_url
+		link_to(image_tag(avatar_url, image_options), profile_path(user.first_name), html_options)
+	end
+
+	def small_avatar_profile_link(user, image_options={ }, html_options={})
+		avatar_url = user.avatar? ? user.avatar_url(:small) : user.gravatar_url
+		link_to(image_tag(avatar_url, image_options), profile_path(user.first_name), html_options)
+	end
+
 	def clean_name( raw )
 		start_index = get_start_index( raw )
 		end_index = get_end_index( raw )
