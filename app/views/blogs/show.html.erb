@@ -39,7 +39,9 @@
 	<div class="meta">
       <%= link_to "Back to all posts", blogs_path, class: 'btn btn-info' %>
       <%= link_to "Back to my profile", current_user, class: 'btn btn-info' %>
-      <%= link_to "Edit", edit_blog_path(@blog), class: 'btn btn-info' %> 
+      <% if cur.admin? %>
+      	<%= link_to "Edit", edit_blog_path(@blog), class: 'btn btn-info' %> 
+      <% end %>
     </div>
 
 </div>
