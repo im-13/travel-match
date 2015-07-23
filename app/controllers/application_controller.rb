@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   include CountriesHelper
   include MatchesHelper
   include ApplicationHelper
+  include UsersHelper
 =begin
   private
 

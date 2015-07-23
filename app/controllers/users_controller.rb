@@ -12,10 +12,16 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+
     @user = User.find(params[:id])
 
-    @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
+    #if not the session user
+    if !current_user?(@user)
+      #establish a connection with the session user
+      establish_user_connection(@user) #people you've viewed, and someone sees that you viewed them
+    end
 
+    @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
     @user_country_of_residence = @user.lives_in(:l)
     @user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
   end
@@ -85,7 +91,6 @@ class UsersController < ApplicationController
             format.json { render json: @user.errors, status: :unprocessable_entity }
           end
         end
-        
 
         if params[:user][:country_to_visit]
           tovisit = params[:user][:country_to_visit] 
@@ -97,7 +102,6 @@ class UsersController < ApplicationController
             format.json { render json: @user.errors, status: :unprocessable_entity }
           end
         end
-
 
         flash[:success] = "Profile was successfully updated."
         format.html { redirect_to @user }

@@ -38,6 +38,8 @@ class User
   has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
   has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
   has_many :out, :is_author_of, model_class: Blog, rel_class: IsAuthorOf
+  has_many :out, :has_viewed, model_class: User, rel_class: Viewed
+  has_many :in, :has_been_viewed, model_class: User, rel_class: ViewedBy
 
   #mount_uploader :asset, AssetUploader
   
