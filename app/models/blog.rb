@@ -13,6 +13,7 @@ class Blog
     property :image, type: String
     mount_uploader :image, AssetUploader
 
+
   	has_many :in, :is_author_of, model_class: User, rel_class: IsAuthorOf
   	has_many :out, :has_attached, model_class: CarrierwaveImage, rel_class: HasAttached
 

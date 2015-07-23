@@ -12,10 +12,16 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+
     @user = User.find(params[:id])
 
-    @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
+    #if not the session user
+    if !current_user?(@user)
+      #establish a connection with the session user
+      establish_user_connection(@user) #people you've viewed, and someone sees that you viewed them
+    end
 
+    @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
     @user_country_of_residence = @user.lives_in(:l)
     @user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
   end
@@ -45,11 +51,9 @@ class UsersController < ApplicationController
         #country.lives_in << @user 
         rel.save
 
-        log_in @user
-        remember @user
-        flash[:success] = "Welcome to Travel Match!"
-        format.html { redirect_to @user } 
-        format.json { render :show, status: :created, location: @user }
+        @user.send_activation_email
+        flash[:info] = "Please check your email to activate your account."
+        format.html { redirect_to root_url }
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -78,18 +82,26 @@ class UsersController < ApplicationController
 
         if params[:user][:country_visited]
           #we need to accumulate the country_visited somehow
-          visited = params[:user][:country_visited] #wait for ilona's accumulation
+          visited = params[:user][:country_visited] 
           visitedArr = visited.split(",")
-          make_decision(@user, visitedArr, 2)
+          if country_check(visitedArr)
+            make_decision(@user, visitedArr, 2)
+          else
+            format.html { render :edit }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
         end
-        
 
         if params[:user][:country_to_visit]
-          tovisit = params[:user][:country_to_visit] #wait for ilona's accumulation
+          tovisit = params[:user][:country_to_visit] 
           tovisitArr = tovisit.split(",")
-          make_decision(@user, tovisitArr, 3)
+          if country_check(tovisitArr)
+            make_decision(@user, tovisitArr, 3)
+          else
+            format.html { render :edit }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
         end
-
 
         flash[:success] = "Profile was successfully updated."
         format.html { redirect_to @user }

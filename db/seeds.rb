@@ -19,10 +19,16 @@ User.create(first_name: "Irina",
             password_confirmation: "test",
             admin: true)
 =begin
+=======
+            admin: true
+            activated: true,
+            activated_at: Time.zone.now)
+end
+>>>>>>> 48d8af7fadc1d463282cfa81e299fc5c346dcb90
 10.times do |n|
   f_name  = Faker::Name.first_name
   l_name  = Faker::Name.last_name
-  country_code = Faker::Address.country_code
+  country_code = "US"
   email = "example-#{n+1}@fakeemail.org"
   password = "test"
   User.create(first_name:  f_name,
@@ -32,4 +38,6 @@ User.create(first_name: "Irina",
               password:              password,
               password_confirmation: password,
               country_of_residence_code: country_code)
+              activated: true,
+              activated_at: Time.zone.now)
 end

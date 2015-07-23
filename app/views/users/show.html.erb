@@ -1,4 +1,4 @@
-<% provide(:title, @user.email) %>
+<% provide(:title, @user.full_name) %>
 <div class="container">
   <p id="notice"><%= notice %></p>
 
@@ -7,7 +7,7 @@
 <div class="container target">
   <div class="row">
     <div class="col-sm-8">
-      <h1 class="pull-left"> &nbsp <%= @user.first_name %> <%= @user.last_name %></h1>
+      <h1 class="pull-left"> &nbsp <%= @user.full_name %> </h1>
       <div class="col-sm-8">  
         <% if @user != current_user %>
         <button type="button" class="btn btn-success">Connect</button> <button type="button" class="btn btn-info">Send me a message</button>

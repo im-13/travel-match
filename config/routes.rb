@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
 
-  resources :documents
-  resources :blogs
-  resources :carrierwave_images
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   root 'static_pages#home'
   
   get   'home'      => 'static_pages#home'
@@ -20,6 +21,11 @@ Rails.application.routes.draw do
   delete 'logout'   => 'sessions#destroy'
   resources :users
   resources :countries
+  resources :account_activations, only: [:edit]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
+  resources :blogs
+  resources :carrierwave_images
+  resources :documents
   #resources :match
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -5,13 +5,16 @@ class User
   include BCrypt
   #include Neo4j::CarrierWave
 
-  attr_accessor :password, :remember_token, :country_of_residence_code, 
+  # is password required here???
+  attr_accessor :password, 
+                :remember_token, :activation_token, :reset_token,
+                :country_of_residence_code, 
                 :country_visited, :country_to_visit, :asset, :gravatar_url
 
  
   property :first_name, type: String
   property :last_name, type: String
-  property :email, type: String#, constraint: :unique
+  property :email, type: String #constraint: :unique
   property :date_of_birth, type: Date
   property :gender, type: String
   property :password_hash, type: String
@@ -23,7 +26,11 @@ class User
   property :about_me, type: String
   property :avatar, type: String
   mount_uploader :avatar, AssetUploader
-
+  property :activation_hash, type: String
+  property :activated, type: Boolean, default: false
+  property :activated_at, type: DateTime
+  property :reset_hash, type: String
+  property :reset_sent_at, type: DateTime
 
   serialize :country_visited
   serialize :country_to_visit
@@ -33,14 +40,16 @@ class User
   has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
   has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
   has_many :out, :is_author_of, model_class: Blog, rel_class: IsAuthorOf
+  has_many :out, :has_viewed, model_class: User, rel_class: Viewed
+  has_many :in, :has_been_viewed, model_class: User, rel_class: ViewedBy
 
-  #has_one :out, :asset, model_class: AddAvatarToUser, rel_class: 
   #mount_uploader :asset, AssetUploader
   
-  before_save { self.email = email.downcase } 
+  before_save :downcase_email
   before_save :encrypt_password
   before_save :capitalize_names
-  before_save { self.last_seen_at = Time.now }
+  before_save { self.last_seen_at = Time.zone.now }
+  before_create :create_activation_hash
   
   validates :first_name, presence: true, length: { maximum: 25 }
   validates :last_name, presence: true, length: { maximum: 50 }
@@ -57,15 +66,10 @@ class User
 
   def get_age
     if self.date_of_birth?
-      time1 = Date.parse(Time.now.to_s)
+      time1 = Date.parse(Time.zone.now.to_s)
       age_in_days = time1.mjd - self.date_of_birth.mjd
       age = age_in_days/365    
     end
-  end
-
-  def capitalize_names
-    self.first_name.capitalize!
-    self.last_name.capitalize!
   end
 
   def encrypt_password
@@ -105,10 +109,38 @@ class User
   end
 
   # Returns true if the given token matches the digest.
-  def authenticated?(remember_token)
-    puts "INSIDE authenticated?"
-    return false if self.remember_hash.nil?
-    BCrypt::Password.new(self.remember_hash) == remember_token
+  def authenticated?(attribute, token)
+    hash = send("#{attribute}_hash")
+    return false if hash.nil?
+    BCrypt::Password.new(hash) == token
+  end
+
+  # Activates an account.
+  def activate
+    update(activated: true)
+    update(activated_at: Time.zone.now)
+  end
+
+  # Sends activation email.
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
+
+   # Sets the password reset attributes.
+  def create_reset_hash
+    self.reset_token = User.new_token
+    update(reset_hash: User.digest(reset_token))
+    update(reset_sent_at: Time.zone.now)
+  end
+
+  # Sends password reset email.
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  # Returns true if a password reset has expired.
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
   end
 
   # Forgets a user.
@@ -147,6 +179,49 @@ class User
     "http://gravatar.com/avatar/#{hash}?"
   end
 
+  def get_country_visited
+    countries = self.has_visited
+    return stringify(countries)
+=begin
+    ret = ""
+    countries.each do |country|
+      ret << country.name+","
+    end
+    return ret
+=end
+  end
+
+  def get_country_to_visit
+    countries = self.want_to_visit
+    return stringify( countries )
+  end
+
+  def stringify( countries )
+    ret = ""
+    countries.each do |country|
+      ret << country.name+","
+    end
+    if ret.length > 1
+      ret = ret[0..-2]
+    end
+    return ret
+  end 
+
+  private
+
+    def create_activation_hash
+      self.activation_token  = User.new_token
+      self.activation_hash = User.digest(self.activation_token)
+    end
+
+    def downcase_email
+      self.email = email.downcase
+    end
+
+    def capitalize_names
+      self.first_name.capitalize!
+      self.last_name.capitalize!
+    end
 #  def email_uniqueness
 #    undefined method `find_by' - how to call it inside User class?
 #    user = Neo4j::ActiveNode::User.find_by(email: "#{self.email}")

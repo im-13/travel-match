@@ -26,8 +26,7 @@ class BlogsController < ApplicationController
   # POST /blogs.json
   def create
     @blog = Blog.new(blog_params)
-    #@blog.author = User.find_by(:email "#{current_user.email}")
-    @blog.user_name = current_user.first_name + " " + current_user.last_name
+    @blog.user_name = current_user.full_name
     @blog.user_uuid = current_user.uuid
     @blog.user_gravatar_url = current_user.gravatar_url 
     @blog.user_email = current_user.email 
