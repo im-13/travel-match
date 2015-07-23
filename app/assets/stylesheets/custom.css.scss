@@ -6,8 +6,6 @@
 $gray-medium-light: #eaeaea;
 $brand-primary: #532F8C;
 $brand-language: #B01302;
-$light-gray: #D3D3D3;
-$gray: #808080;
 
 
 @mixin box_sizing {
@@ -56,7 +54,7 @@ h2 {
   margin-bottom: 30px;
   text-align: center;
   font-weight: normal;
-  color: $light-gray;
+  color: $gray-light;
 }
 
 p {
@@ -88,7 +86,7 @@ footer {
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid $gray-medium-light;
-  color: $light-gray;
+  color: $gray-light;
   a {
     color: $gray;
     &:hover {
