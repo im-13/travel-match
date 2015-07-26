@@ -6,9 +6,11 @@
 
    		<h1>Travel Match</h1>
     	<p><strong>TravelMatch is a social platform for anyone who wants to connect with other people based on their travel interests, to find a companion to go on a trip with, discover exciting holiday destinations, plan a journey, and share travelling memories.</strong></p>
-  		
-  		<%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-default" %>
-  		<%= link_to "Log In", login_path, class: "btn btn-lg btn-primary" %>
+
+      <% if !logged_in? %>
+    		<%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-default" %>
+    		<%= link_to "Log In", login_path, class: "btn btn-lg btn-primary" %>
+      <% end %>
 	</div>
 </div>
 
