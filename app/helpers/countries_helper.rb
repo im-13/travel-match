@@ -25,7 +25,7 @@ module CountriesHelper
     return ret
   end
 
-	def create_if_not_found ( countryName )
+	def create_if_not_found ( countryName = "United States")
 		countryFound = Country.find_by( name: "#{countryName}" )
         if countryFound
           countryFound
