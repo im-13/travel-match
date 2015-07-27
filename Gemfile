@@ -3,6 +3,8 @@ ruby "2.2.2"
 
 # For Neo4j graph database
 gem 'neo4j', '~> 5.0.0'
+# Postgres
+gem 'pg'
 # Sinatra
 gem 'sinatra', '1.1.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
