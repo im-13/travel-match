@@ -1,5 +1,4 @@
-<div class="container">
-  <%= simple_form_for(@blog, html: { class: 'form-horizontal', multipart: true }) do |f| %>
+  <%= simple_form_for(@blog) do |f| %>
     <% if @blog.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
@@ -12,19 +11,20 @@
       </div>
     <% end %>
     
-    <%= f.input :content, as: :text, input_html: { rows: "10", class: 'input-xlarge'} %>
-    <%= f.file_field :image do |attachment_fields|%>
+    <%= f.text_area :content, placeholder: "Compose your new blog entry here", rows: "10", class: 'form-control' %>
+    <%= f.file_field :image, class: 'form-control', placeholder: "No file selected" do |attachment_fields| %>
       <%= attachment_fields.input :image, as: :file %>
       <% if f.object.image? %>
         <%= image_tag f.object.image.url %>
       <% end %>
     <% end %>
 
-    <div class="form-actions">
-      <button><%= f.button :submit, class: "btn btn-success btn-active" %></button>
-      <%= link_to "Show", @blog, class: 'btn btn-info' %> 
-      <%= link_to "Back to all posts", blogs_path, class: 'btn btn-info' %>
-      <%= link_to "Back to my profile", current_user, class: 'btn btn-info' %>
+    <div>
+      <%= f.submit "Post", class: "btn btn-primary" %> 
+      <br>
+      <%= link_to "View Travel Blog", blogs_path %>
+      <br>
+      <%= link_to "Back to My Profile", current_user %>
     </div>
 <% end %>
 

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get   'contact'   => 'static_pages#contact'
   get   'profile'   => 'static_pages#profile'
   get   'signup'    => 'users#new'
+  get   'myblog'    => 'users#show_my_blog'
   get   'index'     => 'users#index'
   get   'login'     => 'sessions#new'
   post  'login'     => 'sessions#create'

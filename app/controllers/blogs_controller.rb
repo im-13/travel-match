@@ -1,15 +1,11 @@
 class BlogsController < ApplicationController
   before_action :set_blog, only: [:show, :edit, :update, :destroy]
+  #before_action :logged_in_user, only: [:create, :destroy]
 
   # GET /blogs
   # GET /blogs.json
   def index
     @blogs = Blog.all.paginate(:page => params[:page], :per_page => 10, :order  => { created_at: :desc })
-  end
-
-  # GET /blogs/1
-  # GET /blogs/1.json
-  def show
   end
 
   # GET /blogs/new

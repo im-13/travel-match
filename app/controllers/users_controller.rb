@@ -12,7 +12,6 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-
     @user = User.find(params[:id])
 
     #if not the session user
@@ -24,6 +23,17 @@ class UsersController < ApplicationController
     @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
     @user_country_of_residence = @user.lives_in(:l)
     @user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
+  end
+
+  def show_my_blog
+    @user = current_user
+    @blog = Blog.new
+    @blog.user_name = @user.full_name
+    @blog.user_uuid = @user.uuid
+    @blog.user_gravatar_url = @user.gravatar_url 
+    @blog.user_email = @user.email 
+    @CarrierwaveImage = CarrierwaveImage.create
+    @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 2, :order => { created_at: :desc }, return: :'distinct n')
   end
 
   # GET /users/new
@@ -139,15 +149,6 @@ class UsersController < ApplicationController
     end
 
     # Before filters
-
-    # Confirms a logged-in user.
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
 
     # Confirms the correct user.
     def correct_user

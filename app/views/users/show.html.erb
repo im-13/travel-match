@@ -57,6 +57,24 @@
     <!--/col-3-->
 
     <div class="col-sm-9" style="" contenteditable="false">
+       
+
+      <div class="panel panel-default">
+        <div class="panel-heading">Blog</div>
+        <div class="panel-body"> 
+          <ul class="blog">
+            <%= render @user_blog %>
+          </ul>
+          <% if @user != current_user %>
+            <%= link_to 'View more...', userblog_path %>
+          <% else %>
+            <%= link_to 'View more...', myblog_path %>
+          <% end %>
+
+          
+        </div>
+      </div> 
+
       <div class="panel panel-default" >
         <div class="panel-heading">About</div>
         <div class="panel-body"> 
@@ -116,19 +134,7 @@
             </tr>
           </table>
         </div>
-      </div> 
-
-      <div class="panel panel-default">
-        <div class="panel-heading">Blog</div>
-        <div class="panel-body"> 
-          <%= link_to 'New Post', new_blog_path, class: "btn btn-info" %>
-          <br>
-          <ul class="blog">
-            <%= render @user_blog %>
-          </ul>
-          <%= will_paginate @user_blog %>
-        </div>
-      </div>       
+      </div>      
 
       <div class="panel panel-default target">
         <div class="panel-heading" contenteditable="false">Recent Trips</div>

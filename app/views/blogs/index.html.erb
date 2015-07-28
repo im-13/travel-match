@@ -10,56 +10,16 @@
     <br>
         <small><%= will_paginate @blogs %></small>
     <br>
-  </div>
-
-  <% @blogs.each do |blog| %>
   
-  <div class="col-md-4">
-    <div class="thumbnail">
+    
+    <div class="col-md-12">
+    <ul>
+      <%= render @blogs %>
+    </ul>
+    </div>
 
-      <div class="blog-container-responsive row-space-2">
-        <div class="blog-content">
-          <div class="panel-body">
-            <div class="row">
-              <% cur = User.find_by(email: blog.user_email) %>
-              <div class="col-sm-3 text-center row-space-2"> 
-                <a class="media-photo media-round row-space-1 text-center"> <img class="lazy" style-"display: inline;" >
-                <% if cur.avatar? %>
-                  <img class="img-circle"<%= image_tag cur.avatar.small.url %></a>
-                <% else %>
-                  <img class="img-circle"<%= image_tag cur.gravatar_url %></a>
-                <% end %>
-              
-                <div class="name">
-                  <a class="text-muted link-reset">
-                  <p><strong><%= cur.first_name %></strong></p></a>
-                  <!--p><strong><%= cur.last_name %></strong></p></a-->
-                </div>
-              </div>
-              <!--% image_tag blog.user_gravatar_url %-->
-              <!--%= link_to blog.user_name, User.find(blog.user_uuid) %-->  
-              <div class="col-sm-9">
-                <div class="row-space-2">
-                  <div class="expandable-content">
-                    <p><%= blog.content %></p>
-                    <!--%= blog.image %-->
-                  </div>
-                </div>
-                <div class="meta">
-                  <%= link_to time_ago_in_words(blog.created_at) + " ago", blog %>
-                  <!--span class="admin"-->
-                  <% if cur.admin? %>
-                    | <%= link_to 'Edit', edit_blog_path(blog) %>
-                    | <%= link_to 'Delete', blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } %>
-                  <% end %>
-                  <!--/span-->
-                  <!--hr-->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> 
   </div>
-<% end %> 
+
+    
+  </div>
+
