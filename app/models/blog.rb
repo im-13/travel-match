@@ -13,6 +13,8 @@ class Blog
     property :photo, type: String
     mount_uploader :photo, AssetUploader
 
+    validates :content, presence: true
+
 
   	has_many :in, :is_author_of, model_class: User, rel_class: IsAuthorOf
   	has_many :out, :has_attached, model_class: CarrierwaveImage, rel_class: HasAttached
