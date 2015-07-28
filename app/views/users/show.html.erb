@@ -65,8 +65,13 @@
         <div class="panel-heading">About</div>
         <div class="panel-body"> 
           <table class="table">
-            <tbody>
-              <tr>
+
+            <strong>Personal Details:</strong>
+            <br>
+             <tr>
+                  <th>Date of birth: </th>
+                  <td><%= @user.date_of_birth %></td>
+              </tr>
                   <th>Date of birth: </th>
                   <td><%= @user.date_of_birth %></td>
               </tr>
@@ -132,7 +137,7 @@
           <%= link_to 'New Post', new_blog_path, class: "btn btn-info" %>
           <br>
           <!--ul class="blog"-->
-            <%= render @user_blog %>
+          <%= render @user_blog %>
           <!--/ul-->
           <small><%= will_paginate @user_blog %></small>
         </div>

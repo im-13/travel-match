@@ -34,7 +34,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-#Photos
+# Photos
 gem 'carrierwave'
 gem 'carrierwave-neo4j', require: 'carrierwave/neo4j'
 gem 'cloudinary'
@@ -44,7 +44,7 @@ gem 'simple_form'
 gem 'paperclip'
 gem "neo4jrb-paperclip", :require => "neo4jrb_paperclip"
 gem "aws-s3",            :require => "aws/s3"
-#Provides a single Comment model that can be attached to any model(s)
+# Provides a single Comment model that can be attached to any model(s)
 gem 'acts_as_commentable'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'

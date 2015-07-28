@@ -47,6 +47,11 @@
                     <% end %>
                   </div>
                 </div>
+
+                <!--h2> @blog.comments.count </h2-->
+                <!--%= render 'blogs/comments' %-->
+
+
                 <div class="meta">
                   <%= link_to time_ago_in_words(blog.created_at) + " ago", blog %>
                   <% if cur.admin? || cur == current_user %>

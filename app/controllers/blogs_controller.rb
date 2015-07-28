@@ -36,7 +36,10 @@ class BlogsController < ApplicationController
 
         bloglink = IsAuthorOf.new(from_node: current_user, to_node: @blog)
         imagelink = HasAttached.new(from_node: @blog, to_node: @CarrierwaveImage)
+        #commentlink = Has.new(from_node: @blog, to_node: @Comment)
         imagelink.save
+        imagelink.save
+        #commentlink.save
         bloglink.save
 
         flash[:success] = "Blog entry was successfully created."
