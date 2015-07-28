@@ -20,7 +20,7 @@ class AssetUploader < CarrierWave::Uploader::Base
   process resize_to_fit: [800, 800]
 
   version :medium do
-    process :resize_to_fit => [400, 400]
+    process :resize_to_fit => [300, 300]
   end
 
   version :small do

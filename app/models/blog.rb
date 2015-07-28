@@ -1,7 +1,7 @@
 class Blog 
   	include Neo4j::ActiveNode
 
-	  attr_accessor :carrierwave_image_attributes
+	  attr_accessor :carrierwave_image_attributes, :asset, :remote_photo_url
 
   	property :user_gravatar_url, type: String
     property :user_name, type: String
@@ -10,8 +10,8 @@ class Blog
   	property :content, type: String
   	property :created_at, type: DateTime
   	property :updated_at, type: DateTime
-    property :image, type: String
-    mount_uploader :image, AssetUploader
+    property :photo, type: String
+    mount_uploader :photo, AssetUploader
 
 
   	has_many :in, :is_author_of, model_class: User, rel_class: IsAuthorOf

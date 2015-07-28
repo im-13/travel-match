@@ -10,7 +10,11 @@
       <h1 class="pull-left"> &nbsp <%= @user.full_name %> </h1>
       <div class="col-sm-8">  
         <% if @user != current_user %>
-        <button type="button" class="btn btn-success">Connect</button> <button type="button" class="btn btn-info">Send me a message</button>
+          <button type="button" class="btn btn-success">Connect</button> 
+          <button type="button" class="btn btn-info">Send me a message</button>
+        <% else %>
+          <%= link_to "Find My Match", mymatches_path, class: "btn btn-success" %>
+          <%= link_to 'Write New Post', new_blog_path, class: "btn btn-info" %>
         <% end %>
       </div>
       <br>
@@ -60,60 +64,64 @@
       <div class="panel panel-default" >
         <div class="panel-heading">About</div>
         <div class="panel-body"> 
-          <table>
-            <tr>
-                <th>Date of birth: </th>
-                <td><%= @user.date_of_birth %></td>
-            </tr>
-            <tr>
-                <th>Email: </th>
-                <td><%= @user.email %></td>
-            </tr>
-            <tr>
-                <th>Gender: </th>
-                <% if @user.gender %>
-                  <td><%= @user.gender %></td>
-                <% else %>
-                  <td>N/A</td>
-                <% end %>
-            </tr>
-            <tr>
-                <th>Nationality: </th>
-                <td>American</td>
-            </tr>
-            <tr>
-                <th>Spoken languages: </th>
-                <td>English, Spanish, French</td>
-            </tr>
-            <tr>
-                <th>Hobby: </th>
-                <td>Singing</td>
-            </tr>
-            <tr>
-                <th>Looking for: </th>
-                <td>Friends, Adventure, Soulmate</td>
-            </tr>
-            <tr>
-                <th>I live in: </th>
-                <% if @user_country_of_residence %>
-                  <td><%= @user_country_of_residence.name %></td>
-                <% else %>
-                  <td>N/A</td>
-                <% end %>  
-            </tr>
+          <table class="table">
+            <tbody>
+              <tr>
+                  <th>Date of birth: </th>
+                  <td><%= @user.date_of_birth %></td>
+              </tr>
 
-            <tr>
-                <th>I visited: </th>
-                <td># Retrieve from db</td>
-            </tr>
-            <tr>
-                <th>I want to visit: </th>
-                <td># Retrieve from db</td>
-            </tr>
-            <tr>
-                <th>About me: </th>
-                <td><%= @user.about_me %></td>
-            </tr>
+              <tr>
+                  <th>Email: </th>
+                  <td><%= @user.email %></td>
+              </tr>
+
+              <tr>
+                  <th>Gender: </th>
+                  <% if @user.gender %>
+                    <td><%= @user.gender %></td>
+                  <% else %>
+                    <td>N/A</td>
+                  <% end %>
+              </tr>
+              <tr>
+                  <th>Nationality: </th>
+                  <td>American</td>
+              </tr>
+              <tr>
+                  <th>Spoken languages: </th>
+                  <td>English, Spanish, French</td>
+              </tr>
+              <tr>
+                  <th>Hobby: </th>
+                  <td>Singing</td>
+              </tr>
+              <tr>
+                  <th>Looking for: </th>
+                  <td>Friends, Adventure, Soulmate</td>
+              </tr>
+              <tr>
+                  <th>I live in: </th>
+                  <% if @user_country_of_residence %>
+                    <td><%= @user_country_of_residence.name %></td>
+                  <% else %>
+                    <td>N/A</td>
+                  <% end %>  
+              </tr>
+
+              <tr>
+                  <th>I visited: </th>
+                  <td># Retrieve from db</td>
+              </tr>
+              <tr>
+                  <th>I want to visit: </th>
+                  <td># Retrieve from db</td>
+              </tr>
+              <tr>
+                  <th>About me: </th>
+                  <td><%= @user.about_me %></td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div> 
@@ -123,10 +131,10 @@
         <div class="panel-body"> 
           <%= link_to 'New Post', new_blog_path, class: "btn btn-info" %>
           <br>
-          <ul class="blog">
+          <!--ul class="blog"-->
             <%= render @user_blog %>
-          </ul>
-          <%= will_paginate @user_blog %>
+          <!--/ul-->
+          <small><%= will_paginate @user_blog %></small>
         </div>
       </div>       
 
@@ -181,7 +189,7 @@
             <ul class="users">
               <%= render @user_matches %>
             </ul>
-            <%= will_paginate @user_matches %>
+            <small><%= will_paginate @user_matches %></small>
           </div>
         </div>
       </div>         

@@ -24,24 +24,22 @@
     </div>
 		
 	<div class="container">	
-		<p>
-		  <%= @blog.content %>
-		</p>
+		<div class="blog">	
+			<p>
+			 	<%= @blog.content %>
+			</p>
+
+			<% if @blog.photo? %>
+		    	<%= image_tag @blog.photo.medium.url, class: "img=thumbnail" %>
+		    <% end %>
+		</div>
+
+		<div class="meta">
+	      <%= link_to "Back to all posts", blogs_path, class: 'btn btn-info' %>
+	      <%= link_to "Back to my profile", current_user, class: 'btn btn-info' %>
+	      <% if cur.admin? || cur == current_user %>
+	      	<%= link_to "Edit", edit_blog_path(@blog), class: 'btn btn-info' %> 
+	      <% end %>
+	    </div>
 	</div>
-
-	<%= image_tag @blog.image.url %>
-	
-	<% if @blog.image? %>
-		<span class="label label-info"></span>
-		<link_to @blog.image.image_file_name, @blog.image.url %-->
-	<% end %>
-
-	<div class="meta">
-      <%= link_to "Back to all posts", blogs_path, class: 'btn btn-info' %>
-      <%= link_to "Back to my profile", current_user, class: 'btn btn-info' %>
-      <% if cur.admin? %>
-      	<%= link_to "Edit", edit_blog_path(@blog), class: 'btn btn-info' %> 
-      <% end %>
-    </div>
-
 </div>

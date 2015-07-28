@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :blogs
+  resources :carrierwave_images
+  resources :documents
+  
   get 'password_resets/new'
 
   get 'password_resets/edit'
@@ -16,6 +20,7 @@ Rails.application.routes.draw do
   get   'login'     => 'sessions#new'
   post  'login'     => 'sessions#create'
   get   'blog'      => 'blogs#index'
+  get   'show'      => 'blogs#show'
   get   'mymatches' => 'matches#new'
   post  'mymatches' => 'matches#create'
   delete 'logout'   => 'sessions#destroy'
@@ -23,9 +28,6 @@ Rails.application.routes.draw do
   resources :countries
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
-  resources :blogs
-  resources :carrierwave_images
-  resources :documents
   #resources :match
 
   # The priority is based upon order of creation: first created -> highest priority.

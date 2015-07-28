@@ -12,13 +12,21 @@
       </div>
     <% end %>
     
-    <%= f.input :content, as: :text, input_html: { rows: "10", class: 'input-xlarge'} %>
-    <%= f.file_field :image do |attachment_fields|%>
-      <%= attachment_fields.input :image, as: :file %>
-      <% if f.object.image? %>
-        <%= image_tag f.object.image.url %>
+    <div class="form-group">
+      <p>
+        <%= f.input :content, as: :text, input_html: { rows: "10", class: 'input-xlarge'} %>
+      </p>
+      <p>
+        <%= f.file_field :photo, as: :file %>
+      </p>
+
+      <% if f.object.photo? %>
+        <p>
+        <%= image_tag f.object.photo.url %>
+        </p>
       <% end %>
-    <% end %>
+    </div>
+  
 
     <div class="form-actions">
       <button><%= f.button :submit, class: "btn btn-success btn-active" %></button>
@@ -26,5 +34,6 @@
       <%= link_to "Back to all posts", blogs_path, class: 'btn btn-info' %>
       <%= link_to "Back to my profile", current_user, class: 'btn btn-info' %>
     </div>
-<% end %>
-
+    
+  <% end %>
+</div>
