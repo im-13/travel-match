@@ -13,6 +13,10 @@ gem 'rails_12factor', group: :production
 gem 'puma', group: :production
 # Bootstrap
 gem 'bootstrap-sass', '3.2.0.0'
+# for publishing and subsribing to private channel
+gem 'private_pub'
+# for launching faye on production
+gem 'thin',  group: :production
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

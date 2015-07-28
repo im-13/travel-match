@@ -10,7 +10,6 @@ class User
                 :remember_token, :activation_token, :reset_token,
                 :country_of_residence_code, 
                 :country_visited, :country_to_visit, :asset, :gravatar_url
-
  
   property :first_name, type: String
   property :last_name, type: String
@@ -42,6 +41,7 @@ class User
   has_many :out, :is_author_of, model_class: Blog, rel_class: IsAuthorOf
   has_many :out, :has_viewed, model_class: User, rel_class: Viewed
   has_many :in, :has_been_viewed, model_class: User, rel_class: ViewedBy
+  has_many :out, :channel_to, model_class: Conversation, rel_class: Channel
 
   #mount_uploader :asset, AssetUploader
   

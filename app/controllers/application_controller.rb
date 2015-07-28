@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   include MatchesHelper
   include ApplicationHelper
   include UsersHelper
+  include MessagesHelper
 =begin
   private
 
