@@ -9,22 +9,21 @@ User.create(first_name: "Ilona",
             email: "ilona.michalowska@gmail.com",
             password:              "test",
             password_confirmation: "test",
-            admin: true)
-
+            admin: true,
+            activated: true,
+            activated_at: Time.zone.now)
+=begin
 User.create(first_name: "Irina",
             last_name: "Kalashnikova",
             gender: "female",
             email: "ik@gmail.com",
             password:              "test",
             password_confirmation: "test",
-            admin: true)
-=begin
-=======
-            admin: true
+            admin: true,
             activated: true,
             activated_at: Time.zone.now)
-end
->>>>>>> 48d8af7fadc1d463282cfa81e299fc5c346dcb90
+
+
 10.times do |n|
   f_name  = Faker::Name.first_name
   l_name  = Faker::Name.last_name
@@ -41,3 +40,5 @@ end
               activated: true,
               activated_at: Time.zone.now)
 end
+
+=end
