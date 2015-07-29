@@ -1,19 +1,45 @@
-<% provide(:title, 'User Blog') %>
 <div class="container">
-  <p id="notice"><%= notice %></p>
-  <div class="page-helper">
-    <h1>User Blog</h1>
-  </div>
+	<p id="notice"><%= notice %></p>
+	<% cur = User.find_by(email: @blog.user_email) %>
 
-  <div class="container">
-    
-    <div class="col-md-12">
-    <ul>
-      <%= render @blog %>
-    </ul>
+	<script src="js/navbarVolunteer.js"></script>
+	<div class="container target">
+		<h1 class="pull-left">
+			<br>
+			<%= @blog.user_name %>
+			<br>
+			<small><%= time_ago_in_words(@blog.created_at) + " ago" %></small>
+			<br>
+			<br>		
+		</h1>
+
+		<br>
+		<div>
+            <% if cur.avatar? %>
+              <a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= image_tag cur.avatar.thumb.url %></a>
+            <% else %>
+              <a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= gravatar_for cur %></a>
+            <% end %>
+        </div>
     </div>
+		
+	<div class="container">	
+		<div class="blog">	
+			<p>
+			 	<%= @blog.content %>
+			</p>
 
-  </div>
+			<% if @blog.photo? %>
+		    	<%= image_tag @blog.photo.medium.url, class: "img=thumbnail" %>
+		    <% end %>
+		</div>
 
-    
- </div>
+		<div class="meta">
+	      <%= link_to "Back to all posts", blogs_path, class: 'btn btn-info' %>
+	      <%= link_to "Back to my profile", current_user, class: 'btn btn-info' %>
+	      <% if cur.admin? || cur == current_user %>
+	      	<%= link_to "Edit", edit_blog_path(@blog), class: 'btn btn-info' %> 
+	      <% end %>
+	    </div>
+	</div>
+</div>

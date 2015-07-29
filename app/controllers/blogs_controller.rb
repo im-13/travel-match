@@ -32,7 +32,10 @@ class BlogsController < ApplicationController
 
         bloglink = IsAuthorOf.new(from_node: current_user, to_node: @blog)
         imagelink = HasAttached.new(from_node: @blog, to_node: @CarrierwaveImage)
+        #commentlink = Has.new(from_node: @blog, to_node: @Comment)
         imagelink.save
+        imagelink.save
+        #commentlink.save
         bloglink.save
 
         flash[:success] = "Blog entry was successfully created."
@@ -82,6 +85,6 @@ class BlogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def blog_params
-      params.require(:blog).permit(:content, :asset, :remove_asset, :avatar, :avatar_remove)
+      params.require(:blog).permit(:content, :asset, :photo, :remove_photo, :remove_asset, :avatar, :avatar_remove)
     end
 end

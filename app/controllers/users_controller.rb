@@ -13,6 +13,12 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
+    @blog = Blog.new
+    @blog.user_name = @user.full_name
+    @blog.user_uuid = @user.uuid
+    @blog.user_gravatar_url = @user.gravatar_url 
+    @blog.user_email = @user.email 
+    @CarrierwaveImage = CarrierwaveImage.create
 
     #if not the session user
     if !current_user?(@user)
