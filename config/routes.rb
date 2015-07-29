@@ -1,23 +1,30 @@
 Rails.application.routes.draw do
 
+  resources :blogs do
+    resources :comments
+  end
+  resources :carrierwave_images
+  resources :documents
+  
   get 'password_resets/new'
 
   get 'password_resets/edit'
 
   root 'static_pages#home'
   
-  get    'home'      => 'static_pages#home'
-  get    'help'      => 'static_pages#help'
-  get    'about'     => 'static_pages#about'
-  get    'contact'   => 'static_pages#contact'
-  get    'profile'   => 'static_pages#profile'
-  get    'signup'    => 'users#new'
-  get    'index'     => 'users#index'
-  get    'login'     => 'sessions#new'
-  post   'login'     => 'sessions#create'
-  get    'blog'      => 'blogs#index'
-  get    'mymatches' => 'matches#new'
-  post   'mymatches' => 'matches#create'
+  get   'home'      => 'static_pages#home'
+  get   'help'      => 'static_pages#help'
+  get   'about'     => 'static_pages#about'
+  get   'contact'   => 'static_pages#contact'
+  get   'profile'   => 'static_pages#profile'
+  get   'signup'    => 'users#new'
+  get   'index'     => 'users#index'
+  get   'login'     => 'sessions#new'
+  post  'login'     => 'sessions#create'
+  get   'blog'      => 'blogs#index'
+  get   'show'      => 'blogs#show'
+  get   'mymatches' => 'matches#new'
+  post  'mymatches' => 'matches#create'
   delete 'logout'   => 'sessions#destroy'
   #post   'conversations' => 'conversations#create'
   #get    'conversations' => 'conversations#show'
@@ -25,6 +32,7 @@ Rails.application.routes.draw do
   resources :countries
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
+
   resources :blogs
   resources :carrierwave_images
   resources :documents

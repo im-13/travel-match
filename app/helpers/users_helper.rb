@@ -44,9 +44,9 @@ module UsersHelper
       rel_instance.save
     end
 
-    open('myfile.out', 'a') { |f|
-      f.puts "viewed_user name:"+viewed_user.full_name
-    }
+    #open('myfile.out', 'a') { |f|
+    #  f.puts "viewed_user name:"+viewed_user.full_name
+    #}
     #the person you've viewed, should be able to see who's viewed them
     user_viewed_by = viewed_user.People_You_Were_Viewed_By.to_a
     if user_viewed_by.size < 10
