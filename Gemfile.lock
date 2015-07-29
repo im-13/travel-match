@@ -230,9 +230,9 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
+    pg (0.18.2)
     private_pub (1.0.3)
       faye
-    pg (0.18.2)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -368,8 +368,8 @@ DEPENDENCIES
   neo4j-will_paginate_redux
   neo4jrb-paperclip
   paperclip
-  private_pub
   pg
+  private_pub
   puma
   rails (= 4.2.2)
   rails_12factor

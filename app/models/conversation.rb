@@ -20,15 +20,11 @@ class Conversation
 	self.date_created = time
   end
 
-  def between( sender_id, recipient_id ) 
-  	conversation = Conversation.query_as(:convo).where( "(convo.user1 = '#{sender_id}' AND convo.user2 = '#{recipient_id}') OR (convo.user1 = '#{recipient_id}' AND convo.user2 = '#{sender_id}')" ).pluck(:convo).first
-  end
-
-  def get_other( current_user_id )
-  	if current_user_id == self.user1?
-  		return User.find_by(uuid: self.user2 )	
+  def get_other( current_user_id , convo )
+  	if current_user_id == convo.user1?
+  		return User.find_by(uuid: convo.user2 )	
   	else
-  		return User.find_by(uuid: self.user1 )
+  		return User.find_by(uuid: convo.user1 )
   	end
   end
 

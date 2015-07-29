@@ -4,8 +4,8 @@
   </div>
   <div class="chatboxmessagecontent">
     <p><%= message.body %></p>
-    <time datetime="<%= message.created_at %>" title="<%= message.created_at.strftime("%d %b  %Y at %I:%M%p") %>">
-      <%= message_interlocutor(message).name %> • <%= message.created_at.strftime("%H:%M %p") %>
+    <time datetime="<%= message.time_in_coming %>" title="<%= message.time_in_coming %>">
+      <%= message_interlocutor(message).full_name %> • <%= message.time_in_coming %>
     </time>
   </div>
 </li>
