@@ -24,7 +24,7 @@
     </div>
 		
 	<div class="container">	
-		<div class="blog">	
+		<div class="contailer">	
 			<p>
 			 	<%= @blog.content %>
 			</p>
@@ -32,14 +32,38 @@
 			<% if @blog.photo? %>
 		    	<%= image_tag @blog.photo.medium.url, class: "img=thumbnail" %>
 		    <% end %>
+
 		</div>
 
+		<br>
+		
 		<div class="meta">
 	      <%= link_to "Back to all posts", blogs_path, class: 'btn btn-info' %>
 	      <%= link_to "Back to my profile", current_user, class: 'btn btn-info' %>
 	      <% if cur.admin? || cur == current_user %>
 	      	<%= link_to "Edit", edit_blog_path(@blog), class: 'btn btn-info' %> 
+	      
+	      <%= link_to "Add comment", current_user, class: 'btn btn-success' %>
 	      <% end %>
 	    </div>
+	    <hr>
+	    
+
+	    	<% if cur != current_user %>
+	    		<div class="thumbnail">
+	    			<% if cur.avatar? %>
+              			<a class="pull-left"><img title="profile image" class="img-circle img-responsive"<%= image_tag current_user.avatar.small.url %></a>
+            		<% else %>
+              			<a class="pull-left"><img title="profile image" class="img-circle img-responsive"<%= current_user.gravatar_uml %></a>
+            		<% end %>
+	    		</div>
+	    		<div class="comment-form">
+	    			<label for="comment">Comment</label>
+	    			<textarea name="comment" name="comment" cols="45" rows="8" </textarea>
+		    	</div>
+		    	<%= link_to "Add Comment", current_user, class: 'btn btn-success' %>
+	
+			<% end %>
 	</div>
+
 </div>
