@@ -1,4 +1,5 @@
-<%= form_for(current_user.unfollow(@user), html: { method: :delete },
-             remote: true) do |f| %>
+<%= form_for(Follows.query_as(:n).match("n").where("n.followed_id = '#{@user.uuid}' AND n.follower_id = '#{current_user.uuid}'").proxy_as(Follows, :n),
+             html: { method: :delete }) do |f| %>
   <%= f.submit "Unfollow", class: "btn" %>
 <% end %>
+

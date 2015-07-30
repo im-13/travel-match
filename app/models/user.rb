@@ -43,6 +43,7 @@ class User
   has_many :out, :People_You_Were_Viewed_By, model_class: User, rel_class: ViewedBy
   has_many :out, :channel_to, model_class: Conversation, rel_class: Channel
   has_many :out, :follows, model_class: User, rel_class: Follows, dependent: :destroy
+  has_many :in, :follows, model_class: User, rel_class: Follows
 
   #mount_uploader :asset, AssetUploader
   
@@ -207,6 +208,23 @@ class User
     end
     return ret
   end 
+
+  # Follows a user.
+  def follow(other_user)
+    rel = Follows.new(from_node: self, to_node: other_user)
+    rel.follower_id = self.uuid
+    rel.followed_id = other_user.uuid
+    rel.save
+    #active_relationships.create(followed_id: other_user.id)
+  end
+
+  # Unfollows a user.
+  def unfollow(other_user)
+    rel = Follows.query_as(:n).match("n").where("n.followed_id = '#{other_user.uuid}'").proxy_as(Follows, :n)
+    rel.destroy
+    #Follows.find_by(follower_id: self.uuid, followed_id: other_user.uuid).destroy
+    #active_relationships.find_by(followed_id: other_user.id).destroy
+  end
 
   # Returns true if urrent_user is following other_user.
   def follows?(other_user)
