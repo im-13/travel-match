@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get   'contact'   => 'static_pages#contact'
   get   'profile'   => 'static_pages#profile'
   get   'signup'    => 'users#new'
+  get   'myblog'    => 'users#show_my_blog'
   get   'index'     => 'users#index'
   get   'messages'  => 'users#show_messages'
   get   'login'     => 'sessions#new'
@@ -33,7 +34,7 @@ Rails.application.routes.draw do
   resources :users
   resources :countries
   resources :account_activations, only: [:edit]
-  resources :password_resets,     only: [:new, :create, :edit, :update]
+  resources :password_resets, only: [:new, :create, :edit, :update]
 
   resources :blogs
   resources :carrierwave_images
@@ -41,6 +42,8 @@ Rails.application.routes.draw do
   resources :conversations do
     resources :messages
   end
+
+  resources :follows, only: [:create, :destroy]
   #resources :match
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -42,6 +42,7 @@ class User
   has_many :out, :People_You_Viewed, model_class: User, rel_class: Viewed
   has_many :out, :People_You_Were_Viewed_By, model_class: User, rel_class: ViewedBy
   has_many :out, :channel_to, model_class: Conversation, rel_class: Channel
+  has_many :out, :follows, model_class: User, rel_class: Follows, dependent: :destroy
 
   #mount_uploader :asset, AssetUploader
   
@@ -206,6 +207,11 @@ class User
     end
     return ret
   end 
+
+  # Returns true if urrent_user is following other_user.
+  def follows?(other_user)
+    follows.include?(other_user)
+  end
 
   private
 

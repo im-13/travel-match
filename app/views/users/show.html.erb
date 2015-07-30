@@ -9,9 +9,17 @@
     <div class="col-sm-8">
       <h1 class="pull-left"> &nbsp <%= @user.full_name %> </h1>
       <div class="col-sm-8">  
-        <% if @user != current_user %>
-          <button type="button" class="btn btn-success">Connect</button> 
-          <%= link_to "Send Message", "#", class: "btn btn-info start-conversation",
+        <% if @user != current_user %> 
+          <% if current_user.follows?(@user) %> 
+            <p>Unfollow<p>
+          
+          <% else %>
+            <p>Follow<p>
+            <%= link_to "Follow", '#', class: "btn btn-success" %>
+          <% end %>
+
+          
+          <%= link_to "Open Chat", "#", class: "btn btn-info start-conversation",
                     "data-sid" => current_user.uuid, "data-rip" => @user.uuid %>
         <% else %>
           <%= link_to "Find My Match", mymatches_path, class: "btn btn-success" %>
@@ -62,6 +70,19 @@
     <!--/col-3-->
 
     <div class="col-sm-9" style="" contenteditable="false">
+      
+
+      <div class="panel panel-default">
+        <div class="panel-heading">Blog</div>
+        <div class="panel-body"> 
+          <%= render 'blogs/form' %>
+          <%= render @user_blog %>
+          <small><%= will_paginate @user_blog %></small>
+          
+
+        </div>
+      </div>
+
       <div class="panel panel-default" >
         <div class="panel-heading">About</div>
         <div class="panel-body"> 
@@ -130,19 +151,7 @@
             </tbody>
           </table>
         </div>
-      </div> 
-
-      <div class="panel panel-default">
-        <div class="panel-heading">Blog</div>
-        <div class="panel-body"> 
-          <%= link_to 'New Post', new_blog_path, class: "btn btn-info" %>
-          <br>
-          <!--ul class="blog"-->
-          <%= render @user_blog %>
-          <!--/ul-->
-          <small><%= will_paginate @user_blog %></small>
-        </div>
-      </div>       
+      </div>        
 
       <div class="panel panel-default target">
         <div class="panel-heading" contenteditable="false">Recent Trips</div>

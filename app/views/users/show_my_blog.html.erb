@@ -1,0 +1,17 @@
+<% provide(:title, "My Blog" ) %>
+<div class="container">
+  <h1>My Blog</h1>
+  <div class="row">
+    <aside class="col-md-4"> 
+      <%= render 'blogs/form' %>  
+    </aside>
+    <div class="col-md-8">
+      <% if @user_blog %>
+        <ul class="posts">
+          <%= render @user_blog %>
+        </ul>
+        <%= will_paginate @user_blog %>
+      <% end %>
+    </div>
+  </div>
+</div>

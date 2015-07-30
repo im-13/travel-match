@@ -1,5 +1,5 @@
-<div class="container">
-  <%= simple_form_for(@blog, html: { class: 'form-horizontal', multipart: true }) do |f| %>
+
+  <%= simple_form_for(@blog) do |f| %>
     <% if @blog.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
@@ -11,29 +11,26 @@
         </ul>
       </div>
     <% end %>
-    
     <div class="form-group">
-      <p>
-        <%= f.input :content, as: :text, input_html: { rows: "10", class: 'input-xlarge'} %>
-      </p>
-      <p>
-        <%= f.file_field :photo, as: :file %>
-      </p>
+      <%= f.text_area :content, placeholder: "What's on your mind?", rows: "2", class: 'form-control' %>
+      <div class="row">
+        <div class="col-md-8">
+          <p>
+            <%= f.file_field :photo, as: :file, class: 'form-control' %>
+          </p>
 
-      <% if f.object.photo? %>
-        <p>
-        <%= image_tag f.object.photo.url %>
-        </p>
-      <% end %>
+          <% if f.object.photo? %>
+            <p>
+            <%= image_tag f.object.photo.url %>
+            </p>
+          <% end %>
+        </div>
+        <div class="col-md-4">
+          <%= f.submit "Post", class: "btn btn-primary" %> 
+        </div>
+      </div>
     </div>
-  
 
-    <div class="form-actions">
-      <button><%= f.button :submit, class: "btn btn-success btn-active" %></button>
-      <%= link_to "Show", @blog, class: 'btn btn-info' %> 
-      <%= link_to "Back to all posts", blogs_path, class: 'btn btn-info' %>
-      <%= link_to "Back to my profile", current_user, class: 'btn btn-info' %>
-    </div>
+
     
   <% end %>
-</div>
