@@ -17,11 +17,8 @@ module UsersHelper
   def establish_user_connection( viewed_user )
     session_user = current_user
     #all users viewed
-    users_viewed = session_user.has_viewed.to_a 
-    #debugging
-    #open('myfile.out', 'a') { |f|
-    #  f.puts "viewed array length: "+users_viewed.length.to_s
-    #}
+    users_viewed = session_user.People_You_Viewed.to_a 
+    #all users the current user has viewed
     if users_viewed.size < 10
       #need to check if the connection to the target viewed_user already exist in the viewed array
       if users_viewed.include? viewed_user
@@ -37,18 +34,24 @@ module UsersHelper
     else #threshold reached
       viewed_association = session_user.query_as(:sess_user).match('sess_user-[rel:Viewed]->v_user').order('rel.time_viewed DESC').return(:rel).to_a #
       relation_to_be_removed = viewed_association.pop
-      relation_to_be_removed.destroy #destroys the relationship
-      
+      if relation_to_be_removed
+        relation_to_be_removed.destroy #destroys the relationship
+      end
+
       rel_instance = Viewed.new
       rel_instance.from_node = session_user
       rel_instance.to_node = viewed_user
       rel_instance.save
     end
 
-    user_viewed_by = viewed_user.has_been_viewed.to_a
+    #open('myfile.out', 'a') { |f|
+    #  f.puts "viewed_user name:"+viewed_user.full_name
+    #}
+    #the person you've viewed, should be able to see who's viewed them
+    user_viewed_by = viewed_user.People_You_Were_Viewed_By.to_a
     if user_viewed_by.size < 10
       if user_viewed_by.include? session_user
-        rel = viewed_user.query_as(:v_user).match('v_user-[rel:People_You_Were_Viewed_By]->sess_user').where(" sess_user.email = '#{session_user.email}'").pluck(:sess_user).first
+        rel = viewed_user.query_as(:v_user).match('v_user-[rel:People_You_Were_Viewed_By]->sess_user').where(" sess_user.email = '#{session_user.email}'").pluck(:rel).first
         rel.stamp
         rel.save
       else #not an already viewed user
@@ -60,8 +63,10 @@ module UsersHelper
     else
       viewed_by_association = viewed_user.query_as(:v_user).match('v_user-[rel:People_You_Were_Viewed_By]->sess_user').order('rel.time_viewed DESC').return(:rel).to_a #
       relation_to_be_removed = viewed_by_association.pop
-      relation_to_be_removed.destroy #destroys the relationship
-      
+      if relation_to_be_removed
+        relation_to_be_removed.destroy #destroys the relationship
+      end
+
       rel_instance = ViewedBy.new
       rel_instance.from_node = viewed_user
       rel_instance.to_node = session_user

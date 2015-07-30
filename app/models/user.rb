@@ -10,7 +10,6 @@ class User
                 :remember_token, :activation_token, :reset_token,
                 :country_of_residence_code, 
                 :country_visited, :country_to_visit, :asset, :gravatar_url
-
  
   property :first_name, type: String
   property :last_name, type: String
@@ -40,8 +39,10 @@ class User
   has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
   has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
   has_many :out, :is_author_of, model_class: Blog, rel_class: IsAuthorOf, dependent: :destroy
-  has_many :out, :has_viewed, model_class: User, rel_class: Viewed
-  has_many :in, :has_been_viewed, model_class: User, rel_class: ViewedBy
+  has_many :out, :People_You_Viewed, model_class: User, rel_class: Viewed
+  has_many :out, :People_You_Were_Viewed_By, model_class: User, rel_class: ViewedBy
+  has_many :out, :channel_to, model_class: Conversation, rel_class: Channel
+  has_many :out, :follows, model_class: User, rel_class: Follows
 
   #mount_uploader :asset, AssetUploader
   

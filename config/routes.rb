@@ -27,10 +27,19 @@ Rails.application.routes.draw do
   get   'mymatches' => 'matches#new'
   post  'mymatches' => 'matches#create'
   delete 'logout'   => 'sessions#destroy'
+  #post   'conversations' => 'conversations#create'
+  #get    'conversations' => 'conversations#show'
   resources :users
   resources :countries
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
+
+  resources :blogs
+  resources :carrierwave_images
+  resources :documents
+  resources :conversations do
+    resources :messages
+  end
   #resources :match
 
   # The priority is based upon order of creation: first created -> highest priority.
