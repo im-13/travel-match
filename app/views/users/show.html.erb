@@ -9,9 +9,9 @@
     <div class="col-sm-8">
       <h1 class="pull-left"> &nbsp <%= @user.full_name %> </h1>
       <div class="col-sm-8">  
-        <% if @user != current_user %>
-          <button type="button" class="btn btn-success">Connect</button> 
-          <%= link_to "Send Message", "#", class: "btn btn-info start-conversation",
+        <% if @user != current_user %> 
+          <%= link_to "Follow", "#", class: "btn btn-success" %>
+          <%= link_to "Open Chat", "#", class: "btn btn-info start-conversation",
                     "data-sid" => current_user.uuid, "data-rip" => @user.uuid %>
         <% else %>
           <%= link_to "Find My Match", mymatches_path, class: "btn btn-success" %>
