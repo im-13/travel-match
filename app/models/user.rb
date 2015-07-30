@@ -208,6 +208,11 @@ class User
     return ret
   end 
 
+  # Returns true if urrent_user is following other_user.
+  def follows?(other_user)
+    follows.include?(other_user)
+  end
+
   private
 
     def create_activation_hash
