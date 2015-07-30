@@ -1,0 +1,21 @@
+<h3>Conversations</h3>
+<div style="height: 400px; overflow-y: auto;">
+  <% if @conversations.any? %>
+      <ul class="media-list">
+        <% @conversations.each do |conversation| %>
+            <li class="media">
+              <%= image_tag("http://placehold.it/50x50", class: "media-object pull-left") %>
+              <div class="media-body">
+                <%= link_to "chat", conversation_path(conversation), class: "conversation", "data-cid" => conversation.uuid %>
+                    <h4 class="media-heading"><%= conversation.get_other(@session_user.uuid, conversation).full_name %></h4>
+                    <p><%= conversation.get_messages.last.nil? ? "No messages" : truncate(conversation.get_messages.last.body, length: 45) %></p>
+              </div>
+            </li>
+
+        <% end %>
+      </ul>
+  <% else %>
+      <p>You have no conversations. Click send message with any user to create one.</p>
+  <% end %>
+</div>
+

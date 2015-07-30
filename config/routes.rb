@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get   'profile'   => 'static_pages#profile'
   get   'signup'    => 'users#new'
   get   'index'     => 'users#index'
+  get   'messages'  => 'users#show_messages'
   get   'login'     => 'sessions#new'
   post  'login'     => 'sessions#create'
   get   'blog'      => 'blogs#index'
@@ -26,6 +27,7 @@ Rails.application.routes.draw do
   get   'mymatches' => 'matches#new'
   post  'mymatches' => 'matches#create'
   delete 'logout'   => 'sessions#destroy'
+
   #post   'conversations' => 'conversations#create'
   #get    'conversations' => 'conversations#show'
   resources :users

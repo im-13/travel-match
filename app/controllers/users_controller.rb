@@ -113,6 +113,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def show_messages
+    @session_user = current_user
+    @conversations = @session_user.channel_to
+  end
+
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy

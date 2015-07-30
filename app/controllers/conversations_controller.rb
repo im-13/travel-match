@@ -39,6 +39,14 @@ class ConversationsController < ApplicationController
 
   end
 
+  def getother(convo, session_user)
+    if session_user.uuid == convo.user1?
+      return User.find_by(uuid: convo.user2 ) 
+    else
+      return User.find_by(uuid: convo.user1 )
+    end
+  end
+
   private
   def conversation_params
     params.permit(:sender_id, :recipient_id)
