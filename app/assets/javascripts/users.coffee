@@ -18,6 +18,7 @@ ready = ->
       return
     return
 
+
   ###*
   # Used to minimize the chatbox
   ###

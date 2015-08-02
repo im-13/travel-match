@@ -23,7 +23,6 @@ var ready = function () {
          */
 
         chatWith: function (conversation_id) {
-
             chatBox.createChatBox(conversation_id);
             $("#chatbox_" + conversation_id + " .chatboxtextarea").focus();
         },
@@ -73,6 +72,21 @@ var ready = function () {
         },
 
         /**
+        *Checking if conversation meta tag already exist
+        */
+
+        metaTagExist: function ( value ) {
+            var t = 'meta[content='+value+']';
+            var mt = $(t);
+
+            if(mt.size() === 0 ){
+                return 0;
+            }else{
+                return 1;
+            }
+        },
+
+        /**
          * Takes in two parameters. It is responsible for fetching the specific conversation's
          * html page and appending it to the body of our home page e.g if conversation_id = 1
          *
@@ -85,6 +99,8 @@ var ready = function () {
          */
 
         createChatBox: function (conversation_id, minimizeChatBox) {
+
+            //if chat box already created, don't creat another channel
             if ($("#chatbox_" + conversation_id).length > 0) {
                 if ($("#chatbox_" + conversation_id).css('display') == 'none') {
                     $("#chatbox_" + conversation_id).css('display', 'block');
@@ -95,11 +111,23 @@ var ready = function () {
             }
 
             $("body").append('<div id="chatbox_' + conversation_id + '" class="chatbox"></div>')
-
-            $.get("/../conversations/" + conversation_id, function (data) {
+            //
+            var exist = chatBox.metaTagExist( conversation_id );
+            if( exist === 1 ){ //if meta data is present, no need to create new channel
+                $.get("/../conversations/", { id: conversation_id}, function (data) { //goes to controller index
                 $('#chatbox_' + conversation_id).html(data);
                 $("#chatbox_" + conversation_id + " .chatboxcontent").scrollTop($("#chatbox_" + conversation_id + " .chatboxcontent")[0].scrollHeight);
-            }, "html");
+                }, "html");
+            }else{ //else subscribe to new channel
+                $.get("/../conversations/" + conversation_id, function (data) { //goes to show method, which creates a new channel
+                $('#chatbox_' + conversation_id).html(data);
+                $("#chatbox_" + conversation_id + " .chatboxcontent").scrollTop($("#chatbox_" + conversation_id + " .chatboxcontent")[0].scrollHeight);
+                }, "html");
+
+                t = '<meta property="conversation" content="'+conversation_id+'" />';
+                $(t).appendTo('head');
+            }
+            
 
             $("#chatbox_" + conversation_id).css('bottom', '0px');
 

@@ -6,13 +6,13 @@ class MessagesController < ApplicationController
     @message.user_id = current_user.uuid
     @message.body = params[:message][:body]
     @message.save
-    #open('myfile.out', 'a') { |f|
-    #  f.puts "message body:"+params[:message][:body].to_s
-    #}
+    
     link = BelongTo.new(from_node: @message, to_node: @conversation)
     link.save
 
-    @path = conversation_path(@conversation)
+    if @path.nil?
+      @path = conversation_path(@conversation)
+    end
   end
 
   private
