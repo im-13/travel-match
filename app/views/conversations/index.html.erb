@@ -1,7 +1,6 @@
 <div class="chatboxhead">
   <div class="chatboxtitle">
     <i class="fa fa-comments"></i>
-
     <h1><%= @reciever.full_name %> </h1>
   </div>
   <div class="chatboxoptions">
@@ -21,5 +20,3 @@
       <%= f.text_area :body, class: "chatboxtextarea", "data-cid" => @conversation.uuid %>
   <% end %>
 </div>
-<%= subscribe_to conversation_path(@conversation) %>
-

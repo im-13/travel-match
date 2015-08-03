@@ -22,13 +22,6 @@ class ConversationsController < ApplicationController
   end
 
   def show
-=begin
-    @conversation = Conversation.find(params[:id])
-    @reciever = interlocutor(@conversation)
-    @messages = @conversation.messages
-    @message = Message.new
-=end
-
     @conversation = Conversation.find_by(uuid: params[:id])
     @reciever = @conversation.get_other( current_user.uuid, @conversation ) #return the user not equal to this id
     @messages = @conversation.get_messages
@@ -37,6 +30,29 @@ class ConversationsController < ApplicationController
     #}
     @message = Message.new
 
+  end
+
+  def index
+    #will not make a subscription
+    @conversation = Conversation.find_by(uuid: params[:id])
+    @reciever = @conversation.get_other( current_user.uuid, @conversation ) #return the user not equal to this id
+    @messages = @conversation.get_messages
+    @message = Message.new
+  end
+
+  def destroy
+    open('myfile.out', 'a') { |f|
+      f.puts "[conversations_controller][destroy] web socket id :"+@websocket.object_id.to_s+" websocket class type = "+@websocket.class.to_s
+    }
+    @conversation = Conversation.find_by(uuid: params[:convo_id])
+  end
+
+  def getother(convo, session_user)
+    if session_user.uuid == convo.user1?
+      return User.find_by(uuid: convo.user2 ) 
+    else
+      return User.find_by(uuid: convo.user1 )
+    end
   end
 
   private

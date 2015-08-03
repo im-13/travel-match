@@ -83,20 +83,12 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       @user = User.find(params[:id])
-      if @user.update(user_params)
-
-        #updating country of residence
-=begin
-        country = create_if_not_found @user.country_of_residence
-        rel = LivesIn.new(from_node: @user, to_node: country)
-        rel.save
-=end        
+      if @user.update(user_params)       
         if params[:user][:country_of_residence_code]
           country_reside = @user.country_of_residence
           resideArr = country_reside.split(",")
           make_decision(@user, resideArr, 1)
         end
-
         if params[:user][:country_visited]
           #we need to accumulate the country_visited somehow
           visited = params[:user][:country_visited] 
@@ -128,6 +120,11 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def show_messages
+    @session_user = current_user
+    @conversations = @session_user.channel_to
   end
 
   # DELETE /users/1

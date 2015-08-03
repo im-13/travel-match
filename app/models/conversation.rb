@@ -21,7 +21,7 @@ class Conversation
   end
 
   def get_other( current_user_id , convo )
-  	if current_user_id == convo.user1?
+  	if current_user_id.to_s.eql? convo.user1
   		return User.find_by(uuid: convo.user2 )	
   	else
   		return User.find_by(uuid: convo.user1 )
@@ -29,6 +29,7 @@ class Conversation
   end
 
   def get_messages
-  	messages = Message.query_as(:m).match("(c :Conversation)<-[:belong_to]-m").where("c.uuid = '#{self.uuid}'").order('m.time_in_coming DESC').pluck(:m)
+  	#messages = Message.query_as(:m).match("(c :Conversation)<-[:belong_to]-m").where("c.uuid = '#{self.uuid}'").order('m.time_in_coming DESC').pluck(:m)
+    messages = Message.query_as(:m).match("(c :Conversation)<-[:belong_to]-m").where("c.uuid = '#{self.uuid}'").pluck(:m)
   end
 end
