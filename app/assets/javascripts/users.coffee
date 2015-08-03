@@ -49,6 +49,24 @@ ready = ->
     chatBox.checkInputKey event, $(this), id
     return
 
+
+  ###*
+  # When a sumit on the edit page occurs
+  ###
+
+  $(document).on 'click', '.profile-update', (e) ->
+    e.preventDefault()
+    $.ajax
+      url: $(this).parent().attr('action')
+      type: $(this).parent().attr('method')
+      data: $(this).parent().serialize()
+      success: (data) ->
+        alert 'Profile Edited Successfully'
+        return
+      error: (xhr, err) ->
+        alert 'Profile'
+        return false
+
   ###*
   # When a conversation link is clicked show up the respective
   # conversation chatbox
