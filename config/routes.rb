@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get   'mymatches' => 'matches#new'
   post  'mymatches' => 'matches#create'
   get   'yourviews' => 'viewed_users#index'
+  get   'otherviews'=> 'visitors#index'
   delete 'logout'   => 'sessions#destroy'
 
   #post   'conversations' => 'conversations#create'
