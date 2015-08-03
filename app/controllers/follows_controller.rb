@@ -8,14 +8,17 @@ class FollowsController < ApplicationController
   def create
     @user = User.find(params[:followed_id])
     current_user.follow(@user)
-    redirect_to users_url
+    respond_to do |format|
+      format.js { redirect_to root_url }
+    end
+    #redirect_to root_url
   end
 
   def destroy
   	@user = User.find(params[:followed_id])
   	puts current_user.email
     current_user.unfollow(@user)
-    redirect_to users_url
+    redirect_to root_url
   end
 
 end

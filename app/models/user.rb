@@ -42,8 +42,8 @@ class User
   has_many :out, :People_You_Viewed, model_class: User, rel_class: Viewed
   has_many :out, :People_You_Were_Viewed_By, model_class: User, rel_class: ViewedBy
   has_many :out, :channel_to, model_class: Conversation, rel_class: Channel
-  has_many :out, :follows, model_class: User, rel_class: Follows, dependent: :destroy, unique: true
-  has_many :in, :follows, model_class: User, rel_class: Follows, unique: true
+  has_many :out, :follow, model_class: User, rel_class: Follow, dependent: :destroy, unique: true
+  has_many :in, :follow, model_class: User, rel_class: Follow, unique: true
 
   #mount_uploader :asset, AssetUploader
   
@@ -211,7 +211,7 @@ class User
 
   # Follows a user.
   def follow(other_user)
-    rel = Follows.new(from_node: self, to_node: other_user)
+    rel = Follow.new(from_node: self, to_node: other_user)
     rel.follower_id = self.uuid
     rel.followed_id = other_user.uuid
     rel.save
@@ -220,19 +220,13 @@ class User
 
   # Unfollows a user.
   def unfollow(other_user)
-    puts "HERE IN unfollow"
-    puts "HERE IN unfollow"
-    puts "HERE IN unfollow"
-    puts "HERE IN unfollow"
-    puts "HERE IN unfollow"
-    puts "HERE IN unfollow"
-    rel = self.query_as(:cur_user).match('cur_user-[rel:follows]->select_user').where(" select_user.uuid = '#{other_user.uuid}'").pluck(:rel).first
+    rel = self.query_as(:cur_user).match('cur_user-[rel:follow]->select_user').where(" select_user.uuid = '#{other_user.uuid}'").pluck(:rel).first
     rel.destroy
   end
 
   # Returns true if urrent_user is following other_user.
   def follows?(other_user)
-    rel = self.query_as(:cur_user).match('cur_user-[rel:follows]->select_user').where(" select_user.uuid = '#{other_user.uuid}'").pluck(:rel).first
+    rel = self.query_as(:cur_user).match('cur_user-[rel:follow]->select_user').where(" select_user.uuid = '#{other_user.uuid}'").pluck(:rel).first
     if rel
       return true
     else

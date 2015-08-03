@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   post  'mymatches' => 'matches#create'
   delete 'logout'   => 'sessions#destroy'
   delete 'unfollow' => 'follows#destroy'
-  post 'follow' => 'follows#create'
+  post   'follow'   => 'follows#create'
   #post   'conversations' => 'conversations#create'
   #get    'conversations' => 'conversations#show'
   resources :users

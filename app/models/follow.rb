@@ -1,9 +1,9 @@
-class Follows 
+class Follow
   include Neo4j::ActiveRel
 
   from_class User
   to_class User
-  type 'follows'
+  type 'follow'
   creates_unique_rel
 
   property :follower_id, type: String
