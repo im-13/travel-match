@@ -134,7 +134,7 @@ class MatchesController < ApplicationController
         non_default = true
       end
 
-      #if not non default === (double negative) if is default
+      #if not non default === (double negative) ---> if is default
       if !non_default
         if age_select
           @matches = User.as(:users).where("users.name <> '#{username}'").paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
@@ -145,7 +145,7 @@ class MatchesController < ApplicationController
       else
         if age_select
           #open('myfile.out', 'a') { |f|
-          #  f.puts "min age: "+min_age.to_s+ " max age:" +max_age.to_s
+          #  f.puts "minimum age class:"+min_age.class.to_s+" max_age:"+max_age.class.to_s
           #}
           @matches = reduce_by_age(@matches, min_age, max_age)
         end
