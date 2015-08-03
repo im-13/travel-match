@@ -10,15 +10,7 @@
       <h1 class="pull-left"> &nbsp <%= @user.full_name %> </h1>
       <div class="col-sm-8">  
         <% if @user != current_user %> 
-          <% if current_user.follows?(@user) %> 
-            <p>Unfollow<p>
-          
-          <% else %>
-            <p>Follow<p>
-            <%= link_to "Follow", '#', class: "btn btn-success" %>
-          <% end %>
-
-          
+          <%= render 'follow_form' if logged_in? %>
           <%= link_to "Open Chat", "#", class: "btn btn-info start-conversation",
                     "data-sid" => current_user.uuid, "data-rip" => @user.uuid %>
         <% else %>

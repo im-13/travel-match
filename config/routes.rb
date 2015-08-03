@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   get   'mymatches' => 'matches#new'
   post  'mymatches' => 'matches#create'
   delete 'logout'   => 'sessions#destroy'
+  delete 'unfollow' => 'follows#destroy'
+  post 'follow' => 'follows#create'
   #post   'conversations' => 'conversations#create'
   #get    'conversations' => 'conversations#show'
   resources :users
@@ -41,7 +43,7 @@ Rails.application.routes.draw do
     resources :messages
   end
 
-  resources :follows, only: [:create, :destroy]
+  #resources :follows, only: [:create, :destroy]
   #resources :match
 
   # The priority is based upon order of creation: first created -> highest priority.

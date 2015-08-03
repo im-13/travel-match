@@ -1,11 +1,13 @@
 <% unless current_user?(@user) %>
   <div id="follow_form">
-  <% if current_user.follows?(@user) %> 
-  	<p>Unfollow<p>
-    <%= render 'unfollow' %>
+  <% if @user_followed_by_current_user %> 
+    <div class="col-sm-4">
+      <%= link_to "Unfollow", unfollow_path(:followed_id => @user.uuid), :method => :delete, :remote => 'true', :class => "btn btn-primary" %>
+    </div>
   <% else %>
-  	<p>Follow<p>
-    <%= render 'follow' %>
+  	<div class="col-sm-4">
+      <%= link_to "Follow", follow_path(:followed_id => @user.uuid), :method => :post, :remote => 'true', :class => "btn btn-success" %>
+    </div>
   <% end %>
   </div>
 <% end %>

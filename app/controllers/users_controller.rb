@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
 
@@ -19,6 +19,7 @@ class UsersController < ApplicationController
     @blog.user_gravatar_url = @user.gravatar_url 
     @blog.user_email = @user.email 
     @CarrierwaveImage = CarrierwaveImage.create
+    @user_followed_by_current_user = current_user.query_as(:cur_user).match('cur_user-[rel:follows]->select_user').where(" select_user.uuid = '#{@user.uuid}'").pluck(:rel).first
 
     #if not the session user
     if !current_user?(@user)
@@ -138,6 +139,20 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url }
       format.json { head :no_content }
     end
+  end
+
+  def following
+    @title = "Following"
+    @user  = User.find(params[:id])
+    @users = @user.follows.paginate(page: params[:page])#:page => params[:page]
+    render 'show_follow'
+  end
+
+  def followers
+    @title = "Followers"
+    @user  = User.find(params[:id])
+    #@users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
   end
 
   private
