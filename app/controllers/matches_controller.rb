@@ -8,13 +8,6 @@ class MatchesController < ApplicationController
 
   def index
     @matches
-=begin
-    if @matches
-      @matches
-    else
-      @match = create
-    end
-=end
   end
 
   #selective match
@@ -27,8 +20,6 @@ class MatchesController < ApplicationController
       username = user.email
       target_country = user.lives_in
       gender_choice = ""
-
-      #@matches = User.query_as(:users).match("users-[:lives_in]->(country:Country)").where('country.name = "#{target_country.name}" AND users.email <> "#{username}" AND users.gender = "female"').proxy_as(User, :users).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
 
       match_exp = ""
       where_exp = "users.email <> '#{username}'" #by default, user should not get his/herself in the match
@@ -81,9 +72,6 @@ class MatchesController < ApplicationController
         match_exp << 'users-[:lives_in]->(country:Country)'
         where_exp << " AND country.name = '#{target_country.name}'"
 
-        #if gender_select
-        #  where_exp << " AND users.gender = '#{gender_choice}'"
-        #end
       end
 
       #if want_to_visit_selected
@@ -151,94 +139,7 @@ class MatchesController < ApplicationController
         end
       end
 
-=begin
-      if non_default
-        if !:age_from_match.nil? or !:age_to_match.nil?
-          min_age = 18
-          max_age = 200
-          if :age_from_match >= 18
-            min_age = :age_from_match.to_i
-          end
-          if :age_from_match <= 200
-            max_age = :age_to_match.to_i
-          end
-          @matches = reduce_by_age(@matches, min_age, max_age)
-        end #else do nothing
-        #check age after all the query have ran
-      else
-        @match = default_match
-        if :age_from_match.length >= 1 or :age_to_match.length >= 1
-          min_age = 18
-          max_age = 200
-          if :age_from_match.length >= 1 and :age_from_match.to_i >= 18
-            min_age = :age_from_match.to_i
-          end
-          if :age_from_match.length >= 1 and :age_from_match.to_i <= 200
-            min_age = :age_to_match.to_i
-          end
-          @matches = reduce_by_age(@matches, min_age, max_age)
-        end
-      end
-=end
-
-=begin
-      if join_call #if join call is true
-        second_query = User.query_as(:users).match(user2: User).match("#{join_match_exp}").where("#{join_where_exp}").with(:user2, strength: 'count(user2)').order('strength DESC').return(:user2)
-
-        join_query =  User.query_as(:users).match(user2: User).match("#{nonjoin_match_exp}").where("#{nonjoin_where_exp}").with(:user2, strength: 'count(user2)').order('strength DESC').return(:user2).union_cypher(second_query)
-     
-        #@matches = Neo4j::Session.query(join_query)
-
-        #.proxy_as(User, :user2).paginate(page: 1, per_page: 10, return: :'distinct user2')
-        
-        #render plain: join_query
-        #id_list = ""
-        #@matches.each do |match|
-        #  id_list << ", "+match[:user2].email
-        #end
-
-        #render plain: id_list
-
-      elsif return_call #if one of the visted or want to visit selections has been picked
-        @matches = User.query_as(:users).match(user2: User).match("#{nonjoin_match_exp}").where("#{nonjoin_where_exp}").with(:user2, strength: 'count(user2)').order('strength DESC').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page: 10, return: :'distinct user2')
-
-      elsif residence_select #query base 
-        @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
-      else
-        @matches = User.all
-      end
-      #need to call the age
-=end
-
-      #@matches.paginate(page: 1, per_page:10)
-
-      #working version
-      #@matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
-
       render 'index'
-=begin
-      if return_call
-        if order_call 
-         #@matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").with(:user2, strength: 'count(user2)').order(strength: :desc).return(:user2).proxy_as(User, :user2)
-         #@matches.paginate(page: 1, per_page:10)
-
-         @matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :user2).paginate(page: 1, per_page:10, return: :'distinct user2';
-
-         #@matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page:10)
-         
-         #@matches = User.query("MATCH (users:`User`), (user2:`User`), users-[:lives_in]->(country:Country)<-[:lives_in]-(user2:User), (user2)-[:has_been_to]->(visitedList:Country) WHERE (users.email <> 'testuser1@mailinator.com' AND country.name = 'United States' AND users.gender = 'female' AND visitedList.name IN ['North Korea','Vietnam','Iraq','Bosnia']) with user2, count(user2) as strength order by strength desc return user2").proxy_as(User, :users).paginate(page: 1, per_page: 10)
-         #.proxy_as(User, :user2).paginate(page: 1, per_page: 10)
-        end
-      else
-        @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
-        @matches = reduce_by_age(@matches, 22, 35)
-      end
-
-      #full cypher query for selective search
-
-      #MATCH (users:`User`), (user2:`User`), users-[:lives_in]->(country:Country)<-[:lives_in]-(user2:User), (user2)-[:has_been_to]->(visitedList:Country) WHERE (users.email <> 'testuser1@mailinator.com' AND country.name = 'United States' AND users.gender = 'female' AND visitedList.name IN ['North Korea','Vietnam','Iraq','Bosnia'])  with user2, count(user2) as strength order by strength desc return user2 UNION MATCH (users:`User`), (user2:`User`), users-[:lives_in]->(country:Country)<-[:lives_in]-(user3:User), (user2)-[:wants_to_go_to]->(wish_list:Country) WHERE (wish_list.name IN ['France','Belgium','Germany']) with user2, count(user2) as strength order by strength desc return user2
-
-=end
     end
   end
 
@@ -257,9 +158,3 @@ class MatchesController < ApplicationController
   end
 
 end
-
-#author = Blog.query_as(:blog).match(author:User).where("blog.content = match_exp").optional_match("b<-[:is_author_of]-(author:User)").proxy_as(User, :author)
-
-
-
-
