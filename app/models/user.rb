@@ -43,6 +43,7 @@ class User
   has_many :out, :People_You_Were_Viewed_By, model_class: User, rel_class: ViewedBy
   has_many :out, :channel_to, model_class: Conversation, rel_class: Channel
   has_many :out, :following, model_class: User, rel_class: Follow, dependent: :destroy, unique: true
+  has_many :in, :following, model_class: User, rel_class: Follow, unique: true
 
   #mount_uploader :asset, AssetUploader
   
