@@ -31,10 +31,10 @@ Rails.application.routes.draw do
   get   'yourviews' => 'viewed_users#index'
   get   'otherviews'=> 'visitors#index'
   delete 'logout'   => 'sessions#destroy'
-  delete 'unfollow' => 'follows#destroy'
-  post   'follow'   => 'follows#create'
-  #post   'conversations' => 'conversations#create'
-  #get    'conversations' => 'conversations#show'
+  post  'unfollow'  => 'follows#destroy'
+  post  'follow'    => 'follows#create'
+  get   'favorites'  => 'follows#index'
+  
   resources :users
   resources :countries
   resources :account_activations, only: [:edit]
