@@ -1,0 +1,29 @@
+<% provide(:title, "Find a trip" ) %>
+<div class="container">
+  <h1>Find a trip</h1>
+  <div class="row">
+    <aside class="col-md-4"> 
+      <div class="thumbnail">
+        <div class="blog-container-responsive row-space-2">
+          <div class="blog-content">
+            <div class="panel-body">             
+              <%= render 'trips/find_form' %>    
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <div class="col-md-8">
+      <% if @trips %>
+        <ul class="posts">
+          <%= render @trips %>
+        </ul>
+        <%= will_paginate @trips %>
+      <% end %>
+    </div>
+  </div>
+</div
+
+
+
+

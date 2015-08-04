@@ -36,6 +36,8 @@ Rails.application.routes.draw do
   get   'newtrip'   => 'trips#new'
   post  'newtrip'   => 'trips#create'
   get   'alltrips'  => 'trips#index'
+  get   'findtrip'  => 'trips#find'
+  post  'findtrip'  => 'trips#find'
   #post   'conversations' => 'conversations#create'
   #get    'conversations' => 'conversations#show'
   resources :users
