@@ -49,6 +49,43 @@ ready = ->
     chatBox.checkInputKey event, $(this), id
     return
 
+  ###*
+  # When the add favorite button is clicked
+  # follows create
+  ###
+  $(document).on 'click', '.add-favorite', (e) ->
+    follower = undefined
+    following = undefined
+    e.preventDefault()
+    follower = $(this).attr('follower-id')
+    following = $(this).attr('following-id')
+    $.post '/../follow/', {
+      sid: follower
+      rid: following
+    }, (data) ->
+      return
+    $('.add-favorite').text 'Remove from Favorites'
+    $('.add-favorite').addClass 'remove-favorite'
+    $('.add-favorite').removeClass 'add-favorite'
+    return
+
+  ###*
+  # When the remove favorite button is clicked
+  # follows destroy
+  ###
+  $(document).on 'click', '.remove-favorite', (e) ->
+    e.preventDefault()
+    follower = $(this).attr('follower-id')
+    following = $(this).attr('following-id')
+    $.post '/../unfollow/', {
+      sid: follower
+      rid: following
+    }, (data) ->
+      return
+    $('.remove-favorite').text 'Add To Favorites'
+    $('.remove-favorite').addClass 'add-favorite'
+    $('.remove-favorite').removeClass 'remove-favorite'
+    return
 
   ###*
   # When a sumit on the edit page occurs
@@ -66,6 +103,7 @@ ready = ->
       error: (xhr, err) ->
         alert 'Profile'
         return false
+
 
   ###*
   # When a conversation link is clicked show up the respective

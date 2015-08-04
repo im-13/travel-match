@@ -1,14 +1,7 @@
-<% provide(:title, 'My Favorite Users') %>
+<% provide(:title, 'People you have favorited') %>
 <div class="container">
-	<h1>My Favorite Users</h1>
-
-	<div class="container">
-		
-
-		<ul class="users">
-		  
-		</ul>
-
-		
-	</div>
+	<h1>People you have favorited </h1>
+	<ul class="users">
+	  <%= render @followings %>
+	</ul>	
 </div>

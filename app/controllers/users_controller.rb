@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     @blog.user_gravatar_url = @user.gravatar_url 
     @blog.user_email = @user.email 
     @CarrierwaveImage = CarrierwaveImage.create
-    @rel_user_followed_by_current_user = current_user.query_as(:cur_user).match('cur_user-[rel:follow]->select_user').where(" select_user.uuid = '#{@user.uuid}'").pluck(:rel).first
+    @rel_user_followed_by_current_user = current_user.query_as(:cur_user).match('cur_user-[rel:following]->select_user').where(" select_user.uuid = '#{@user.uuid}'").pluck(:rel).first
 
     #if not the session user
     if !current_user?(@user)

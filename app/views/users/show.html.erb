@@ -11,7 +11,11 @@
       <div class="row">
       <div class="col-sm-10">  
         <% if @user != current_user %> 
-          <%= render 'follow_form' if logged_in? %>
+          <% if @rel_user_followed_by_current_user %> 
+            <%= link_to "Remove from Favorites", "#", class: "btn btn-success col-sm-4 remove-favorite", "follower-id" => current_user.uuid, "following-id" => @user.uuid %>
+          <% else %>
+            <%= link_to "Add to Favorites", "#", class: "btn btn-primary col-sm-4 add-favorite", "follower-id" => current_user.uuid, "following-id" => @user.uuid %>
+          <% end %>
           <div class="col-sm-1"></div>
           <%= link_to "Open Chat", "#", class: "btn btn-info col-sm-4 start-conversation",
                     "data-sid" => current_user.uuid, "data-rip" => @user.uuid %>
