@@ -4,8 +4,8 @@ class FollowsController < ApplicationController
 
   def index
   	@session_user = current_user
-    #@followings = @session_user.following.paginate(page: 1, per_page: 10)
-    @followings = @session_user.following.to_a
+    @followings = @session_user.following.paginate(page: 1, per_page: 10)
+    #@followings = @session_user.following.to_a
   end
 
   def create

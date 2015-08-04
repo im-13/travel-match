@@ -39,12 +39,12 @@ class User
   has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
   has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
   has_many :out, :is_author_of, model_class: Blog, rel_class: IsAuthorOf, dependent: :destroy
+  has_many :out, :plan, model_class: Trip, rel_class: Plan, dependent: :destroy
   has_many :out, :People_You_Viewed, model_class: User, rel_class: Viewed
   has_many :out, :People_You_Were_Viewed_By, model_class: User, rel_class: ViewedBy
   has_many :out, :channel_to, model_class: Conversation, rel_class: Channel
   has_many :out, :following, model_class: User, rel_class: Follow, dependent: :destroy, unique: true
-  has_many :in, :following, model_class: User, rel_class: Follow, unique: true
-
+  #has_many :in, :following, model_class: User, rel_class: Follow, unique: true
   #mount_uploader :asset, AssetUploader
   
   before_save :downcase_email

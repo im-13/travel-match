@@ -6,12 +6,12 @@ Rails.application.routes.draw do
   resources :carrierwave_images
   resources :documents
   
-  get 'password_resets/new'
-
-  get 'password_resets/edit'
+  
 
   root 'static_pages#home'
-  
+
+  get 'password_resets/new'
+  get 'password_resets/edit'
   get   'home'      => 'static_pages#home'
   get   'help'      => 'static_pages#help'
   get   'about'     => 'static_pages#about'
@@ -34,12 +34,15 @@ Rails.application.routes.draw do
   post  'unfollow'  => 'follows#destroy'
   post  'follow'    => 'follows#create'
   get   'favorites'  => 'follows#index'
+  get   'newtrip'   => 'trips#new'
+  post  'newtrip'   => 'trips#create'
+  get   'alltrips'  => 'trips#index'
   
   resources :users
   resources :countries
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
-
+  resources :trips
   resources :blogs
   resources :carrierwave_images
   resources :documents

@@ -22,7 +22,8 @@
         <% else %>  
           <%= link_to "Find My Match", mymatches_path, class: "btn btn-success col-sm-3" %>
           <div class="col-sm-1"></div>
-          <%= link_to 'Write New Post', new_blog_path, class: "btn btn-info col-sm-3" %>     
+          <%= link_to 'Write New Post', new_blog_path, class: "btn btn-info col-sm-3" %>  
+          <%= link_to 'Edit', edit_user_path(@user) %>   
         <% end %>
       </div>
       </div>

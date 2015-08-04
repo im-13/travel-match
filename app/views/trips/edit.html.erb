@@ -1,0 +1,16 @@
+<% provide(:title, 'Edit trip') %>
+<div class="container">
+	<h1>Edit trip</h1>
+
+	<div class="row">
+	  	<div class="col-md-6 col-md-offset-3">
+			<%= render 'trips/form' %>
+			<br>
+			<div class="meta">
+		      <%= link_to "Back to all trips", trips_path %> |
+		      <%= link_to "Back to my profile", current_user %> |
+		      <%= link_to 'Show', @trip %>
+	    	</div>
+	  	</div>
+	</div>
+</div>
