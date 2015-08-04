@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get   'show'      => 'blogs#show'
   get   'mymatches' => 'matches#new'
   post  'mymatches' => 'matches#create'
+  get   'default'   => 'matches#default'
   get   'yourviews' => 'viewed_users#index'
   get   'otherviews'=> 'visitors#index'
   delete 'logout'   => 'sessions#destroy'

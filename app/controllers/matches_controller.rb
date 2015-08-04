@@ -143,6 +143,11 @@ class MatchesController < ApplicationController
     end
   end
 
+  def default
+    @matches = default_match
+    render 'index'
+  end
+
   def default_match 
     #this search will be base on user's residency and their desired destination
      user = current_user
