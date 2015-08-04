@@ -211,10 +211,12 @@ class User
 
   # Follows a user.
   def follow(other_user)
-    rel = Follow.new(from_node: self, to_node: other_user)
-    rel.follower_id = self.uuid
-    rel.followed_id = other_user.uuid
-    rel.save
+    if !self.follows?(other_user)
+      rel = Follow.new(from_node: self, to_node: other_user)
+      rel.follower_id = self.uuid
+      rel.followed_id = other_user.uuid
+      rel.save
+    end
     #active_relationships.create(followed_id: other_user.id)
   end
 
