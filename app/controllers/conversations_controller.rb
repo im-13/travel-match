@@ -41,9 +41,9 @@ class ConversationsController < ApplicationController
   end
 
   def destroy
-    open('myfile.out', 'a') { |f|
-      f.puts "[conversations_controller][destroy] web socket id :"+@websocket.object_id.to_s+" websocket class type = "+@websocket.class.to_s
-    }
+    #open('myfile.out', 'a') { |f|
+    #  f.puts "[conversations_controller][destroy] web socket id :"+@websocket.object_id.to_s+" websocket class type = "+@websocket.class.to_s
+    #}
     @conversation = Conversation.find_by(uuid: params[:convo_id])
   end
 

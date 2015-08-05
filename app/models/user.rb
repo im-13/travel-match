@@ -211,7 +211,10 @@ class User
 
   # Follows a user.
   def follow(other_user)
-    if !self.follows?(other_user)
+    if !self.follows?(other_user) #if no relationship exist, create a new follows link
+      #open('myfile.out', 'a') { |f|
+      #  f.puts "in here"
+      #}
       rel = Follow.new(from_node: self, to_node: other_user)
       rel.follower_id = self.uuid
       rel.followed_id = other_user.uuid
@@ -229,10 +232,10 @@ class User
   # Returns true if urrent_user is following other_user.
   def follows?(other_user)
     rel = self.query_as(:cur_user).match('cur_user-[rel:following]->select_user').where(" select_user.uuid = '#{other_user.uuid}'").pluck(:rel).first
-    if rel
-      return true
-    else
+    if rel.nil?
       return false
+    else
+      return true
     end
   end
 
