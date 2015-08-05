@@ -59,7 +59,7 @@ ready = ->
     e.preventDefault()
     follower = $(this).attr('follower-id')
     following = $(this).attr('following-id')
-    $.post '/../follow/', {
+    $.post '/../follow', {
       sid: follower
       rid: following
     }, (data) ->
@@ -77,7 +77,7 @@ ready = ->
     e.preventDefault()
     follower = $(this).attr('follower-id')
     following = $(this).attr('following-id')
-    $.post '/../unfollow/', {
+    $.post '/../unfollow', {
       sid: follower
       rid: following
     }, (data) ->
