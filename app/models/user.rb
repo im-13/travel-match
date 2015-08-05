@@ -211,6 +211,7 @@ class User
 
   # Follows a user.
   def follow(other_user)
+    sleep(.1)
     if !self.follows?(other_user) #if no relationship exist, create a new follows link
       #open('myfile.out', 'a') { |f|
       #  f.puts "in here"
