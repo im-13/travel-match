@@ -215,6 +215,7 @@ class User
       #open('myfile.out', 'a') { |f|
       #  f.puts "in here"
       #}
+      puts "creating new follows"
       rel = Follow.new(from_node: self, to_node: other_user)
       rel.follower_id = self.uuid
       rel.followed_id = other_user.uuid
@@ -231,10 +232,13 @@ class User
 
   # Returns true if urrent_user is following other_user.
   def follows?(other_user)
+    puts "checking for relationship"
     rel = self.query_as(:cur_user).match('cur_user-[rel:following]->select_user').where(" select_user.uuid = '#{other_user.uuid}'").pluck(:rel).first
     if rel.nil?
+      puts "no relationship exits"
       return false
     else
+      puts "relationship does not exist"
       return true
     end
   end
