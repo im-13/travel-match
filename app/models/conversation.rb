@@ -4,6 +4,7 @@ class Conversation
   before_save :stamp
  
   property :date_created, type: Date
+  property :last_viewed, type: Date
   #users are referenced by their id
   property :user1, type: String
   property :user2, type: String
@@ -16,8 +17,15 @@ class Conversation
 
   def stamp
   	time = Time.now.to_s
-	time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M")
-	self.date_created = time
+    time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M")
+    self.date_created = time
+    self.last_viewed = time
+  end
+
+  def time_stamp
+    time = Time.now.to_s
+    time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M")
+    self.last_viewed = time
   end
 
   def get_other( current_user_id , convo )
