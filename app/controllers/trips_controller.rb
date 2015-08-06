@@ -133,11 +133,11 @@ class TripsController < ApplicationController
       where_exp << "( t.date_to >= " << target_date_to << " AND t.date_from >= " << target_date_from << " AND t.date_from <= " << target_date_to << " OR t.date_to >= " << target_date_to << " AND t.date_from <= " << target_date_from << " OR t.date_to <= " << target_date_to << " AND t.date_from >= " << target_date_from << " OR t.date_to >= " << target_date_from << " AND t.date_to <= " << target_date_to << " AND t.date_from <= " << target_date_from << " ) "
     end
 
-    if match_exp == "" && where_exp == ""
-      @found_trips = nil
-    else
+    #if match_exp == "" && where_exp == ""
+    #  @found_trips = nil
+    #else
       @found_trips = Trip.query_as(:t).match("#{match_exp}").where("#{where_exp}").proxy_as(Trip, :t).paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc }, return: :'distinct t')
-    end
+    #end
   end
 
   private
