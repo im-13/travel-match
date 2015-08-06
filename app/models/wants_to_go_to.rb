@@ -3,6 +3,7 @@ class WantsToGoTo
 
   from_class User
   to_class Country
+  creates_unique_rel
   type 'wants_to_go_to'
 
   property :created_at, type: DateTime

@@ -6,8 +6,8 @@
   property :name, type: String
   property :code, type: String
   has_many :in, :lives_in, model_class: User, rel_class: LivesIn
-  has_many :in, :wants_to_go_to, model_class: User, rel_class: WantsToGoTo
-  has_many :in, :has_been_to, model_class: User, rel_class: HasBeenTo
+  has_many :in, :wants_to_go_to, model_class: User, rel_class: WantsToGoTo, unique: true
+  has_many :in, :has_been_to, model_class: User, rel_class: HasBeenTo, unique: true
   has_many :in, :is_located_in, model_class: Trip, rel_class: IsLocatedIn
 
   def set_code
