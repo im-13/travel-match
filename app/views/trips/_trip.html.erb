@@ -14,9 +14,7 @@
             <% end %>
           
             <div class="name">
-              <a class="text-muted link-reset">
-              <p><%= user.first_name %></p></a>
-              <!--p><strong><%= user.last_name %></strong></p></a-->
+              <%= link_to user.first_name, user %>
             </div>
           </div>
 
