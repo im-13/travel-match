@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :blogs do
-    resources :comments
-  end
+  resources :blogs
+  resources :comments
 
   root 'static_pages#home'
 
