@@ -19,7 +19,7 @@
               	<a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= image_tag cur.avatar.thumb.url %></a>
               	<div class="pull-right">
                		<p>
-            			by <strong><%= link_to @trip.user_name, cur %></strong>
+            			by <strong><%= link_to cur.full_name, cur %></strong>
 						<br>
 						created <%= time_ago_in_words(@trip.created_at) + " ago" %>
 						<% if @trip.created_at != @trip.updated_at %>
@@ -32,7 +32,7 @@
               	<a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= gravatar_for cur %></a>
                	<div class="pull-right">
                		<p>
-            			by <strong><%= link_to @trip.user_name, cur %></strong>
+            			by <strong><%= link_to cur.full_name, cur %></strong>
 						<br>
 						created <%= time_ago_in_words(@trip.created_at) + " ago" %>
 						<% if @trip.created_at != @trip.updated_at %>

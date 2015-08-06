@@ -26,6 +26,7 @@ class TripsController < ApplicationController
   # POST /trips.json
   def create
     user = current_user
+
     if is_invalid_date
       respond_to do |format|
         flash[:error] = "You have selected invalid dates"
@@ -33,11 +34,7 @@ class TripsController < ApplicationController
       end
     else
       @trip = Trip.new(trip_params)
-      @trip.user_name = user.full_name
       @trip.user_uuid = user.uuid
-      @trip.user_gravatar_url = user.gravatar_url 
-      @trip.user_email = user.email 
-      @CarrierwaveImage = CarrierwaveImage.create
       respond_to do |format|
         if @trip.save
 
@@ -47,10 +44,8 @@ class TripsController < ApplicationController
           rel1.save
           rel2 = Plan.new(from_node: user, to_node: @trip)
           rel2.save
-          rel3 = TripHasAttached.new(from_node: @trip, to_node: @CarrierwaveImage)
+          rel3 = WantsToGoTo.new(from_node: user, to_node: country)
           rel3.save
-          rel4 = WantsToGoTo.new(from_node: user, to_node: country)
-          rel4.save
 
           flash[:success] = "Trip was successfully created."
           format.html { redirect_to @trip }

@@ -10,10 +10,7 @@ class Trip
   property :description, type: String
   property :created_at, type: DateTime
   property :updated_at, type: DateTime
-  property :user_gravatar_url, type: String
-    property :user_name, type: String
-  	property :user_uuid, type: String
-    property :user_email, type: String
+  property :user_uuid, type: String
   property :photo, type: String
   mount_uploader :photo, AssetUploader
 
