@@ -78,7 +78,7 @@ class MatchesController < ApplicationController
       if params[:check_box_country_to_visit_codes_match] == '1'
         return_call = true
         non_default = true
-        user_wish_list = user.want_to_visit
+        user_wish_list = user.wants_to_go_to
         array_string = get_name_list( user_wish_list )
         if residence_select
           nonjoin_match_exp = match_exp + "<-[:lives_in]-(user2), (user2)-[:wants_to_go_to]->(wish_list:Country)"
@@ -95,7 +95,7 @@ class MatchesController < ApplicationController
       elsif params[:check_box_country_visited_codes_match] == '1'
         return_call = true
         non_default = true
-        user_visited_list = user.has_visited
+        user_visited_list = user.has_been_to
         array_string = get_name_list( user_visited_list )
         if residence_select 
           nonjoin_match_exp = match_exp + "<-[:lives_in]-(user2), (user2)-[:has_been_to]->(visitedList:Country)"
@@ -154,7 +154,7 @@ class MatchesController < ApplicationController
     if !user.nil?
       username = user.email
       target_country = user.lives_in 
-      user_wish_list = user.want_to_visit
+      user_wish_list = user.wants_to_go_to
       array_string = get_name_list( user_wish_list )
       match_exp = "(user)-[:lives_in]->(country:Country)<-[lives_in]-(user2),(user2)-[:wants_to_go_to]->(wish_list:Country) "
       where_exp = "country.name = '#{target_country.name}' AND wish_list.name IN #{array_string} AND user2.email <> '#{username}'"
