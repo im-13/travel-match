@@ -4,7 +4,8 @@ class FollowsController < ApplicationController
 
   def index
   	@session_user = current_user
-    @followings = @session_user.following.paginate(page: 1, per_page: 10)
+    @followings = @session_user.query_as(:user).match("(user:User)-[rel:following]->(m:User)").where("user.email = '#{@session_user.email}'").order('rel.created_at DESC').return(:m).proxy_as(User, :m).paginate(page: 1, per_page: 10, return: :'m')
+    #@followings = @session_user.following.paginate(page: 1, per_page: 10)
     #@followings = @session_user.following.to_a
   end
 
