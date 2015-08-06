@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     @blog.user_email = @user.email 
     @CarrierwaveImage = CarrierwaveImage.create
     @rel_user_followed_by_current_user = current_user.query_as(:cur_user).match('cur_user-[rel:following]->select_user').where(" select_user.uuid = '#{@user.uuid}'").pluck(:rel).first
-
+    
     #if not the session user
     if !current_user?(@user)
       #establish a connection with the session user
@@ -28,7 +28,13 @@ class UsersController < ApplicationController
     end
 
     @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
-    @user_country_of_residence = @user.lives_in(:l)
+    @user_country_of_residence = @user.lives_in
+    @wantsToGoTo = @user.want_to_visit
+    @hasBeenTo = @user.has_visited
+
+    @trips = @user.plan
+    #Trip.all.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc })
+
     @user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
   end
 

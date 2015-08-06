@@ -15,7 +15,7 @@
     </aside>
     <div class="col-md-8">
       <% if @found_trips.nil? %>
-        No trip has been found. <%= link_to "Do you want to add one?", newtrip_path %> |
+        No trip has been found. <%= link_to "Do you want to plan one?", newtrip_path %> |
         <%= link_to "View all trips", alltrips_path %>
       <% elsif @found_trips.any? %>
         <ul class="posts">
@@ -23,7 +23,7 @@
         </ul>
         <%= will_paginate @found_trips %>
       <% else %>
-        No trip has been found. <%= link_to "Do you want to add one?", newtrip_path %> |
+        No trip has been found. <%= link_to "Do you want to plan one?", newtrip_path %> |
         <%= link_to "View all trips", alltrips_path %>
       <% end %>
     </div>
