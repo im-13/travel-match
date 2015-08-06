@@ -29,7 +29,7 @@ module UsersHelper
         rel_instance = Viewed.new
         rel_instance.from_node = session_user
         rel_instance.to_node = viewed_user
-        rel_instance.save
+        rel_instance.save #time_stamp on save
       end
     else #threshold reached
       viewed_association = session_user.query_as(:sess_user).match('sess_user-[rel:Viewed]->v_user').order('rel.time_viewed DESC').return(:rel).to_a #
@@ -41,7 +41,7 @@ module UsersHelper
       rel_instance = Viewed.new
       rel_instance.from_node = session_user
       rel_instance.to_node = viewed_user
-      rel_instance.save
+      rel_instance.save #time_stamp on save
     end
 
     #open('myfile.out', 'a') { |f|

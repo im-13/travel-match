@@ -7,11 +7,11 @@ class ViewedBy
   to_class User
   type 'People_You_Were_Viewed_By'
 
-  property :time_viewed, type: Date
+  property :time_viewed, type: DateTime
 
   def stamp
     time = Time.now.to_s
-    time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M")
+    time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M:%S")
     self.time_viewed = time
   end
 

@@ -10,5 +10,4 @@ class Follow
   property :followed_id, type: String
   property :created_at, type: DateTime
 
-
 end

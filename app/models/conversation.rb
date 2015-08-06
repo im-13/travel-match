@@ -3,8 +3,8 @@ class Conversation
 
   before_save :stamp
  
-  property :date_created, type: Date
-  property :last_viewed, type: Date
+  property :date_created, type: DateTime
+  property :last_viewed, type: DateTime
   #users are referenced by their id
   property :user1, type: String
   property :user2, type: String
@@ -17,14 +17,14 @@ class Conversation
 
   def stamp
   	time = Time.now.to_s
-    time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M")
+    time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M:%S")
     self.date_created = time
     self.last_viewed = time
   end
 
   def time_stamp
     time = Time.now.to_s
-    time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M")
+    time = DateTime.parse(time).strftime("%d/%m/%Y %H:%M:%S")
     self.last_viewed = time
   end
 
