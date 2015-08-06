@@ -3,54 +3,66 @@
 
 	<script src="js/navbarVolunteer.js"></script>
 	<div class="container target">
+		<br>
 		<h1 class="pull-left">
-			<br>
-			by <%= @trip.user_name %>
-			<br>
-			<small>created <%= time_ago_in_words(@trip.created_at) + " ago" %></small>
-			<% if @trip.created_at != @trip.updated_at %>
-				<small>updated <%= time_ago_in_words(@trip.updated_at) + " ago" %></small>
-			<% end %>
-			<br>
-			<br>				
+	    	Trip to <%= @trip.place %>
+			in <%= @trip.country %>
+			<small>
+				<br>
+		        from <%= @trip.date_from.to_time.strftime('%B %e, %Y') %>
+		        to <%= @trip.date_to.to_time.strftime('%B %e, %Y') %>
+		    </small>						
 		</h1>
 		<br>
 		<div>
             <% if cur.avatar? %>
-              <a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= image_tag cur.avatar.thumb.url %></a>
+              	<a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= image_tag cur.avatar.thumb.url %></a>
+              	<div class="pull-right">
+               		<p>
+            			by <strong><%= link_to @trip.user_name, cur %></strong>
+						<br>
+						created <%= time_ago_in_words(@trip.created_at) + " ago" %>
+						<% if @trip.created_at != @trip.updated_at %>
+							<br>
+							edited <%= time_ago_in_words(@trip.updated_at) + " ago" %>
+						<% end %>
+					</p>
+				</div>	
             <% else %>
-              <a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= gravatar_for cur %></a>
+              	<a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= gravatar_for cur %></a>
+               	<div class="pull-right">
+               		<p>
+            			by <strong><%= link_to @trip.user_name, cur %></strong>
+						<br>
+						created <%= time_ago_in_words(@trip.created_at) + " ago" %>
+						<% if @trip.created_at != @trip.updated_at %>
+							<br>
+							edited <%= time_ago_in_words(@trip.updated_at) + " ago" %>
+						<% end %>
+					</p>
+				</div>
             <% end %>
-        </div>  
-    </div>
-
-    <div class="container">	
-    	<h1>
-    	Trip to <%= @trip.place %>
-		in <%= @trip.country %>
-		<small>
-			<br>
-	        from <%= @trip.date_from.to_time.strftime('%B %e, %Y') %>
-	        to <%= @trip.date_to.to_time.strftime('%B %e, %Y') %>
-	    </small>
-		</h1>
+        </div>      
     </div>	
-		
+
+	<br>	
+
 	<div class="container">	
 		<div class="blog">	
-			<p>
-			 	<%= @trip.description %>
-			</p>
+			<p><%= @trip.description %></p>
 			<% if @trip.photo? %>
-              <%= image_tag @trip.photo.medium.url class: "img=thumbnail" %>
+				<br>
+                <%= image_tag @trip.photo.medium.url class: "img=thumbnail" %>
+                <br>
+                <br>
             <% end %>
 		</div>
-
 		<div class="meta">
-	      <%= link_to "Back to all trips", trips_path %> |
-	      <%= link_to "Back to my profile", current_user %>
-	      <% if cur.admin? || cur == current_user %>
-	      	| <%= link_to "Edit", edit_trip_path(@trip) %> 
+	        <%= link_to "Back to my profile", current_user %> |
+	        <%= link_to "Back to all trips", trips_path %> 
+	        <% if cur.admin? || cur == current_user %>
+		      	| <%= link_to "Edit", edit_trip_path(@trip) %> 
+		      	| <%= link_to 'Delete', @trip, method: :delete, data: { confirm: 'Are you sure you want to delete this trip?' } %>
 	      <% end %>
 	    </div>
 	</div>

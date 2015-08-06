@@ -24,11 +24,12 @@ class TripsController < ApplicationController
   # POST /trips
   # POST /trips.json
   def create
+    user = current_user
     @trip = Trip.new(trip_params)
-    @trip.user_name = current_user.full_name
-    @trip.user_uuid = current_user.uuid
-    @trip.user_gravatar_url = current_user.gravatar_url 
-    @trip.user_email = current_user.email 
+    @trip.user_name = user.full_name
+    @trip.user_uuid = user.uuid
+    @trip.user_gravatar_url = user.gravatar_url 
+    @trip.user_email = user.email 
     @CarrierwaveImage = CarrierwaveImage.create
     respond_to do |format|
       if @trip.save
@@ -37,10 +38,12 @@ class TripsController < ApplicationController
         #we have the country
         rel1 = IsLocatedIn.new(from_node: @trip, to_node: country) 
         rel1.save
-        rel2 = Plan.new(from_node: current_user, to_node: @trip)
+        rel2 = Plan.new(from_node: user, to_node: @trip)
         rel2.save
         rel3 = TripHasAttached.new(from_node: @trip, to_node: @CarrierwaveImage)
         rel3.save
+        rel4 = WantsToGoTo.new(from_node: user, to_node: country)
+        rel4.save
 
         flash[:success] = "Trip was successfully created."
         format.html { redirect_to @trip }
