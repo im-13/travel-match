@@ -4,7 +4,11 @@
       <ul class="media-list">
         <% @conversations.each do |conversation| %>
             <li class="media">
-              <%= image_tag("http://placehold.it/50x50", class: "media-object pull-left") %>
+              <% if conversation.get_other(@session_user.uuid, conversation).avatar? %>
+                <%= image_tag("#{conversation.get_other(@session_user.uuid, conversation).avatar.thumb.url}", class: "media-object pull-left") %>
+              <% else %>
+                <%= image_tag("#{conversation.get_other(@session_user.uuid, conversation).gravatar_url}", class: "media-object pull-left") %>
+              <% end %>
               <div class="media-body">
                 <%= link_to "chat", conversation_path(conversation), class: "conversation", "data-cid" => conversation.uuid %>
                     <h4 class="media-heading"><%= conversation.get_other(@session_user.uuid, conversation).full_name %></h4>
