@@ -97,6 +97,7 @@ class UsersController < ApplicationController
           #we need to accumulate the country_visited somehow
           visited = params[:user][:country_visited] 
           visitedArr = visited.split(",")
+          visitedArr = visitedArr.uniq
           if country_check(visitedArr)
             make_decision(@user, visitedArr, 2)
           else
@@ -108,6 +109,7 @@ class UsersController < ApplicationController
         if params[:user][:country_to_visit]
           tovisit = params[:user][:country_to_visit] 
           tovisitArr = tovisit.split(",")
+          tovisitArr = tovisitArr.uniq
           if country_check(tovisitArr)
             make_decision(@user, tovisitArr, 3)
           else
