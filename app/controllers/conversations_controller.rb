@@ -12,7 +12,7 @@ class ConversationsController < ApplicationController
       @conversation = Conversation.new
       @conversation.user1 = params[:sender_id]
       @conversation.user2 = params[:recipient_id]
-      @conversation.save #, not necessary to do this
+      @conversation.save
       channel1 = Channel.new(from_node: sender, to_node: @conversation)
       channel1.save
       channel2 = Channel.new(from_node: reciever, to_node: @conversation)
