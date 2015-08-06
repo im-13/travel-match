@@ -1,8 +1,14 @@
 class Comment 
   include Neo4j::ActiveNode
-  property :comment, type: String
-  property :blog, type: String
-  property :user, type: String
+  
+  attr_accessor :blog_id
 
-  has_many :both, :has, model_class: Blog, rel_class: Has
+  property :comment, type: String
+  property :user_name, type: String
+  property :user_uuid, type: String
+  property :created_at, type: DateTime
+  property :user_gravatar_url, type: String
+  property :user_avatar_url, type: String
+
+  has_one :in, :have, model_class: Blog, rel_class: Have
 end

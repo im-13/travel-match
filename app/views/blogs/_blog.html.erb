@@ -1,43 +1,24 @@
 <div class="thumbnail">
-  <div class="blog-container-responsive row-space-2">
-    <div class="blog-content">
-      <div class="panel-body">
-        <div class="row">
-          <% user = User.find_by(uuid: blog.user_uuid) %>
-          
-          <div class="col-sm-2 text-center row-space-2"> 
-            <a class="media-photo media-round row-space-1 text-center"> <img class="lazy" style-"display: inline;" >
-            <% if user.avatar? %>
-              <img class="img-circle"<%= image_tag user.avatar.small.url %></a>
-            <% else %>
-              <img class="img-circle"<%= image_tag user.gravatar_url %></a>
-            <% end %>
-          
-            <div class="name">
-              <a class="text-muted link-reset">
-              <p><%= user.first_name %></p></a>
-              <!--p><strong><%= user.last_name %></strong></p></a-->
-            </div>
-          </div>
+	<strong><%= link_to blog.user_name, User.find(blog.user_uuid) %> </strong>
+	<p><a class="text-muted link-reset"><%= link_to " Posted " + time_ago_in_words(blog.created_at) + " ago", blog %></a>
+	<% if current_user.admin? || current_user.uuid == blog.user_uuid %>
+		| <%= link_to edit_blog_path(blog) do %><span class="glyphicon glyphicon-pencil"></span> Edit <% end %>
+		| <%= link_to blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog entry?' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %>
+	<% end %>
+	| <%= link_to blog do %><span class="glyphicon glyphicon-comment"></span> <%= blog.count_comments.to_i %> Comments <% end %>
 
-          <div class="col-sm-10">
-            <div class="row-space-2">
-              <div class="expandable-content">
-                <p><%= blog.content %></p>
-                <!--%= blog.image %-->
-              </div>
-            </div>
 
-            <div class="meta">
-              <%= link_to time_ago_in_words(blog.created_at) + " ago", blog %>
-              <% if current_user.admin? || current_user.uuid == blog.user_uuid %>
-                <%= link_to 'Edit', edit_blog_path(blog) %>
-                | <%= link_to 'Delete', blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog entry?' } %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<h3 align="center"><%= blog.title %></h3>
+	<p><%= blog.content %></p>
+	<div class="text-center">
+		<% if blog.photo? %>
+		    <%= link_to image_tag(blog.photo.thumb.url), blog %>
+		<% end %>
+		<% if blog.photo2? %>
+		    <%= link_to image_tag(blog.photo2.thumb.url), blog %>
+		<% end %>
+		<% if blog.photo3? %>
+		    <%= link_to image_tag(blog.photo3.thumb.url), blog %>
+		<% end %>
+	</div>
 </div>

@@ -1,5 +1,4 @@
-
-  <%= simple_form_for(@blog) do |f| %>
+<%= simple_form_for(@blog) do |f| %>
     <% if @blog.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
@@ -12,25 +11,35 @@
       </div>
     <% end %>
     <div class="form-group">
-      <%= f.text_area :content, placeholder: "What's on your mind?", rows: "2", class: 'form-control' %>
+      <%= f.text_area :title, placeholder: "Title", rows: "1", class: 'form-control' %>
+      <%= f.text_area :content, placeholder: "What's on your mind?", rows: "10", class: 'form-control' %>
       <div class="row">
         <div class="col-md-8">
-          <p>
-            <%= f.file_field :photo, as: :file, class: 'form-control' %>
-          </p>
+      
+      <p>
+        <%= f.file_field :photo, as: :file, class: 'form-control'%>
+      </p>
+      <p>
+        <%= f.file_field :photo2, as: :file, class: 'form-control' %>
+      </p>
+      <p>
+        <%= f.file_field :photo3, as: :file, class: 'form-control' %>
+      </p>
 
-          <% if f.object.photo? %>
-            <p>
-            <%= image_tag f.object.photo.url %>
-            </p>
-          <% end %>
-        </div>
-        <div class="col-md-4">
-          <%= f.submit "Post", class: "btn btn-primary" %> 
-        </div>
-      </div>
-    </div>
-
-
-    
-  <% end %>
+      <p>
+      <% if f.object.photo? %>
+        <%= image_tag f.object.photo.url %>
+      <% end %>
+      </p>
+      <p>
+      <% if f.object.photo2? %>
+        <%= image_tag f.object.photo2.url %>
+      <% end %>
+      </p>
+      <p>
+      <% if f.object.photo3? %>
+        <%= image_tag f.object.photo3.url %>
+      <% end %>
+      </p>
+    </div>    
+<% end %>

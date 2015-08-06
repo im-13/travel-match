@@ -18,8 +18,14 @@
 	      </div>
 	    <% end %>
 
+	    <%= f.label :title %>
+	    <%= f.text_area :title %>
+
+	    <%= f.label :content %>
 		<%= f.text_area :content, { rows: "15", class: 'input-xlarge'} %>
         <%= f.file_field :photo, as: :file %>
+        <%= f.file_field :photo2, as: :file %>
+        <%= f.file_field :photo3, as: :file %>
 
 		<% if @blog.photo? %>
 			<p>
@@ -28,6 +34,24 @@
 	        <br />
 	        <%= f.label :remove_photo %>
 	        <%= f.check_box :remove_photo %>   
+		<% end %>
+
+		<% if @blog.photo2? %>
+			<p>
+			<%= image_tag @blog.photo2.medium.url %>
+        	</p>
+	        <br />
+	        <%= f.label :remove_photo2 %>
+	        <%= f.check_box :remove_photo2 %>   
+		<% end %>
+
+		<% if @blog.photo3? %>
+			<p>
+			<%= image_tag @blog.photo3.medium.url %>
+        	</p>
+	        <br />
+	        <%= f.label :remove_photo3 %>
+	        <%= f.check_box :remove_photo3 %>   
 		<% end %>
 
 		<div class="form-actions">

@@ -8,8 +8,7 @@
   <div class="container">
     <%= link_to 'Write a New Post', new_blog_path, class: "btn btn-info text-center" %>
     <br>
-    <br>
-        <small><%= will_paginate @blogs %></small>
+    <small><%= will_paginate @blogs %></small>
     <br>
   </div>
 
@@ -41,23 +40,38 @@
               <div class="col-sm-9">
                 <div class="row-space-2">
                   <div class="expandable-content">
+                    <h3 align="center"><%= blog.title %></h3>
                     <p><%= blog.content %></p>
-                    <% if blog.photo? %>
-                      <%= link_to image_tag(blog.photo.thumb.url), blog %>
-                    <% end %>
+                    <table>
+                      <colgroup>
+                        <th><% if blog.photo? %>
+                          <%= link_to image_tag(blog.photo.thumb.url), blog %>
+                        <% end %></th>
+                        <th><% if blog.photo2? %>
+                          <%= link_to image_tag(blog.photo2.thumb.url), blog %>
+                        <% end %></th>
+                        <th><% if blog.photo3? %>
+                          <%= link_to image_tag(blog.photo3.thumb.url), blog %>
+                        <% end %></th>
+                    </colgroup>
+                  </table>
                   </div>
                 </div>
 
                 <!--h2> @blog.comments.count </h2-->
                 <!--%= render 'blogs/comments' %-->
 
+                <hr>
 
                 <div class="meta">
                   <%= link_to time_ago_in_words(blog.created_at) + " ago", blog %>
                   <% if cur.admin? || cur == current_user %>
-                    | <%= link_to 'Edit', edit_blog_path(blog) %>
-                    | <%= link_to 'Delete', blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } %>
+                    | <%= link_to edit_blog_path(blog) do %><span class="glyphicon glyphicon-pencil"></span> Edit
+                      <% end %>
+                    | <%= link_to blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } do %><span class="glyphicon glyphicon-trash"></span> Delete
+                      <% end %>
                   <% end %>
+                  | <%= link_to blog do %><span class="glyphicon glyphicon-comment"></span> <%= blog.count_comments.to_i %> Comment <% end %>  
                 </div>
               </div>
             </div>
