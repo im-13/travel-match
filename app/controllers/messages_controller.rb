@@ -9,7 +9,8 @@ class MessagesController < ApplicationController
     
     link = BelongTo.new(from_node: @message, to_node: @conversation)
     link.save
-
+    @conversation.time_stamp
+    @conversation.save
     if @path.nil?
       @path = conversation_path(@conversation)
     end

@@ -54,12 +54,9 @@ ready = ->
   # follows create
   ###
   $(document).on 'click', '.add-favorite', (e) ->
-    follower = undefined
-    following = undefined
-    e.preventDefault()
-    follower = $(this).attr('follower-id')
-    following = $(this).attr('following-id')
-    $.post '/../follow/', {
+    follower = $('.add-favorite').attr('follower-id')
+    following = $('.add-favorite').attr('following-id')
+    $.post '/../follow', {
       sid: follower
       rid: following
     }, (data) ->
@@ -75,9 +72,9 @@ ready = ->
   ###
   $(document).on 'click', '.remove-favorite', (e) ->
     e.preventDefault()
-    follower = $(this).attr('follower-id')
-    following = $(this).attr('following-id')
-    $.post '/../unfollow/', {
+    follower = $('.remove-favorite').attr('follower-id')
+    following = $('.remove-favorite').attr('following-id')
+    $.post '/../unfollow', {
       sid: follower
       rid: following
     }, (data) ->
