@@ -15,24 +15,6 @@
       <%= f.text_area :content, placeholder: "What's on your mind?", rows: "10", class: 'form-control' %>
       <div class="row">
         <div class="col-md-8">
-<<<<<<< HEAD:app/views/blogs/_form_mini.html.erb
-          <p>
-            <%= f.file_field :photo, as: :file, class: 'form-control' %>
-          </p>
-
-          <% if f.object.photo? %>
-            <p>
-            <%= image_tag f.object.photo.url %>
-            </p>
-          <% end %>
-        </div>
-        <div class="col-md-4">
-          <%= f.submit "Post", class: "btn btn-primary" %> 
-        </div>
-      </div>
-    </div>  
-  <% end %>
-=======
       
       <p>
         <%= f.file_field :photo, as: :file, class: 'form-control'%>
@@ -61,4 +43,3 @@
       </p>
     </div>    
 <% end %>
->>>>>>> 38e5b9ca9026bbf6d417141e5ae773652096b2bc:app/views/blogs/_form.html.erb

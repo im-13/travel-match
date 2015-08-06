@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :blogs
-  resources :comments
+  resources :blogs 
+  resources :comments,     only: [:new, :create, :destroy]
 
   root 'static_pages#home'
 
@@ -18,10 +18,14 @@ Rails.application.routes.draw do
   get   'messages'  => 'users#show_messages'
   get   'login'     => 'sessions#new'
   post  'login'     => 'sessions#create'
+  get   'travelblog'      => 'blogs#index'
   get   'blog'      => 'blogs#index'
   get   'show'      => 'blogs#show'
   get   'mymatches' => 'matches#new'
   post  'mymatches' => 'matches#create'
+  get   'comments' => 'comments#new'
+  post  'comments' => 'comments#create'
+  delete 'comments' => 'comments#destroy'
   get   'default'   => 'matches#default'
   get   'yourviews' => 'viewed_users#index'
   get   'otherviews'=> 'visitors#index'
@@ -45,7 +49,7 @@ Rails.application.routes.draw do
   resources :carrierwave_images
   resources :documents
   resources :conversations do
-    resources :messages
+  resources :messages
   end
 
   #resources :follows, only: [:create, :destroy]
