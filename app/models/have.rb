@@ -1,11 +1,11 @@
-class Has 
+class Have 
   include Neo4j::ActiveRel
   require 'date'
 
   before_save :stamp
   from_class Blog
   to_class Comment
-  type 'has'
+  type 'have'
  
   property :date_created, type: Date
 

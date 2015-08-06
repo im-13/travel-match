@@ -1,5 +1,4 @@
-<div class="container">
-  <%= simple_form_for(@blog, html: { class: 'form-horizontal', multipart: true }) do |f| %>
+<%= simple_form_for(@blog) do |f| %>
     <% if @blog.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
@@ -11,20 +10,37 @@
         </ul>
       </div>
     <% end %>
-    
     <div class="form-group">
+      <%= f.text_area :title, placeholder: "Title", rows: "1", class: 'form-control' %>
+      <%= f.text_area :content, placeholder: "What's on your mind?", rows: "10", class: 'form-control' %>
+      <div class="row">
+        <div class="col-md-8">
+      
       <p>
-        <%= f.input :content, as: :text, input_html: { rows: "10", class: 'input-xlarge'} %>
+        <%= f.file_field :photo, as: :file, class: 'form-control'%>
       </p>
       <p>
-        <%= f.file_field :photo, as: :file %>
+        <%= f.file_field :photo2, as: :file, class: 'form-control' %>
+      </p>
+      <p>
+        <%= f.file_field :photo3, as: :file, class: 'form-control' %>
       </p>
 
+      <p>
       <% if f.object.photo? %>
-        <p>
         <%= image_tag f.object.photo.url %>
-        </p>
       <% end %>
+      </p>
+      <p>
+      <% if f.object.photo2? %>
+        <%= image_tag f.object.photo2.url %>
+      <% end %>
+      </p>
+      <p>
+      <% if f.object.photo3? %>
+        <%= image_tag f.object.photo3.url %>
+      <% end %>
+      </p>
     </div>
   
 

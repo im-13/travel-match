@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
 
-  resources :blogs do
-    resources :comments
-  end
-  resources :carrierwave_images
-  resources :documents
+  resources :blogs 
+  resources :comments,     only: [:new, :create, :destroy]
+  
   
   get 'password_resets/new'
 
@@ -18,18 +16,30 @@ Rails.application.routes.draw do
   get   'contact'   => 'static_pages#contact'
   get   'profile'   => 'static_pages#profile'
   get   'signup'    => 'users#new'
+  get   'myblog'    => 'users#show_my_blog'
   get   'index'     => 'users#index'
   get   'login'     => 'sessions#new'
   post  'login'     => 'sessions#create'
+  get   'travelblog'      => 'blogs#index'
   get   'blog'      => 'blogs#index'
   get   'show'      => 'blogs#show'
   get   'mymatches' => 'matches#new'
   post  'mymatches' => 'matches#create'
+  get   'comments' => 'comments#new'
+  post  'comments' => 'comments#create'
+  delete 'comments' => 'comments#destroy'
   delete 'logout'   => 'sessions#destroy'
   resources :users
   resources :countries
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
+  resources :carrierwave_images
+  resources :documents
+  resources :conversations do
+    resources :messages
+  end
+  resources :follows, only: [:create, :destroy]
+
   #resources :match
 
   # The priority is based upon order of creation: first created -> highest priority.
