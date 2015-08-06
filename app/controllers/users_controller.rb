@@ -29,8 +29,8 @@ class UsersController < ApplicationController
 
     @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
     @user_country_of_residence = @user.lives_in
-    @wantsToGoTo = @user.want_to_visit
-    @hasBeenTo = @user.has_visited
+    @wantsToGoTo = @user.wants_to_go_to
+    @hasBeenTo = @user.has_been_to
 
     @trips = @user.plan
     #Trip.all.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc })

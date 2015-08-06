@@ -36,7 +36,7 @@ class User
   serialize :photos
 
   has_one :out, :lives_in, model_class: Country, rel_class: LivesIn
-  has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
+  has_many :out, :wants_to_go_to, model_class: Country, rel_class: WantsToGoTo
   has_many :out, :has_been_to, model_class: Country, rel_class: HasBeenTo
   has_many :out, :is_author_of, model_class: Blog, rel_class: IsAuthorOf, dependent: :destroy
   has_many :out, :plan, model_class: Trip, rel_class: Plan, dependent: :destroy
@@ -182,7 +182,7 @@ class User
   end
 
   def get_country_visited
-    countries = self.has_visited
+    countries = self.has_been_to
     return stringify(countries)
 =begin
     ret = ""
@@ -194,7 +194,7 @@ class User
   end
 
   def get_country_to_visit
-    countries = self.want_to_visit
+    countries = self.wants_to_go_to
     return stringify( countries )
   end
 
