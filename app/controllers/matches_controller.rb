@@ -78,7 +78,7 @@ class MatchesController < ApplicationController
       if params[:check_box_country_to_visit_codes_match] == '1'
         return_call = true
         non_default = true
-        user_wish_list = user.want_to_visit
+        user_wish_list = user.wants_to_go_to
         array_string = get_name_list( user_wish_list )
         if residence_select
           nonjoin_match_exp = match_exp + "<-[:lives_in]-(user2), (user2)-[:wants_to_go_to]->(wish_list:Country)"
@@ -95,7 +95,7 @@ class MatchesController < ApplicationController
       elsif params[:check_box_country_visited_codes_match] == '1'
         return_call = true
         non_default = true
-        user_visited_list = user.has_visited
+        user_visited_list = user.has_been_to
         array_string = get_name_list( user_visited_list )
         if residence_select 
           nonjoin_match_exp = match_exp + "<-[:lives_in]-(user2), (user2)-[:has_been_to]->(visitedList:Country)"
@@ -150,15 +150,54 @@ class MatchesController < ApplicationController
 
   def default_match 
     #this search will be base on user's residency and their desired destination
-     user = current_user
+    user = current_user
     if !user.nil?
       username = user.email
       target_country = user.lives_in 
-      user_wish_list = user.want_to_visit
+      user_wish_list = user.wants_to_go_to
       array_string = get_name_list( user_wish_list )
-      match_exp = "(user)-[:lives_in]->(country:Country)<-[lives_in]-(user2),(user2)-[:wants_to_go_to]->(wish_list:Country)"
+      match_exp = "(user)-[:lives_in]->(country:Country)<-[lives_in]-(user2),(user2)-[:wants_to_go_to]->(wish_list:Country) "
       where_exp = "country.name = '#{target_country.name}' AND wish_list.name IN #{array_string} AND user2.email <> '#{username}'"
       @matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").with(:user2, strength: 'count(user2)').order('strength DESC').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page: 10, return: :'distinct user2')
+      if @matches.length < 20 #two page minimum
+        return @matches = default_back_up( @matches, user )
+      else
+        return @matches
+      end
+    end
+  end
+
+  # manual performance of a union join, not the most efficient way of doing it but it will do for now
+  # 2 parameters
+  # current_results is a WillPaginate::Collection object
+  # cur_user is a query user  
+  def default_back_up( current_results, cur_user )
+    #the the current_results number of items is less than 20 is the reason why we're in here
+    username = cur_user.email
+    target_country = cur_user.lives_in 
+    user_traveled_list = cur_user.has_been_to
+    array_string = get_name_list( user_traveled_list )
+    match_exp = "(user)-[:lives_in]->(country:Country)<-[lives_in]-(user2),(user2)-[:has_been_to]->(traveled_list:Country) "
+    where_exp = "country.name = '#{target_country.name}' AND traveled_list.name IN #{array_string} AND user2.email <> '#{username}'"
+    back_up_matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").return('user2.uuid').to_a
+
+    current_results = current_results.to_a
+    id_list = Array.new
+
+    current_results.each do |current_item|
+      id_list << current_item.uuid
+    end
+
+    current_results.concat(back_up_matches)
+
+    where_exp = "users.email <> '#{username}'"
+    if current_results.length < 10
+      default = User.query_as(:users).where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, return: :'distinct users')
+      return default
+    else
+      where_exp << "AND users.uuid IN #{id_list}"
+      join_match = User.query_as(:users).where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, return: :'distinct users')
+      return join_match
     end
   end
 

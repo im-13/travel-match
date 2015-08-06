@@ -182,7 +182,7 @@ class User
   end
 
   def get_country_visited
-    countries = self.has_visited
+    countries = self.has_been_to
     return stringify(countries)
 =begin
     ret = ""
@@ -194,7 +194,7 @@ class User
   end
 
   def get_country_to_visit
-    countries = self.want_to_visit
+    countries = self.wants_to_go_to
     return stringify( countries )
   end
 
