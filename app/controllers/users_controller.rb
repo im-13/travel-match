@@ -124,7 +124,7 @@ class UsersController < ApplicationController
 
   def show_messages
     @session_user = current_user
-    @conversations = @session_user.channel_to.order(last_viewed: :asc)
+    @conversations = @session_user.channel_to.order(last_viewed: :desc)
   end
 
   # DELETE /users/1
