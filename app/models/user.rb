@@ -246,9 +246,10 @@ class User
     end
 
     def capitalize_names
-      self.first_name.capitalize!
-      self.last_name.capitalize!
+      self.first_name = first_name.titleize
+      self.last_name = last_name.titleize
     end
+
 #  def email_uniqueness
 #    undefined method `find_by' - how to call it inside User class?
 #    user = Neo4j::ActiveNode::User.find_by(email: "#{self.email}")

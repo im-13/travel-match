@@ -3,10 +3,6 @@ Rails.application.routes.draw do
   resources :blogs do
     resources :comments
   end
-  resources :carrierwave_images
-  resources :documents
-  
-  
 
   root 'static_pages#home'
 
@@ -47,7 +43,6 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
   resources :trips
-  resources :blogs
   resources :carrierwave_images
   resources :documents
   resources :conversations do

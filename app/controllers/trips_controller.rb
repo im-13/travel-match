@@ -79,12 +79,65 @@ class TripsController < ApplicationController
   end
 
   def find
-    puts "INSIDE OF FIND"
-    puts "INSIDE OF FIND"
-    puts "INSIDE OF FIND"
-    puts "INSIDE OF FIND"
-    puts "INSIDE OF FIND"
-    @trips = Trip.all.paginate(:page => params[:page], :per_page => 10, order: :created_at)
+    match_exp = ""
+    where_exp = ""
+
+    if params[:check_box_country] == "1"
+      target_country_code = trip_params[:country_code]
+      match_exp << "t-[:is_located_in]->(country:Country)"
+      where_exp << "country.code = '#{target_country_code}'"  
+    end
+
+    if params[:check_box_place] == "1"
+      target_place = trip_params[:place].titleize
+      if where_exp != ""
+        where_exp << " AND "  
+      end
+      where_exp << "t.place = '#{target_place}'"
+    end
+
+    if params[:check_box_date_from] == "1" && params[:check_box_date_to] == nil
+      year = trip_params['date_from(1i)'].to_i
+      month = trip_params['date_from(2i)'].to_i
+      day = trip_params['date_from(3i)'].to_i - 1 #Correction due to Unix time issues
+      target_date_from = Date.new(year, month, day).to_time.to_i
+      if where_exp != ""
+        where_exp << " AND "  
+      end
+      where_exp << "t.date_to >= " << target_date_from.to_s
+    end
+
+    if params[:check_box_date_to] == "1" && params[:check_box_date_from] == nil
+      year = trip_params['date_to(1i)'].to_i
+      month = trip_params['date_to(2i)'].to_i
+      day = trip_params['date_to(3i)'].to_i
+      target_date_to = Date.new(year, month, day).to_time.to_i
+      if where_exp != ""
+        where_exp << " AND "  
+      end
+      where_exp << "t.date_from <= " << target_date_to.to_s
+    end
+
+    if params[:check_box_date_from] == "1" && params[:check_box_date_to] == "1"
+      year_from = trip_params['date_from(1i)'].to_i
+      month_from = trip_params['date_from(2i)'].to_i
+      day_from = trip_params['date_from(3i)'].to_i  - 1 #Correction due to Unix time issues
+      target_date_from = Date.new(year_from, month_from, day_from).to_time.to_i.to_s
+      year_to = trip_params['date_to(1i)'].to_i
+      month_to = trip_params['date_to(2i)'].to_i
+      day_to = trip_params['date_to(3i)'].to_i
+      target_date_to = Date.new(year_to, month_to, day_to).to_time.to_i.to_s
+      if where_exp != ""
+        where_exp << " AND "  
+      end
+      where_exp << "( t.date_to >= " << target_date_to << " AND t.date_from >= " << target_date_from << " AND t.date_from <= " << target_date_to << " OR t.date_to >= " << target_date_to << " AND t.date_from <= " << target_date_from << " OR t.date_to <= " << target_date_to << " AND t.date_from >= " << target_date_from << " OR t.date_to >= " << target_date_from << " AND t.date_to <= " << target_date_to << " AND t.date_from <= " << target_date_from << " ) "
+    end
+
+    if match_exp == "" && where_exp == ""
+      @found_trips = nil
+    else
+      @found_trips = Trip.query_as(:t).match("#{match_exp}").where("#{where_exp}").proxy_as(Trip, :t).paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc }, return: :'distinct t')
+    end
   end
 
   private
@@ -95,6 +148,8 @@ class TripsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trip_params
-      params.require(:trip).permit(:place, :country_code, :description, :date_from, :date_to, :photo)
+      params.require(:trip).permit(:place, :country_code, :description, :date_from, :date_to, :photo,
+                                   :check_box_country, :check_box_place, :check_box_date_from,
+                                   :check_box_date_to)
     end
 end

@@ -14,15 +14,21 @@
       </div>
     </aside>
     <div class="col-md-8">
-      <% if @trips %>
+      <% if @found_trips.nil? %>
+        No trip has been found. <%= link_to "Do you want to create one?", newtrip_path %> |
+        <%= link_to "View all trips", alltrips_path %>
+      <% elsif @found_trips.any? %>
         <ul class="posts">
-          <%= render @trips %>
+          <%= render @found_trips %>
         </ul>
-        <%= will_paginate @trips %>
+        <%= will_paginate @found_trips %>
+      <% else %>
+        No trip has been found. <%= link_to "Do you want to create one?", newtrip_path %> |
+        <%= link_to "View all trips", alltrips_path %>
       <% end %>
     </div>
   </div>
-</div
+</div>
 
 
 

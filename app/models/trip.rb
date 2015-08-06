@@ -1,7 +1,7 @@
 class Trip 
   include Neo4j::ActiveNode
 
-  attr_accessor :country_code 
+  attr_accessor :country_code , :check_box_country, :check_box_place, :check_box_date_from, :check_box_date_to
 
   property :place, type: String
   property :country, type: String
@@ -25,10 +25,17 @@ class Trip
   has_many :out, :trip_has_attached, model_class: CarrierwaveImage, rel_class: HasAttached, dependent: :destroy
 
   before_save { self.country = country_code_to_name }
+  before_save :capitalize_place
 
-  def country_code_to_name
-    country_name = ISO3166::Country[country_code]
-    country_name.translations[I18n.locale.to_s] || country_name.name
-  end
+  private
+
+    def country_code_to_name
+      country_name = ISO3166::Country[country_code]
+      country_name.translations[I18n.locale.to_s] || country_name.name
+    end
+
+    def capitalize_place
+      self.place = place.titleize
+    end
 
 end
