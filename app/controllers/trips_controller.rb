@@ -1,3 +1,4 @@
+require 'date'
 class TripsController < ApplicationController
   before_action :set_trip, only: [:show, :edit, :update, :destroy]
 
@@ -25,32 +26,39 @@ class TripsController < ApplicationController
   # POST /trips.json
   def create
     user = current_user
-    @trip = Trip.new(trip_params)
-    @trip.user_name = user.full_name
-    @trip.user_uuid = user.uuid
-    @trip.user_gravatar_url = user.gravatar_url 
-    @trip.user_email = user.email 
-    @CarrierwaveImage = CarrierwaveImage.create
-    respond_to do |format|
-      if @trip.save
+    if is_invalid_date
+      respond_to do |format|
+        flash[:error] = "You have selected invalid dates"
+        format.html { redirect_to newtrip_path }
+      end
+    else
+      @trip = Trip.new(trip_params)
+      @trip.user_name = user.full_name
+      @trip.user_uuid = user.uuid
+      @trip.user_gravatar_url = user.gravatar_url 
+      @trip.user_email = user.email 
+      @CarrierwaveImage = CarrierwaveImage.create
+      respond_to do |format|
+        if @trip.save
 
-        country = create_if_not_found @trip.country
-        #we have the country
-        rel1 = IsLocatedIn.new(from_node: @trip, to_node: country) 
-        rel1.save
-        rel2 = Plan.new(from_node: user, to_node: @trip)
-        rel2.save
-        rel3 = TripHasAttached.new(from_node: @trip, to_node: @CarrierwaveImage)
-        rel3.save
-        rel4 = WantsToGoTo.new(from_node: user, to_node: country)
-        rel4.save
+          country = create_if_not_found @trip.country
+          #we have the country
+          rel1 = IsLocatedIn.new(from_node: @trip, to_node: country) 
+          rel1.save
+          rel2 = Plan.new(from_node: user, to_node: @trip)
+          rel2.save
+          rel3 = TripHasAttached.new(from_node: @trip, to_node: @CarrierwaveImage)
+          rel3.save
+          rel4 = WantsToGoTo.new(from_node: user, to_node: country)
+          rel4.save
 
-        flash[:success] = "Trip was successfully created."
-        format.html { redirect_to @trip }
-        format.json { render :show, status: :created, location: @trip }
-      else
-        format.html { render :new }
-        format.json { render json: @trip.errors, status: :unprocessable_entity }
+          flash[:success] = "Trip was successfully created."
+          format.html { redirect_to @trip }
+          format.json { render :show, status: :created, location: @trip }
+        else
+          format.html { render :new }
+          format.json { render json: @trip.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -147,6 +155,48 @@ class TripsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_trip
       @trip = Trip.find(params[:id])
+    end
+
+    def is_invalid_date
+      year_from = trip_params['date_from(1i)'].to_i
+      month_from = trip_params['date_from(2i)'].to_i
+      day_from = trip_params['date_from(3i)'].to_i
+      
+      year_to = trip_params['date_to(1i)'].to_i
+      month_to = trip_params['date_to(2i)'].to_i
+      day_to = trip_params['date_to(3i)'].to_i
+
+      if !(check_date(year_from, month_from, day_from ) and (check_date(year_to, month_to, day_to)))
+        return true 
+      else
+        first_date = date_to_integer( year_from, month_from, day_from )
+        second_date = date_to_integer( year_to, month_to, day_to )
+        if !chronological_order(first_date, second_date)#if not chronological order
+          return true
+        else
+          return false
+        end
+        return false
+      end
+      #Date.valid_date?(2001,2,3)        #=> true
+      #Date.valid_date?(2001,2,29)       #=> false
+    end
+
+    def check_date(year, month, day )
+      Date.valid_date?(year,month,day)
+    end
+
+    def chronological_order( first_date, second_date )
+      diff = second_date-first_date
+      if diff < 0
+        return false
+      else
+        return true
+      end
+    end
+
+    def date_to_integer(year, month, day)
+      Date.new(year,month,day).to_time.to_i
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
