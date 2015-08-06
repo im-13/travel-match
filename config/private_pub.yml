@@ -1,0 +1,11 @@
+development:
+  server: "https://travel-match-faye-server.herokuapp.com/faye"
+  secret_token: "63539febd2cf675bb1bac2e696a2c06c03887a2894cbd46c4f0122539cabbd25"
+  signature_expiration: 3600 # one hour
+test:
+  server: "http://localhost:9292/faye"
+  secret_token: "secret"
+production:
+  server: "https://travel-match-faye-server.herokuapp.com/faye"
+  secret_token: "63539febd2cf675bb1bac2e696a2c06c03887a2894cbd46c4f0122539cabbd25"
+  signature_expiration: 3600 # one hour

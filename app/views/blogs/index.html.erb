@@ -7,15 +7,14 @@
 
   <div class="container">
     <%= link_to 'Write a New Post', new_blog_path, class: "btn btn-info text-center" %>
-      <br>
-        <small><%= will_paginate @blogs %></small>
-      <br>
+    <br>
+    <small><%= will_paginate @blogs %></small>
+    <br>
   </div>
 
-  <% @blogs.each do |blog| %>
-  
-  <div class="col-md-4">
-    <div class="thumbnail">
+<% @blogs.each do |blog| %>
+  <div class="col-md-4">
+    <div class="thumbnail">
 
       <div class="blog-container-responsive row-space-2">
         <div class="blog-content">
@@ -81,5 +80,6 @@
       </div>
     </div> 
   </div>
+<% end %>
+</div>
 
-<% end %> 

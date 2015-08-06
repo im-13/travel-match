@@ -1,0 +1,35 @@
+<% provide(:title, "Find a trip" ) %>
+<div class="container">
+  <h1>Find a trip</h1>
+  <div class="row">
+    <aside class="col-md-4"> 
+      <div class="thumbnail">
+        <div class="blog-container-responsive row-space-2">
+          <div class="blog-content">
+            <div class="panel-body">             
+              <%= render 'trips/find_form' %>    
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <div class="col-md-8">
+      <% if @found_trips.nil? %>
+        No trip has been found. <%= link_to "Do you want to plan one?", newtrip_path %> |
+        <%= link_to "View all trips", alltrips_path %>
+      <% elsif @found_trips.any? %>
+        <ul class="posts">
+          <%= render @found_trips %>
+        </ul>
+        <%= will_paginate @found_trips %>
+      <% else %>
+        No trip has been found. <%= link_to "Do you want to plan one?", newtrip_path %> |
+        <%= link_to "View all trips", alltrips_path %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+
+

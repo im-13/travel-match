@@ -8,14 +8,24 @@
   <div class="row">
     <div class="col-sm-8">
       <h1 class="pull-left"> &nbsp <%= @user.full_name %> </h1>
-      <div class="col-sm-8">  
-        <% if @user != current_user %>
-          <button type="button" class="btn btn-success">Connect</button> 
-          <button type="button" class="btn btn-info">Send me a message</button>
-        <% else %>
-          <%= link_to "Find My Match", mymatches_path, class: "btn btn-success" %>
-          <%= link_to 'Write New Post', new_blog_path, class: "btn btn-info" %>
+      <div class="row">
+      <div class="col-sm-10">  
+        <% if @user != current_user %> 
+          <% if @rel_user_followed_by_current_user %> 
+            <%= link_to "Remove from Favorites", "#", class: "btn btn-success col-sm-4 remove-favorite", "follower-id" => current_user.uuid, "following-id" => @user.uuid %>
+          <% else %>
+            <%= link_to "Add to Favorites", "#", class: "btn btn-primary col-sm-4 add-favorite", "follower-id" => current_user.uuid, "following-id" => @user.uuid %>
+          <% end %>
+          <div class="col-sm-1"></div>
+          <%= link_to "Open Chat", "#", class: "btn btn-info col-sm-4 start-conversation",
+                    "data-sid" => current_user.uuid, "data-rip" => @user.uuid %>
+        <% else %>  
+          <%= link_to "Find My Match", mymatches_path, class: "btn btn-success col-sm-3" %>
+          <div class="col-sm-1"></div>
+          <%= link_to 'Write New Post', new_blog_path, class: "btn btn-info col-sm-3" %>  
+          <%= link_to 'Edit', edit_user_path(@user) %>   
         <% end %>
+      </div>
       </div>
       <br>
     </div>
@@ -34,7 +44,6 @@
     <!--left col-->
       <ul class="list-group">
         <li class="list-group-item text-muted" contenteditable="false">Profile</li>
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span><%= @user.created_at.to_time.strftime('%B %e, %Y') %></li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Last seen</strong></span>
           <% if @user.last_seen_at %>
             <%= time_ago_in_words(@user.last_seen_at) + " ago" %>  
@@ -42,123 +51,143 @@
             N/A
           <% end %>
         </li>
-
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Location</strong></span>New York, New York</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span><%= @user.created_at.to_time.strftime('%B %e, %Y') %></li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Location</strong></span> <%= @user_country_of_residence.name %> </li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Birthday</strong></span> <%= @user.date_of_birth.to_time.strftime('%B %e, %Y') %>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Gender</strong></span> <%= @user.gender %> 
       </ul>
+
+      
       <div class="panel panel-default">
-        <div class="panel-heading">Available Days To Travel</div>
-        <div class="panel-body"><i style="color:green" class="fa fa-check-square"></i> August 1st-September 15th, 2015
-        </div>
+        <div class="panel-heading">Available to travel</div>
+          <div class="panel-body">
+            <% if @trips.any? %>
+              <% @trips.each do |trip| %>
+                <i style="color:green" class="fa fa-check-square"></i>  <%= trip.date_from.to_time.strftime('%b %e, %Y') %> - <%= trip.date_to.to_time.strftime('%b %e, %Y') %>
+                <br>
+              <% end %>
+            <% else %>
+              
+                N/A
+              
+            <% end %>
+          </div>
       </div>
+      
+
+
       <ul class="list-group">
-        <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+        <li class="list-group-item text-muted">Statistics <i class="fa fa-dashboard fa-1x"></i></li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Recommendations</strong></span> 175</li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Connections</strong></span> 500</li>
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Trips</strong></span> 50</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Trips</strong></span> <%= @trips.count %></li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Followers</strong></span> 250</li>
       </ul>    
     </div>
     <!--/col-3-->
 
     <div class="col-sm-9" style="" contenteditable="false">
+      
+
+      <div class="panel panel-default">
+        <div class="panel-heading">Blog</div>
+        <div class="panel-body"> 
+          <% if @user == current_user %>
+            <%= render 'blogs/form' %>
+          <% end %>
+          <%= render @user_blog %>
+          <small><%= will_paginate @user_blog %></small>
+        </div>
+      </div>
+
       <div class="panel panel-default" >
         <div class="panel-heading">About</div>
         <div class="panel-body"> 
           <table class="table">
 
-            <strong>Personal Details:</strong>
+            <strong> <%= @user.about_me %> </strong>
             <br>
-             <tr>
-                  <th>Date of birth: </th>
-                  <td><%= @user.date_of_birth %></td>
-              </tr>
-                  <th>Date of birth: </th>
-                  <td><%= @user.date_of_birth %></td>
-              </tr>
-
-              <tr>
-                  <th>Email: </th>
-                  <td><%= @user.email %></td>
-              </tr>
-
-              <tr>
-                  <th>Gender: </th>
-                  <% if @user.gender %>
-                    <td><%= @user.gender %></td>
-                  <% else %>
-                    <td>N/A</td>
-                  <% end %>
-              </tr>
-              <tr>
-                  <th>Nationality: </th>
-                  <td>American</td>
-              </tr>
-              <tr>
-                  <th>Spoken languages: </th>
-                  <td>English, Spanish, French</td>
-              </tr>
-              <tr>
-                  <th>Hobby: </th>
-                  <td>Singing</td>
-              </tr>
-              <tr>
-                  <th>Looking for: </th>
-                  <td>Friends, Adventure, Soulmate</td>
-              </tr>
-              <tr>
-                  <th>I live in: </th>
-                  <% if @user_country_of_residence %>
-                    <td><%= @user_country_of_residence.name %></td>
-                  <% else %>
-                    <td>N/A</td>
-                  <% end %>  
-              </tr>
-
-              <tr>
-                  <th>I visited: </th>
-                  <td># Retrieve from db</td>
-              </tr>
-              <tr>
-                  <th>I want to visit: </th>
-                  <td># Retrieve from db</td>
-              </tr>
-              <tr>
-                  <th>About me: </th>
-                  <td><%= @user.about_me %></td>
-              </tr>
-            </tbody>
+            <br>
+            <tr>
+              <th>I visited: </th>
+              <td>
+                <% @hasBeenTo.each do |country| %>
+                  <%= country.name %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <th>I want to visit: </th>
+              <td>
+                <% @wantsToGoTo.each do |country| %>
+                  <%= country.name %>
+                <% end %>
+              </td>
+            </tr>
           </table>
         </div>
-      </div> 
-
-      <div class="panel panel-default">
-        <div class="panel-heading">Blog</div>
-        <div class="panel-body">
-          <div class="col-md-4">
-            <%= render @user_blog %>
-            <small><%= will_paginate @user_blog %></small>
-          </div>
-        </div>
-      </div>       
-
+      </div>        
 
       <div class="panel panel-default target">
-        <div class="panel-heading" contenteditable="false">My default TravelMatch</div>
-        <div class="panel-body">
-          <div class="row">
-            <div class="container">
-              <div class="col-sm-11">
-                <ul class="users">
-                  <%= render @user_matches %>
-                </ul>
-                <small><%= will_paginate @user_matches %></small>
-              </div>
-            </div>
-          </div>         
-        </div> 
-      </div>
-        
+        <div class="panel-heading" contenteditable="false">Trips</div>
+          <div class="panel-body">
+            <div class="row">
 
+              <% if @trips.any? %>
+                <% @trips.each do |trip| %>
+                <div class="col-md-4">
+                  <div class="thumbnail" alt="300x200">
+                    <% if trip.photo? %>
+                      <%= link_to image_tag(trip.photo.medium.url), trip %>
+                    <% end %>
+                    <div class="caption">
+                      <h4><%= link_to trip.country, trip %></h4>
+                      <h5><%= trip.place %></h5>
+                      <p><i><%= trip.date_from.to_time.strftime('%b %e, %Y') %> - <%= trip.date_to.to_time.strftime('%b %e, %Y') %></i></p>
+                    </div>
+                    <div class="meta">
+                      <%= time_ago_in_words(trip.updated_at) + " ago"%>
+                      <% if current_user.admin? || @user == current_user %>
+                        | <%= link_to 'Edit', edit_trip_path(trip) %>
+                        | <%= link_to 'Delete', trip, method: :delete, data: { confirm: 'Are you sure you want to delete this trip?' } %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <% end %>
+              <% else %>
+                <div class="container">
+                <% if @user == current_user %>
+                  <%= link_to 'Plan a trip now!', newtrip_path %>
+                <% else %>
+                  User has not planned any trip.
+                <%end %>
+                </div>
+              <% end %>
+
+            </div>           
+          </div>             
+        </div>
+      </div>
+    <div id="push"></div>
+  </div>
+
+  <div class="panel panel-default target">
+    <div class="panel-heading" contenteditable="false">Quick TravelMatch</div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="container">
+          <div class="col-sm-11">
+            <ul class="users">
+              <%= render @user_matches %>
+            </ul>
+            <small><%= will_paginate @user_matches %></small>
+          </div>
+        </div>
+      </div>         
+    </div> 
+  </div>
+        
   <p>
     <strong>Password hash:</strong>
     <%= @user.password_hash %>

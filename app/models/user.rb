@@ -10,7 +10,6 @@ class User
                 :remember_token, :activation_token, :reset_token,
                 :country_of_residence_code, 
                 :country_visited, :country_to_visit, :asset, :gravatar_url
-
  
   property :first_name, type: String
   property :last_name, type: String
@@ -37,12 +36,15 @@ class User
   serialize :photos
 
   has_one :out, :lives_in, model_class: Country, rel_class: LivesIn
-  has_many :out, :want_to_visit, model_class: Country, rel_class: WantsToGoTo
-  has_many :out, :has_visited, model_class: Country, rel_class: HasBeenTo
+  has_many :out, :wants_to_go_to, model_class: Country, rel_class: WantsToGoTo, unique: true
+  has_many :out, :has_been_to, model_class: Country, rel_class: HasBeenTo, unique: true
   has_many :out, :is_author_of, model_class: Blog, rel_class: IsAuthorOf, dependent: :destroy
-  has_many :out, :has_viewed, model_class: User, rel_class: Viewed
-  has_many :in, :has_been_viewed, model_class: User, rel_class: ViewedBy
-
+  has_many :out, :plan, model_class: Trip, rel_class: Plan, dependent: :destroy
+  has_many :out, :People_You_Viewed, model_class: User, rel_class: Viewed
+  has_many :out, :People_You_Were_Viewed_By, model_class: User, rel_class: ViewedBy
+  has_many :out, :channel_to, model_class: Conversation, rel_class: Channel
+  has_many :out, :following, model_class: User, rel_class: Follow, dependent: :destroy, unique: true
+  #has_many :in, :following, model_class: User, rel_class: Follow, unique: true
   #mount_uploader :asset, AssetUploader
   
   before_save :downcase_email
@@ -180,7 +182,7 @@ class User
   end
 
   def get_country_visited
-    countries = self.has_visited
+    countries = self.has_been_to
     return stringify(countries)
 =begin
     ret = ""
@@ -192,7 +194,7 @@ class User
   end
 
   def get_country_to_visit
-    countries = self.want_to_visit
+    countries = self.wants_to_go_to
     return stringify( countries )
   end
 
@@ -207,6 +209,36 @@ class User
     return ret
   end 
 
+  # Follows a user.
+  def follow(other_user)
+    if !self.follows?(other_user) #if no relationship exist, create a new follows link
+      #open('myfile.out', 'a') { |f|
+      #  f.puts "in here"
+      #}
+      rel = Follow.new(from_node: self, to_node: other_user)
+      rel.follower_id = self.uuid
+      rel.followed_id = other_user.uuid
+      rel.save
+    end
+    #active_relationships.create(followed_id: other_user.id)
+  end
+
+  # Unfollows a user.
+  def unfollow(other_user)
+    rel = self.query_as(:cur_user).match('cur_user-[rel:following]->select_user').where(" select_user.uuid = '#{other_user.uuid}'").pluck(:rel).first
+    rel.destroy
+  end
+
+  # Returns true if urrent_user is following other_user.
+  def follows?(other_user)
+    rel = self.query_as(:cur_user).match('cur_user-[rel:following]->select_user').where(" select_user.uuid = '#{other_user.uuid}'").pluck(:rel).first
+    if rel.nil?
+      return false
+    else
+      return true
+    end
+  end
+
   private
 
     def create_activation_hash
@@ -219,9 +251,10 @@ class User
     end
 
     def capitalize_names
-      self.first_name.capitalize!
-      self.last_name.capitalize!
+      self.first_name = first_name.titleize
+      self.last_name = last_name.titleize
     end
+
 #  def email_uniqueness
 #    undefined method `find_by' - how to call it inside User class?
 #    user = Neo4j::ActiveNode::User.find_by(email: "#{self.email}")

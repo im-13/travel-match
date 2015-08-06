@@ -1,5 +1,6 @@
 class BlogsController < ApplicationController
-  before_action :set_blog, only: [:show, :edit, :update, :destroy, :destroy_comment]
+  before_action :set_blog, only: [:show, :edit, :update, :destroy]
+  #before_action :logged_in_user, only: [:create, :destroy]
 
   # GET /blogs
   # GET /blogs.json

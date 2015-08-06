@@ -1,0 +1,13 @@
+<% unless current_user?(@user) %>
+  <div id="follow_form">
+  <% if @rel_user_followed_by_current_user %> 
+    
+      <%= link_to "Remove from Favorites", unfollow_path(:followed_id => @user.uuid), :method => :delete, :remote => 'true', :class => "btn btn-success col-sm-4" %>
+    
+  <% else %>
+  	
+      <%= link_to "Add to Favorites", follow_path(:followed_id => @user.uuid), :method => :post, :remote => 'true', :class => "btn btn-primary col-sm-4" %>
+    
+  <% end %>
+  </div>
+<% end %>

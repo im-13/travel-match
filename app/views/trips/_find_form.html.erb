@@ -1,0 +1,35 @@
+  <%= form_for(:trip, url: findtrip_path) do |f| %>
+    <div> 
+      <div class="checkbox-inline">
+      <%= check_box_tag(:check_box_country) %>
+      <%= label_tag(:check_box_country, "Destination country") %>
+      </div>
+      <%= f.country_select :country_code, selected: "US" %>
+    </div>
+    <div> 
+      <div class="checkbox-inline">
+      <%= check_box_tag(:check_box_place) %>
+      <%= label_tag(:check_box_place, "Place") %>
+      </div>
+      <%= f.text_field :place, class: 'form-control' %>
+      <%=  %>
+    </div>
+    <div> 
+      <div class="checkbox-inline">
+      <%= check_box_tag(:check_box_date_from) %>
+      <%= label_tag(:check_box_date_from, "After") %>
+      </div>
+      <%= f.date_select :date_from, :start_year => Date.today.year %>
+    </div>
+    <div> 
+      <div class="checkbox-inline">
+      <%= check_box_tag(:check_box_date_to) %>
+      <%= label_tag(:check_box_date_to, "Before") %>
+      </div>
+      <%= f.date_select :date_to, :start_year => Date.today.year %>
+    </div>
+    <br />
+    <%= f.submit "Search", class: "btn btn-primary" %>
+    <br>
+    <br>
+  <% end %>

@@ -2,14 +2,11 @@ Rails.application.routes.draw do
 
   resources :blogs 
   resources :comments,     only: [:new, :create, :destroy]
-  
-  
-  get 'password_resets/new'
-
-  get 'password_resets/edit'
 
   root 'static_pages#home'
-  
+
+  get 'password_resets/new'
+  get 'password_resets/edit'
   get   'home'      => 'static_pages#home'
   get   'help'      => 'static_pages#help'
   get   'about'     => 'static_pages#about'
@@ -18,6 +15,7 @@ Rails.application.routes.draw do
   get   'signup'    => 'users#new'
   get   'myblog'    => 'users#show_my_blog'
   get   'index'     => 'users#index'
+  get   'messages'  => 'users#show_messages'
   get   'login'     => 'sessions#new'
   post  'login'     => 'sessions#create'
   get   'travelblog'      => 'blogs#index'
@@ -28,18 +26,33 @@ Rails.application.routes.draw do
   get   'comments' => 'comments#new'
   post  'comments' => 'comments#create'
   delete 'comments' => 'comments#destroy'
+  get   'default'   => 'matches#default'
+  get   'yourviews' => 'viewed_users#index'
+  get   'otherviews'=> 'visitors#index'
   delete 'logout'   => 'sessions#destroy'
+  post  'unfollow'  => 'follows#destroy'
+  post  'follow'    => 'follows#create'
+  get   'favorites'  => 'follows#index'
+  get   'newtrip'   => 'trips#new'
+  post  'newtrip'   => 'trips#create'
+  get   'alltrips'  => 'trips#index'
+  get   'findtrip'  => 'trips#find'
+  post  'findtrip'  => 'trips#find'
+  #post   'conversations' => 'conversations#create'
+  #get    'conversations' => 'conversations#show'
+
   resources :users
   resources :countries
   resources :account_activations, only: [:edit]
-  resources :password_resets,     only: [:new, :create, :edit, :update]
+  resources :password_resets, only: [:new, :create, :edit, :update]
+  resources :trips
   resources :carrierwave_images
   resources :documents
   resources :conversations do
-    resources :messages
+  resources :messages
   end
-  resources :follows, only: [:create, :destroy]
 
+  #resources :follows, only: [:create, :destroy]
   #resources :match
 
   # The priority is based upon order of creation: first created -> highest priority.

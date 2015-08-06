@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
 
@@ -18,8 +18,8 @@ class UsersController < ApplicationController
     @blog.user_uuid = @user.uuid
     @blog.user_gravatar_url = @user.gravatar_url 
     @blog.user_email = @user.email 
-    #@CarrierwaveImage = CarrierwaveImage.create
-
+    @rel_user_followed_by_current_user = current_user.query_as(:cur_user).match('cur_user-[rel:following]->select_user').where(" select_user.uuid = '#{@user.uuid}'").pluck(:rel).first
+    
     #if not the session user
     if !current_user?(@user)
       #establish a connection with the session user
@@ -27,7 +27,13 @@ class UsersController < ApplicationController
     end
 
     @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
-    @user_country_of_residence = @user.lives_in(:l)
+    @user_country_of_residence = @user.lives_in
+    @wantsToGoTo = @user.wants_to_go_to
+    @hasBeenTo = @user.has_been_to
+
+    @trips = @user.plan
+    #Trip.all.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc })
+
     @user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
   end
 
@@ -38,10 +44,8 @@ class UsersController < ApplicationController
     @blog.user_uuid = @user.uuid
     @blog.user_gravatar_url = @user.gravatar_url 
     @blog.user_email = @user.email 
-    @CarrierwaveImage = CarrierwaveImage.create
     @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 2, :order => { created_at: :desc }, return: :'distinct n')
   end
-
 
   # GET /users/new
   def new
@@ -83,24 +87,17 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       @user = User.find(params[:id])
-      if @user.update(user_params)
-
-        #updating country of residence
-=begin
-        country = create_if_not_found @user.country_of_residence
-        rel = LivesIn.new(from_node: @user, to_node: country)
-        rel.save
-=end        
+      if @user.update(user_params)       
         if params[:user][:country_of_residence_code]
           country_reside = @user.country_of_residence
           resideArr = country_reside.split(",")
           make_decision(@user, resideArr, 1)
         end
-
         if params[:user][:country_visited]
           #we need to accumulate the country_visited somehow
           visited = params[:user][:country_visited] 
           visitedArr = visited.split(",")
+          visitedArr = visitedArr.uniq
           if country_check(visitedArr)
             make_decision(@user, visitedArr, 2)
           else
@@ -112,6 +109,7 @@ class UsersController < ApplicationController
         if params[:user][:country_to_visit]
           tovisit = params[:user][:country_to_visit] 
           tovisitArr = tovisit.split(",")
+          tovisitArr = tovisitArr.uniq
           if country_check(tovisitArr)
             make_decision(@user, tovisitArr, 3)
           else
@@ -128,6 +126,11 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def show_messages
+    @session_user = current_user
+    @conversations = @session_user.channel_to.order(last_viewed: :desc)
   end
 
   # DELETE /users/1
@@ -156,15 +159,6 @@ class UsersController < ApplicationController
     end
 
     # Before filters
-
-    # Confirms a logged-in user.
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
 
     # Confirms the correct user.
     def correct_user

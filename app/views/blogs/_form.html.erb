@@ -41,15 +41,5 @@
         <%= image_tag f.object.photo3.url %>
       <% end %>
       </p>
-    </div>
-  
-
-    <div class="form-actions">
-      <button><%= f.button :submit, class: "btn btn-success btn-active" %></button>
-      <%= link_to "Show", @blog, class: 'btn btn-info' %> 
-      <%= link_to "Back to all posts", blogs_path, class: 'btn btn-info' %>
-      <%= link_to "Back to my profile", current_user, class: 'btn btn-info' %>
-    </div>
-    
-  <% end %>
-</div>
+    </div>    
+<% end %>
