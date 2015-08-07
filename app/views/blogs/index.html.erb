@@ -9,7 +9,6 @@
     <%= link_to 'Write a New Post', new_blog_path, class: "btn btn-info text-center" %>
     <br>
     <small><%= will_paginate @blogs %></small>
-    <br>
   </div>
 
 <% @blogs.each do |blog| %>
