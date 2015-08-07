@@ -39,7 +39,6 @@ class TripsController < ApplicationController
         if @trip.save
 
           country = create_if_not_found @trip.country
-          #we have the country
           rel1 = IsLocatedIn.new(from_node: @trip, to_node: country) 
           rel1.save
           rel2 = Plan.new(from_node: user, to_node: @trip)

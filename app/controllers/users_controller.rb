@@ -18,8 +18,13 @@ class UsersController < ApplicationController
     @blog.user_uuid = @user.uuid
     @blog.user_gravatar_url = @user.gravatar_url 
     @blog.user_email = @user.email 
-    @rel_user_followed_by_current_user = current_user.query_as(:cur_user).match('cur_user-[rel:following]->select_user').where(" select_user.uuid = '#{@user.uuid}'").pluck(:rel).first
     
+    @rel_user_followed_by_current_user = current_user.query_as(:cur_user).match('cur_user-[rel:following]->select_user').where(" select_user.uuid = '#{@user.uuid}'").pluck(:rel).first
+    @favorite = @user.query_as(:user).match("(user:User)-[rel:following]->(m:User)").where("user.uuid = '#{@user.uuid}'").order('rel.created_at DESC').return(:m).proxy_as(User, :m)
+    @fav_count = @favorite.length
+
+    @visitors = @user.query_as(:user).match("(user:User)-[rel:People_You_Were_Viewed_By]->(m:User)").where("user.uuid = '#{@user.uuid}'").order('rel.time_viewed DESC').return(:m).proxy_as(User, :m)
+    @vis_count = @visitors.length
     #if not the session user
     if !current_user?(@user)
       #establish a connection with the session user
@@ -32,6 +37,7 @@ class UsersController < ApplicationController
     @hasBeenTo = @user.has_been_to
 
     @trips = @user.plan
+    @trips_count = @trips.length
     #Trip.all.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc })
 
     @user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')

@@ -112,20 +112,20 @@ class MatchesController < ApplicationController
       end
 
       if return_call #this means that one of the visited or wants to visit match has been called
-        @matches = User.query_as(:users).match(user2: User).match("#{nonjoin_match_exp}").where("#{nonjoin_where_exp}").with(:user2, strength: 'count(user2)').order('strength DESC').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page: 10, return: :'distinct user2')
+        @matches = User.query_as(:users).match(user2: User).match("#{nonjoin_match_exp}").where("#{nonjoin_where_exp}").with(:user2, strength: 'count(user2)').order('strength DESC').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page: 2, return: :'distinct user2')
         non_default = true
       elsif residence_select
-        @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, return: :'distinct users')
+        @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 2, return: :'distinct users')
         non_default = true
       elsif gender_select
-        @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
+        @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 2, order: :first_name, return: :'distinct users')
         non_default = true
       end
 
       #if not non default === (double negative) ---> if is default
       if !non_default
         if age_select
-          @matches = User.as(:users).where("users.name <> '#{username}'").paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
+          @matches = User.as(:users).where("users.name <> '#{username}'").paginate(page: 1, per_page: 2, order: :first_name, return: :'distinct users')
           @matches = reduce_by_age(@matches, min_age, max_age)
         else
           @matches = default_match
@@ -158,7 +158,7 @@ class MatchesController < ApplicationController
       array_string = get_name_list( user_wish_list )
       match_exp = "(user)-[:lives_in]->(country:Country)<-[lives_in]-(user2),(user2)-[:wants_to_go_to]->(wish_list:Country) "
       where_exp = "country.name = '#{target_country.name}' AND wish_list.name IN #{array_string} AND user2.email <> '#{username}'"
-      @matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").with(:user2, strength: 'count(user2)').order('strength DESC').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page: 10, return: :'distinct user2')
+      @matches = User.query_as(:users).match(user2: User).match("#{match_exp}").where("#{where_exp}").with(:user2, strength: 'count(user2)').order('strength DESC').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page: 2, return: :'distinct user2')
       if @matches.length < 20 #two page minimum
         return @matches = default_back_up( @matches, user )
       else
@@ -192,11 +192,11 @@ class MatchesController < ApplicationController
 
     where_exp = "users.email <> '#{username}'"
     if current_results.length < 10
-      default = User.query_as(:users).where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, return: :'distinct users')
+      default = User.query_as(:users).where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 2, return: :'distinct users')
       return default
     else
       where_exp << "AND users.uuid IN #{id_list}"
-      join_match = User.query_as(:users).where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, return: :'distinct users')
+      join_match = User.query_as(:users).where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 2, return: :'distinct users')
       return join_match
     end
   end

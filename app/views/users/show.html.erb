@@ -22,8 +22,7 @@
         <% else %>  
           <%= link_to "Find My Match", mymatches_path, class: "btn btn-success col-sm-3" %>
           <div class="col-sm-1"></div>
-          <%= link_to 'Write New Post', new_blog_path, class: "btn btn-info col-sm-3" %>  
-          <%= link_to 'Edit', edit_user_path(@user) %>   
+          <%= link_to 'Write New Post', new_blog_path, class: "btn btn-info col-sm-3" %>     
         <% end %>
       </div>
       </div>
@@ -54,7 +53,12 @@
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span><%= @user.created_at.to_time.strftime('%B %e, %Y') %></li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Location</strong></span> <%= @user_country_of_residence.name %> </li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Birthday</strong></span> <%= @user.date_of_birth.to_time.strftime('%B %e, %Y') %>
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Gender</strong></span> <%= @user.gender %> 
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Gender</strong></span> 
+        <% if @user.gender == 'female' %> 
+          <i class="fa fa-female"></i> female
+        <% else %> 
+          <i class="fa fa-male"></i> male
+        <% end %>
       </ul>
 
       
@@ -63,7 +67,7 @@
           <div class="panel-body">
             <% if @trips.any? %>
               <% @trips.each do |trip| %>
-                <i style="color:green" class="fa fa-check-square"></i>  <%= trip.date_from.to_time.strftime('%b %e, %Y') %> - <%= trip.date_to.to_time.strftime('%b %e, %Y') %>
+                <i><span class="glyphicon glyphicon-check"></span></i>  <%= trip.date_from.to_time.strftime('%b %e, %Y') %> - <%= trip.date_to.to_time.strftime('%b %e, %Y') %>
                 <br>
               <% end %>
             <% else %>
@@ -74,14 +78,11 @@
           </div>
       </div>
       
-
-
       <ul class="list-group">
         <li class="list-group-item text-muted">Statistics <i class="fa fa-dashboard fa-1x"></i></li>
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Recommendations</strong></span> 175</li>
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Connections</strong></span> 500</li>
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Trips</strong></span> <%= @trips.count %></li>
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Followers</strong></span> 250</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Trips</strong></span> <%= @trips_count %></li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Favorite</strong></span> <%= @fav_count %></li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Viewed by</strong></span> <%= @vis_count %></li>
       </ul>    
     </div>
     <!--/col-3-->
@@ -93,7 +94,38 @@
         <div class="panel-heading">Blog</div>
         <div class="panel-body"> 
           <% if @user == current_user %>
-            <%= render 'blogs/form' %>
+            <%= simple_form_for(@blog) do |f| %>
+              <% if @blog.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
+
+                  <ul>
+                    <% @blog.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
+              <div class="form-group">
+                <%= f.text_area :content, placeholder: "What's on your mind?", rows: "2", class: 'form-control' %>
+                <div class="row">
+                  <div class="col-md-8">
+                    <p>
+                      <%= f.file_field :photo, as: :file, class: 'form-control' %>
+                    </p>
+
+                    <% if f.object.photo? %>
+                      <p>
+                      <%= image_tag f.object.photo.url %>
+                      </p>
+                    <% end %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= f.submit "Post", class: "btn btn-primary" %> 
+                  </div>
+                </div>
+              </div>  
+            <% end %>
           <% end %>
           <%= render @user_blog %>
           <small><%= will_paginate @user_blog %></small>
@@ -104,23 +136,50 @@
         <div class="panel-heading">About</div>
         <div class="panel-body"> 
           <table class="table">
-
-            <strong> <%= @user.about_me %> </strong>
-            <br>
-            <br>
-            <tr>
+            <% if @user.about_me.nil? || @user.about_me.empty? %>
+              <% if @user == current_user %>
+                <%= link_to "Add your bio now!", edit_user_path(@user) %>
+                <br>
+                <br>
+              <% else %>
+                N/A
+                <br>
+                <br>
+              <% end %>
+            <% else %> 
+               <%= @user.about_me %> 
+              <br>
+              <br>
+            <% end %>
+              <tr>
               <th>I visited: </th>
               <td>
-                <% @hasBeenTo.each do |country| %>
-                  <%= country.name %>
+                <% if @hasBeenTo.any? %>
+                  <% @hasBeenTo.each do |country| %>
+                    <i><span class="glyphicon glyphicon-plane"></span></i><%= country.name %>
+                  <% end %>
+                <% else %>
+                  <% if @user == current_user %>
+                    <%= link_to "Add countries you visited now!", edit_user_path(@user) %> 
+                  <% else %>
+                    N/A
+                  <% end %>
                 <% end %>
               </td>
             </tr>
             <tr>
               <th>I want to visit: </th>
               <td>
-                <% @wantsToGoTo.each do |country| %>
-                  <%= country.name %>
+                <% if @wantsToGoTo.any? %>
+                  <% @wantsToGoTo.each do |country| %>
+                    <i><span class="glyphicon glyphicon-plane"></i><%= country.name %>
+                  <% end %>
+                <% else %>
+                  <% if @user == current_user %>
+                    <%= link_to "Add countries you want to visit now!", edit_user_path(@user) %> 
+                  <% else %>
+                    N/A
+                  <% end %>
                 <% end %>
               </td>
             </tr>
@@ -141,9 +200,8 @@
                       <%= link_to image_tag(trip.photo.medium.url), trip %>
                     <% end %>
                     <div class="caption">
-                      <h4><%= link_to trip.country, trip %></h4>
-                      <h5><%= trip.place %></h5>
-                      <p><i><%= trip.date_from.to_time.strftime('%b %e, %Y') %> - <%= trip.date_to.to_time.strftime('%b %e, %Y') %></i></p>
+                      <p><%= link_to trip.country+", "+trip.place, trip %></p>
+                      <i><%= trip.date_from.to_time.strftime('%b %e, %Y') %> - <%= trip.date_to.to_time.strftime('%b %e, %Y') %></i>
                     </div>
                     <div class="meta">
                       <%= time_ago_in_words(trip.updated_at) + " ago"%>
