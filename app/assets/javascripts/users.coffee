@@ -98,9 +98,9 @@ ready = ->
         alert 'Profile Edited Successfully'
         return
       error: (xhr, err) ->
-        alert 'Profile'
+        alert 'Profile Edit Unsuccessfully'
         return false
-
+    return
 
   ###*
   # When a conversation link is clicked show up the respective
