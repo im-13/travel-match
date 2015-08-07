@@ -39,8 +39,8 @@ class UsersController < ApplicationController
     @trips = @user.plan
     @trips_count = @trips.length
     #Trip.all.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc })
-    @user_matches = default_match.paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
-    #@user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
+    @user_matches = default_match
+    #@user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 2, order: :first_name, return: :'distinct n')
   end
 
   def show_my_blog

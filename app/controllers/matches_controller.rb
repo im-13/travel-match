@@ -11,7 +11,7 @@ class MatchesController < ApplicationController
   end
 
   #selective match
-  def create
+  def selective_match
     user = current_user
     if !user.nil?
       return_call = false
@@ -138,14 +138,12 @@ class MatchesController < ApplicationController
           @matches = reduce_by_age(@matches, min_age, max_age)
         end
       end
-
-      render 'index'
+      
     end
   end
 
-  def default
+  def quick_match
     @matches = default_match
-    render 'index'
   end
 
 end

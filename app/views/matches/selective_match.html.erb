@@ -1,10 +1,10 @@
-<% provide(:title, 'Your TravelMatch') %>
+<% provide(:title, 'Your Travel Match') %>
 <div class="container">
-	<h1>Your TravelMatch</h1>
+	<h1>Your Travel Match</h1>
 	<div class="row">
 	    <aside class="col-md-2"></aside>        
 		<div class="container col-sm-8">
-			<%= will_paginate @users %>
+			<%= will_paginate @matches %>
 			<br>
 			<br>
 			<br>
@@ -25,7 +25,7 @@
       				</div>         
     			</div>
 			</div>
-			<%= will_paginate @users %>
+			<%= will_paginate @matches %>
 		</div>
 	</div>
 </div>

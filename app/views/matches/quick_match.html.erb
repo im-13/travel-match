@@ -1,10 +1,10 @@
-<% provide(:title, 'Whom you have recently viewed?') %>
+<% provide(:title, 'Quick Travel Match') %>
 <div class="container">
-	<h1>Whom you have recently viewed?</h1>
+	<h1>Quick Travel Match</h1>
 	<div class="row">
 	    <aside class="col-md-2"></aside>        
 		<div class="container col-sm-8">
-			<%= will_paginate @viewed_users %>
+			<%= will_paginate @matches %>
 			<br>
 			<br>
 			<br>
@@ -14,10 +14,10 @@
 				        <div class="container">
 				            <div class="col-sm-7">
 								<ul class="users">
-								  	<% if @viewed_users.any? %>
-							  			<%= render @viewed_users %>
+	  								<% if @matches.any? %>
+							  			<%= render @matches %>
 							  		<% else %>
-							  			<div align="center">You haven't viewed any users yet. <%= link_to "Explore Travel Match!", users_path %></div>
+							  			<div align="center">No Travel Match was found. <%= link_to "Modify your search criteria", mymatches_path %> or <%= link_to "add more info to your Profile!", edit_user_path(current_user) %></div> 
 							  		<% end %>
 								</ul>	
 						 	</div>
@@ -25,7 +25,8 @@
       				</div>         
     			</div>
 			</div>
-			<%= will_paginate @viewed_users %>
+			<%= will_paginate @matches %>
 		</div>
 	</div>
 </div>
+
