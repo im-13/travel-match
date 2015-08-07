@@ -23,6 +23,7 @@
               <% cur = User.find_by(email: blog.user_email) %>
               <div class="col-sm-3 text-center row-space-2"> 
                 <a class="media-photo media-round row-space-1 text-center"> <img class="lazy" style-"display: inline;" >
+                <br>
                 <% if cur.avatar? %>
                   <img class="img-circle"<%= image_tag cur.avatar.small.url %></a>
                 <% else %>
@@ -61,17 +62,18 @@
                 <!--h2> @blog.comments.count </h2-->
                 <!--%= render 'blogs/comments' %-->
 
-                <hr>
+                
 
                 <div class="meta">
+                  <small>
+                  <hr>
                   <%= link_to time_ago_in_words(blog.created_at) + " ago", blog %>
                   <% if cur.admin? || cur == current_user %>
-                    | <%= link_to edit_blog_path(blog) do %><span class="glyphicon glyphicon-pencil"></span> Edit
-                      <% end %>
-                    | <%= link_to blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } do %><span class="glyphicon glyphicon-trash"></span> Delete
-                      <% end %>
+                    | <%= link_to edit_blog_path(blog) do %><span class="glyphicon glyphicon-pencil"></span> Edit <% end %>
+                    | <%= link_to blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %>
                   <% end %>
                   | <%= link_to blog do %><span class="glyphicon glyphicon-comment"></span> <%= blog.count_comments.to_i %> Comment <% end %>  
+                </small>
                 </div>
               </div>
             </div>
