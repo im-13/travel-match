@@ -39,8 +39,8 @@ class UsersController < ApplicationController
     @trips = @user.plan
     @trips_count = @trips.length
     #Trip.all.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc })
-
-    @user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
+    @user_matches = default_match.paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
+    #@user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
   end
 
   def show_my_blog
@@ -128,6 +128,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
       else
+        flash[:error] = "Profile was not updated due to invalid form."
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
