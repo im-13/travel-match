@@ -1,8 +1,8 @@
-<% provide(:title, "Find a trip" ) %>
+<% provide(:title, "My trips" ) %>
 <div class="container">
   <br>
   <br>
-  <h1>Find a trip</h1>
+  <h1>My trips</h1>
   <br>
   
   <div class="row">
@@ -11,23 +11,23 @@
         <div class="blog-container-responsive row-space-2">
           <div class="blog-content">
             <div class="panel-body">             
-              <%= render 'trips/find_form' %>    
+              <%= render 'trips/form' %>    
             </div>
           </div>
         </div>
       </div>
     </aside>
     <div class="col-md-8">
-      <% if @found_trips.nil? %>
-        No trip has been found. <%= link_to "Do you want to plan one?", newtrip_path %> |
+      <% if @user_trips.nil? %>
+        You have not posted any trips. |
         <%= link_to "View all trips", alltrips_path %>
-      <% elsif @found_trips.any? %>
+      <% elsif @user_trips.any? %>
         <ul class="posts">
-          <%= render @found_trips %>
+          <%= render @user_trips %>
         </ul>
-        <%= will_paginate @found_trips %>
+        <%= will_paginate @user_trips %>
       <% else %>
-        No trip has been found. <%= link_to "Do you want to plan one?", newtrip_path %> |
+        You have not posted any trips. |
         <%= link_to "View all trips", alltrips_path %>
       <% end %>
     </div>

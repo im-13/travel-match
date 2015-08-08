@@ -1,32 +1,29 @@
 <% provide(:title, 'Quick Travel Match') %>
 <div class="container">
+	<br>
+	<br>
 	<h1>Quick Travel Match</h1>
+	
 	<div class="row">
-	    <aside class="col-md-2"></aside>        
-		<div class="container col-sm-8">
-			<%= will_paginate @matches %>
-			<br>
-			<br>
-			<br>
-  			<div class="panel panel-default target">
-				<div class="panel-body">
-			      	<div class="row">
-				        <div class="container">
-				            <div class="col-sm-7">
-								<ul class="users">
-	  								<% if @matches.any? %>
-							  			<%= render @matches %>
-							  		<% else %>
-							  			<div align="center">No Travel Match was found. <%= link_to "Modify your search criteria", mymatches_path %> or <%= link_to "add more info to your Profile!", edit_user_path(current_user) %></div> 
-							  		<% end %>
-								</ul>	
-						 	</div>
-				        </div>
-      				</div>         
-    			</div>
-			</div>
-			<%= will_paginate @matches %>
+	    <aside class="col-md-2">
+	    </aside>
+	    <div class="col-md-8" >
+	    	<% if !@matches.any? %>
+	    		<div align="center">No Travel Match was found.</div>
+	    		<div align="center"><%= link_to "Personalize your search criteria", mymatches_path %> or <%= link_to "add more info to your Profile!", edit_user_path(current_user) %></div>
+	    	<% else %>
+		    	<%= link_to "Personalize your search criteria now!", mymatches_path %>
+				<%= will_paginate @matches %>
+			
+				<br>
+				<br>
+				<br>
+
+	    		<%= render @matches %>
+	    		<%= will_paginate @matches %>
+	    	<% end %>
 		</div>
 	</div>
+
 </div>
 

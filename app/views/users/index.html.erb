@@ -1,34 +1,28 @@
 <% provide(:title, 'All users') %>
 <div class="container">
-	<h1>All users</h1>
+	<br>
+	<br>
+	<h1>All users</h1>    
+
     <div class="row">
-	    <aside class="col-md-2"></aside>        
-		<div class="container col-sm-8">
-			<%= will_paginate @users %>
-			<% if @users.length > 10 %>
+	    <aside class="col-md-2">
+	    </aside>
+	    <div class="col-md-8" >
+	    	<% if !@users.any? %>
+	    		<div align="center">Sorry, no one is using Travel Match :(</div>
+	    	<% else %>
+		    	<%= link_to "Find people similar to you now!", default_path %>
+				<%= will_paginate @users %>
+			
 				<br>
 				<br>
 				<br>
-			<% end %>
-  			<div class="panel panel-default target">
-				<div class="panel-body">
-			      	<div class="row">
-				        <div class="container">
-				            <div class="col-sm-7">
-								<ul class="users">
-								    <% if @users.any? %>
-							  			<%= render @users %>
-							  		<% else %>
-							  			<div align="center">Sorry, there are no users of Travel Match.</div>
-							  		<% end %>
-								</ul>	
-						 	</div>
-				        </div>
-      				</div>         
-    			</div>
-			</div>
-			<%= will_paginate @users %>
+
+	    		<%= render @users %>
+	    		<%= will_paginate @users %>
+	  		<% end %>
 		</div>
 	</div>
+
 </div>
 

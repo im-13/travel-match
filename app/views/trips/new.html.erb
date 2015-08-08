@@ -1,17 +1,28 @@
 <% provide(:title, 'Plan a trip') %>
 <div class="container">
+	<br>
+	<br>
 	<h1>Plan a trip</h1>
+	<br>
 
 	<div class="row">
 	  	<div class="col-md-6 col-md-offset-3">
-			<%= render 'trips/form' %>
-			<br>
-	    	<div class="meta">
-				<small>
-				    <%= link_to current_user do %><span class="glyphicon glyphicon-user"></span> Back to my profile <% end %> |
-				    <%= link_to trips_path do %><span class="glyphicon glyphicon-plane"></span> Back to all trips <% end %> 
-				</small>
-			</div>
+	      <div class="thumbnail">
+	        <div class="blog-container-responsive row-space-2">
+	          <div class="blog-content">
+	            <div class="panel-body">
+					<%= render 'trips/form' %>
+					<br>
+			    	<div class="meta">
+						<small>
+						    <%= link_to current_user do %><span class="glyphicon glyphicon-user"></span> Back to my profile <% end %> |
+						    <%= link_to trips_path do %><span class="glyphicon glyphicon-plane"></span> Back to all trips <% end %> 
+						</small>
+					</div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
 	  	</div>
 	</div>
 </div>

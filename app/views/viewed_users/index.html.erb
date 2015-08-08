@@ -1,33 +1,27 @@
 <% provide(:title, 'Whom you have recently viewed?') %>
 <div class="container">
+	<br>
+	<br>
 	<h1>Whom you have recently viewed?</h1>
+	
 	<div class="row">
-	    <aside class="col-md-2"></aside>        
-		<div class="container col-sm-8">
-			<%= will_paginate @viewed_users %>
-			<% if @viewed_users.length > 10 %>
+	    <aside class="col-md-2">
+	    </aside>
+	    <div class="col-md-8" >
+	    	<% if !@viewed_users.any? %>
+	    		<div align="center">You haven't viewed any users yet. <%= link_to "Browse Travel Match users!", users_path %></div>
+	    	<% else %>
+		    	<%= link_to "Browse Travel Match users now!", users_path %>
+				<%= will_paginate @viewed_users %>
+			
 				<br>
 				<br>
 				<br>
-			<% end %>
-  			<div class="panel panel-default target">
-				<div class="panel-body">
-			      	<div class="row">
-				        <div class="container">
-				            <div class="col-sm-7">
-								<ul class="users">
-								  	<% if @viewed_users.any? %>
-							  			<%= render @viewed_users %>
-							  		<% else %>
-							  			<div align="center">You haven't viewed any users yet. <%= link_to "Explore Travel Match!", users_path %></div>
-							  		<% end %>
-								</ul>	
-						 	</div>
-				        </div>
-      				</div>         
-    			</div>
-			</div>
-			<%= will_paginate @viewed_users %>
+
+	    		<%= render @viewed_users %>
+	    		<%= will_paginate @viewed_users %>
+	    	<% end %>
 		</div>
 	</div>
+	
 </div>

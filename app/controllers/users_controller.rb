@@ -49,7 +49,14 @@ class UsersController < ApplicationController
     @blog.user_uuid = @user.uuid
     @blog.user_gravatar_url = @user.gravatar_url 
     @blog.user_email = @user.email 
-    @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 2, :order => { created_at: :desc }, return: :'distinct n')
+    @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
+  end
+
+  def show_my_trips
+    @user = current_user
+    @trip = Trip.new
+    @trip.user_uuid = @user.uuid 
+    @user_trips = Trip.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Trip, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
   end
 
   # GET /users/new

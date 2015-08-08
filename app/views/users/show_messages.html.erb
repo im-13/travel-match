@@ -1,9 +1,12 @@
 <% provide(:title, 'All conversations') %>
 <div class="container">
+  <br>
+  <br>
   <h1>All conversations</h1>
 
   <div class="row">
     <% if @conversations.any? %>
+      <br>
       <% @conversations.each do |conversation| %>
       <div class="col-md-4">
         <div class="thumbnail">
