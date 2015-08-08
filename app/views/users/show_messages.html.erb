@@ -1,25 +1,48 @@
-<h3>Conversations</h3>
-<div style="height: 400px; overflow-y: auto;">
-  <% if @conversations.any? %>
-      <ul class="media-list">
-        <% @conversations.each do |conversation| %>
-            <li class="media">
-              <% if conversation.get_other(@session_user.uuid, conversation).avatar? %>
-                <%= image_tag("#{conversation.get_other(@session_user.uuid, conversation).avatar.thumb.url}", class: "media-object pull-left") %>
-              <% else %>
-                <%= image_tag("#{conversation.get_other(@session_user.uuid, conversation).gravatar_url}", class: "media-object pull-left") %>
-              <% end %>
-              <div class="media-body">
-                <%= link_to "chat", conversation_path(conversation), class: "conversation", "data-cid" => conversation.uuid %>
-                    <h4 class="media-heading"><%= conversation.get_other(@session_user.uuid, conversation).full_name %></h4>
-                    <p><%= conversation.get_messages.last.nil? ? "No messages" : truncate(conversation.get_messages.last.body, length: 45) %></p>
-              </div>
-            </li>
+<% provide(:title, 'All conversations') %>
+<div class="container">
+  <h1>All conversations</h1>
 
-        <% end %>
-      </ul>
-  <% else %>
-      <p>You have no conversations. Click send message with any user to create one.</p>
-  <% end %>
-</div>
+  <div class="row">
+    <% if @conversations.any? %>
+      <% @conversations.each do |conversation| %>
+      <div class="col-md-4">
+        <div class="thumbnail">
+
+          <div class="col-sm-4 text-center">
+            <a class="media-photo media-round row-space-1 text-center"> <img class="lazy" style-"display: inline;" >
+            <% if conversation.get_other(@session_user.uuid, conversation).avatar? %>
+              <img class="img-circle"<%= image_tag("#{conversation.get_other(@session_user.uuid, conversation).avatar.thumb.url}") %></a>
+            <% else %>
+              <img class="img-circle"<%= image_tag("#{conversation.get_other(@session_user.uuid, conversation).gravatar_url}") %></a>
+            <% end %>
+          </div>
+
+          <div class="media-body">
+            <br>
+            <h4 class="media-heading"><%= link_to conversation.get_other(@session_user.uuid, conversation).full_name, conversation.get_other(@session_user.uuid, conversation) %></h4>
+            <br>
+            <p><%= conversation.get_messages.last.nil? ? "No messages" : truncate(conversation.get_messages.last.body, length: 25) %></p>
+            
+            <div class="meta">
+              <small>
+              <%= link_to "Open chat", conversation_path(conversation), class: "conversation", "data-cid" => conversation.uuid %>
+              | <%= link_to conversation, method: :delete, data: { confirm: 'Are you sure you want to delete this conversation' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %>
+              <br>
+              <br>
+              </small>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <% end %>
+    <% else %>
+      <div class="container">
+        <div align="center">You haven't talked to any user yet. <%= link_to "Explore Travel Match!", users_path %></div>
+      </div>
+    <% end %>
+  </div>     
+
+</div>             
+
 
