@@ -127,7 +127,11 @@
               </div>  
             <% end %>
           <% end %>
-          <%= render @user_blog %>
+          <% if @user_blog.any? %>
+            <%= render @user_blog %>
+          <% else %>
+            User has not posted to the blog.
+          <% end %>
           <small><%= will_paginate @user_blog %></small>
         </div>
       </div>
