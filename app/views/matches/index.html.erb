@@ -1,10 +1,32 @@
-<% provide(:title, 'Your TravelMatch') %>
+<% provide(:title, 'Your Travel Match') %>
 <div class="container">
-	<h1>Your TravelMatch</h1>
-	<%= will_paginate @matches %>
-	<ul class="users">
-	  <%= render @matches %>
-	</ul>	
-	<%= will_paginate @matches %>
+	<h1>Your Travel Match</h1>
+	<div class="row">
+	    <aside class="col-md-2"></aside>        
+		<div class="container col-sm-8">
+			
+			<br>
+			<br>
+			<br>
+  			<div class="panel panel-default target">
+				<div class="panel-body">
+			      	<div class="row">
+				        <div class="container">
+				            <div class="col-sm-7">
+								<ul class="users">
+	  								<% if @matches.any? %>
+							  			<%= render @matches %>
+							  		<% else %>
+							  			<div align="center">No Travel Match was found. <%= link_to "Modify your search criteria", mymatches_path %> or <%= link_to "add more info to your Profile!", edit_user_path(current_user) %></div> 
+							  		<% end %>
+								</ul>	
+						 	</div>
+				        </div>
+      				</div>         
+    			</div>
+			</div>
+			
+		</div>
+	</div>
 </div>
 

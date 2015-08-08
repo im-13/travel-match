@@ -11,7 +11,7 @@ class MatchesController < ApplicationController
   end
 
   #selective match
-  def create
+  def selective_match
     user = current_user
     if !user.nil?
       return_call = false
@@ -112,20 +112,20 @@ class MatchesController < ApplicationController
       end
 
       if return_call #this means that one of the visited or wants to visit match has been called
-        @matches = User.query_as(:users).match(user2: User).match("#{nonjoin_match_exp}").where("#{nonjoin_where_exp}").with(:user2, strength: 'count(user2)').order('strength DESC').return(:user2).proxy_as(User, :user2).paginate(page: 1, per_page: 10, return: :'distinct user2')
+        @matches = User.query_as(:users).match(user2: User).match("#{nonjoin_match_exp}").where("#{nonjoin_where_exp}").with(:user2, strength: 'count(user2)').order('strength DESC').return(:user2).proxy_as(User, :user2).paginate(:page => params[:page], per_page: 10, return: :'distinct user2')
         non_default = true
       elsif residence_select
-        @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, return: :'distinct users')
+        @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(:page => params[:page], per_page: 10, return: :'distinct users')
         non_default = true
       elsif gender_select
-        @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
+        @matches = User.query_as(:users).match("#{match_exp}").where("#{where_exp}").proxy_as(User, :users).paginate(:page => params[:page], per_page: 10, return: :'distinct users')
         non_default = true
       end
 
       #if not non default === (double negative) ---> if is default
       if !non_default
         if age_select
-          @matches = User.as(:users).where("users.name <> '#{username}'").paginate(page: 1, per_page: 10, order: :first_name, return: :'distinct users')
+          @matches = User.as(:users).where("users.name <> '#{username}'").paginate(:page => params[:page], per_page: 10, return: :'distinct users')
           @matches = reduce_by_age(@matches, min_age, max_age)
         else
           @matches = default_match
@@ -138,14 +138,12 @@ class MatchesController < ApplicationController
           @matches = reduce_by_age(@matches, min_age, max_age)
         end
       end
-
       render 'index'
     end
   end
 
-  def default
+  def quick_match
     @matches = default_match
-    render 'index'
   end
 
 end

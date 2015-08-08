@@ -18,6 +18,7 @@
                     :start_year => Date.today.year %>
 
   <%= f.file_field :photo, as: :file, class: 'form-control' %>
+  
   <% if f.object.photo? %>
     <%= image_tag f.object.photo.url %>
   <% end %>

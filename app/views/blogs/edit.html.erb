@@ -1,66 +1,70 @@
 <% provide(:title, "Edit Post") %>
 <div class="container">
-  <h1>Edit Post</h1>
+  	<h1>Edit Post</h1>
 
 	<div class="row">
       <div class="col-md-6 col-md-offset-3">
 
-      <%= simple_form_for(@blog, html: { class: 'form-horizontal' }) do |f| %>
-	    <% if @blog.errors.any? %>
-	      <div id="error_explanation">
-	        <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
+      	<%= simple_form_for(@blog, html: { class: 'form-horizontal' }) do |f| %>
+		    <% if @blog.errors.any? %>
+		      <div id="error_explanation">
+		        <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
 
-	        <ul>
-	          <% @blog.errors.full_messages.each do |message| %>
-	          <li><%= message %></li>
-	        <% end %>
-	        </ul>
-	      </div>
-	    <% end %>
+		        <ul>
+		          <% @blog.errors.full_messages.each do |message| %>
+		          <li><%= message %></li>
+		        <% end %>
+		        </ul>
+		      </div>
+		    <% end %>
 
-	    <%= f.label :title %>
-	    <%= f.text_area :title %>
+		    <%= f.label :title %>
+		    <%= f.text_area :title %>
 
-	    <%= f.label :content %>
-		<%= f.text_area :content, { rows: "15", class: 'input-xlarge'} %>
-        <%= f.file_field :photo, as: :file %>
-        <%= f.file_field :photo2, as: :file %>
-        <%= f.file_field :photo3, as: :file %>
+		    <%= f.label :content %>
+			<%= f.text_area :content, { rows: "15", class: 'input-xlarge'} %>
+	        <%= f.file_field :photo, as: :file %>
+	        <%= f.file_field :photo2, as: :file %>
+	        <%= f.file_field :photo3, as: :file %>
 
-		<% if @blog.photo? %>
-			<p>
-			<%= image_tag @blog.photo.medium.url %>
-        	</p>
-	        <br />
-	        <%= f.label :remove_photo %>
-	        <%= f.check_box :remove_photo %>   
-		<% end %>
+			<% if @blog.photo? %>
+				<p>
+				<%= image_tag @blog.photo.medium.url %>
+	        	</p>
+		        <br />
+		        <%= f.label :remove_photo %>
+		        <%= f.check_box :remove_photo %>   
+			<% end %>
 
-		<% if @blog.photo2? %>
-			<p>
-			<%= image_tag @blog.photo2.medium.url %>
-        	</p>
-	        <br />
-	        <%= f.label :remove_photo2 %>
-	        <%= f.check_box :remove_photo2 %>   
-		<% end %>
+			<% if @blog.photo2? %>
+				<p>
+				<%= image_tag @blog.photo2.medium.url %>
+	        	</p>
+		        <br />
+		        <%= f.label :remove_photo2 %>
+		        <%= f.check_box :remove_photo2 %>   
+			<% end %>
 
-		<% if @blog.photo3? %>
-			<p>
-			<%= image_tag @blog.photo3.medium.url %>
-        	</p>
-	        <br />
-	        <%= f.label :remove_photo3 %>
-	        <%= f.check_box :remove_photo3 %>   
-		<% end %>
+			<% if @blog.photo3? %>
+				<p>
+				<%= image_tag @blog.photo3.medium.url %>
+	        	</p>
+		        <br />
+		        <%= f.label :remove_photo3 %>
+		        <%= f.check_box :remove_photo3 %>   
+			<% end %>
 
-		<div class="form-actions">
-			<button type="button"><%= f.submit "Edit my post", class: "btn btn-success " %></button>
-	      	<%= link_to "Show My Post", @blog, class: 'btn btn-info' %> 
-	      	<%= link_to "Back To All Posts", blogs_path, class: 'btn btn-info' %>
-	      	<%= link_to "Back To My Profile", current_user, class: 'btn btn-info' %>
-	      	<a href="#" class="btn btn-info btn-large"><i class="glyphicon glyphicon-trash"></i> Delete </a>    
-	    <% end %>
-	 	</div>
+			<%= f.submit "Edit my post", class: "btn btn-success" %>
+
+			<div class="meta">
+				<br>
+				<small>
+		      	<%= link_to "Show My Post", @blog %> 
+		      	| <%= link_to blogs_path do %><span class="glyphicon glyphicon-plane"></span> Back to Travel Blog <% end %>
+		      	| <%= link_to current_user do %><span class="glyphicon glyphicon-user"></span> Back to My Profile <% end %>
+		      	| <%= link_to @blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %> 
+		      	</small>   
+	 		</div>
+        <% end %>
 	</div>
 </div>
