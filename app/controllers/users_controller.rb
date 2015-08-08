@@ -55,6 +55,8 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
+    @user_traveled_list = @user.has_been_to
+    @user_to_travel_to = @user.wants_to_go_to
     # get user's country_of_residence, 2 arrays of user's countries, 
     # array of hobbies
   end
@@ -63,7 +65,6 @@ class UsersController < ApplicationController
   # POST /users.jsonp
   def create
     @user = User.new(user_params)
-
     respond_to do |format|
       if @user.save
         country = create_if_not_found @user.country_of_residence
@@ -97,6 +98,7 @@ class UsersController < ApplicationController
           #we need to accumulate the country_visited somehow
           visited = params[:user][:country_visited] 
           visitedArr = visited.split(",")
+          visitedArr = country_code_convert(visitedArr)
           visitedArr = visitedArr.uniq
           if country_check(visitedArr)
             make_decision(@user, visitedArr, 2)
@@ -129,6 +131,34 @@ class UsersController < ApplicationController
     end
   end
 
+  def traveled
+    @user = User.find(params[:id])
+    if params[:country_visited]
+        #we need to accumulate the country_visited somehow
+        visited = params[:country_visited] 
+        visitedArr = visited.split(",")
+        visitedArr = country_code_convert(visitedArr)
+        visitedArr = visitedArr.uniq
+        if country_check(visitedArr)
+          make_decision(@user, visitedArr, 2)
+        end
+    end
+  end
+
+  def want
+    @user = User.find(params[:id])
+    if params[:country_to_visit]
+        #we need to accumulate the country_visited somehow
+        toVisit = params[:country_to_visit] 
+        toVisitArr = toVisit.split(",")
+        toVisitArr = country_code_convert(toVisitArr)
+        toVisitArr = toVisitArr.uniq
+        if country_check(toVisitArr)
+          make_decision(@user, toVisitArr, 3)
+        end
+    end
+  end
+
   def show_messages
     @session_user = current_user
     @conversations = @session_user.channel_to.order(last_viewed: :desc)
@@ -154,9 +184,10 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
-                                  :country_of_residence_code, :country_visited, :country_to_visit,                                   
+                                  :country_of_residence_code, :country_to_visit,                                   
                                   :password, :password_confirmation, :about_me, :avatar)
-                                #  :password_hash, :remember_hash)                                
+                                #  :password_hash, :remember_hash)   
+                                # :country_visited,                             
     end
 
     # Before filters

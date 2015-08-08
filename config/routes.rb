@@ -38,6 +38,8 @@ Rails.application.routes.draw do
   get   'alltrips'  => 'trips#index'
   get   'findtrip'  => 'trips#find'
   post  'findtrip'  => 'trips#find'
+  post  'traveled'  => 'users#traveled'
+  post  'want'      => 'users#want'
   #post   'conversations' => 'conversations#create'
   #get    'conversations' => 'conversations#show'
 

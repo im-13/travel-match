@@ -70,23 +70,54 @@
 		<br />
 
 		<div>
-		  <b>Countries I visited</b>
-			  <%= simple_form_for(@user) do |f| %>
-				<% countries_been_to = @user.get_country_visited %>
-				<%= f.text_area :country_visited, :value => "#{countries_been_to}" %>
-			    <%= f.submit "Save countries I visited", class: "btn btn-primary profile-update" %>
-			  <% end %>	
+		  <b>Countries I Have Visited</b>
+			<div class="traveled_to_wrap">
+				<%= form_for(@user) do |f| %>
+					<% if @user_traveled_list.length > 0 %>
+						<% @user_traveled_list.each do |country| %>
+							<div class="country_select">
+								<%= f.country_select :country_visited, selected: "#{country.code}" %>
+								<a href="#" class="remove_field">Remove</a>
+							</div>
+						<% end %>
+					<% else %>
+						<div class="country_select">
+							<%= f.country_select :country_visited, selected: "US" %>
+							<a href="#" class="remove_field">Remove</a>
+						</div>
+					<% end %>
+				<% end %>
+	    		<!--<div><input type="text" traveledTo="[]"></div>-->
+			</div>
+			<button class="add_visited_button">Add More Countries I've Traveled to</button>
+
+			<input type="submit" name="commit" value="Save country I've Traveled to" class="btn btn-primary save-traveled-to">
 		</div>
 
 		<br />
 
 		<div>
-		  <b>Countries I want to visit</b>
-			<%= simple_form_for(@user) do |f| %>
-				<% countries_been_to = @user.get_country_to_visit %>
-				<%= f.text_area :country_to_visit, :value => "#{countries_been_to}" %>
-			    <%= f.submit "Save countries I visited", class: "btn btn-primary profile-update" %>
-			<% end %>	
+		  <b>Countries I Want to Visit </b>
+			<div class="to_visit_wrap">
+				<%= form_for(@user) do |f| %>
+					<% if @user_to_travel_to.length > 0 %>
+						<% @user_to_travel_to.each do |country| %>
+							<div class="country_select">
+								<%= f.country_select :country_to_visit, selected: "#{country.code}" %>
+								<a href="#" class="remove_field">Remove</a>
+							</div>
+						<% end %>
+					<% else %>
+						<div class="country_select">
+							<%= f.country_select :country_to_visit, selected: "US" %>
+							<a href="#" class="remove_field">Remove</a>
+						</div>
+					<% end %>
+				<% end %>
+	    		<!--<div><input type="text" traveledTo="[]"></div>-->
+			</div>
+			<button class="add_to_visit_button">Add More Countries I Want to Travel to</button>
+			<input type="submit" name="commit" value="Save country I Want to Visit" class="btn btn-primary save-to-visit">
 		</div>
 
 		<br />

@@ -1,4 +1,4 @@
- class Country 
+class Country 
   include Neo4j::ActiveNode
 
   attr_accessor :country_of_residency, :country_visited, :country_to_visit
