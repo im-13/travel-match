@@ -21,7 +21,7 @@
                		
             			by <strong><%= link_to cur.full_name, cur %></strong>
 						<br>
-						created <%= time_ago_in_words(@trip.created_at) + " ago" %>
+						posted <%= time_ago_in_words(@trip.created_at) + " ago" %>
 						<% if @trip.created_at != @trip.updated_at %>
 							<br>
 							edited <%= time_ago_in_words(@trip.updated_at) + " ago" %>
@@ -34,7 +34,7 @@
                		
             			by <strong><%= link_to cur.full_name, cur %></strong>
 						<br>
-						created <%= time_ago_in_words(@trip.created_at) + " ago" %>
+						posted <%= time_ago_in_words(@trip.created_at) + " ago" %>
 						<% if @trip.created_at != @trip.updated_at %>
 							<br>
 							edited <%= time_ago_in_words(@trip.updated_at) + " ago" %>

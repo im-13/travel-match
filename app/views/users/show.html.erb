@@ -202,17 +202,24 @@
                     <div class="caption">
                       <p><%= link_to trip.country+", "+trip.place, trip %></p>
                       <i><%= trip.date_from.to_time.strftime('%b %e, %Y') %> - <%= trip.date_to.to_time.strftime('%b %e, %Y') %></i>
-                    </div>
-                    
-                    <div class="meta">
+
+<div class="meta">
                       <small>
-                        <%= time_ago_in_words(trip.created_at) + " ago" %>
+                        <% if trip.created_at != trip.updated_at %>
+                          Edited <%= time_ago_in_words(trip.updated_at) + " ago" %>
+                        <% else %>
+                          Posted <%= time_ago_in_words(trip.created_at) + " ago" %>
+                        <% end %>
                         <% if current_user.admin? || @user == current_user %>
                           | <%= link_to edit_trip_path(trip) do %><span class="glyphicon glyphicon-pencil"></span> Edit <% end %>
                           | <%= link_to trip, method: :delete, data: { confirm: 'Are you sure you want to delete this trip' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %>
                         <% end %>
                       </small>
                     </div>
+                      
+                    </div>
+                    
+                    
 
 
 
