@@ -137,31 +137,37 @@ class UsersController < ApplicationController
   end
 
   def traveled
-    @user = User.find(params[:id])
     if params[:country_visited]
-        #we need to accumulate the country_visited somehow
-        visited = params[:country_visited] 
-        visitedArr = visited.split(",")
-        visitedArr = country_code_convert(visitedArr)
-        visitedArr = visitedArr.uniq
-        if country_check(visitedArr)
-          make_decision(@user, visitedArr, 2)
-        end
+      @user = User.find(params[:id])
+      visited = params[:country_visited] 
+      visitedArr = visited.split(",")
+      visitedArr = country_code_convert(visitedArr)
+      visitedArr = visitedArr.uniq
+      if country_check(visitedArr)
+        make_decision(@user, visitedArr, 2)
+      end
+      render json: { status: "ok" }
+    else
+      render json: { status: "failed" }
     end
+    
   end
 
   def want
-    @user = User.find(params[:id])
     if params[:country_to_visit]
-        #we need to accumulate the country_visited somehow
-        toVisit = params[:country_to_visit] 
-        toVisitArr = toVisit.split(",")
-        toVisitArr = country_code_convert(toVisitArr)
-        toVisitArr = toVisitArr.uniq
-        if country_check(toVisitArr)
-          make_decision(@user, toVisitArr, 3)
-        end
+      @user = User.find(params[:id])
+      toVisit = params[:country_to_visit] 
+      toVisitArr = toVisit.split(",")
+      toVisitArr = country_code_convert(toVisitArr)
+      toVisitArr = toVisitArr.uniq
+      if country_check(toVisitArr)
+        make_decision(@user, toVisitArr, 3)
+      end
+      render json: { status: "ok" }
+    else
+      render json: { status: "failed" }
     end
+
   end
 
   def show_messages
