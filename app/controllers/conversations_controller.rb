@@ -25,11 +25,7 @@ class ConversationsController < ApplicationController
     @conversation = Conversation.find_by(uuid: params[:id])
     @reciever = @conversation.get_other( current_user.uuid, @conversation ) #return the user not equal to this id
     @messages = @conversation.get_messages
-    #open('myfile.out', 'a') { |f|
-    #  f.puts "reciever name:"+@reciever.email
-    #}
     @message = Message.new
-
   end
 
   def index
@@ -41,10 +37,19 @@ class ConversationsController < ApplicationController
   end
 
   def destroy
-    #open('myfile.out', 'a') { |f|
-    #  f.puts "[conversations_controller][destroy] web socket id :"+@websocket.object_id.to_s+" websocket class type = "+@websocket.class.to_s
-    #}
-    @conversation = Conversation.find_by(uuid: params[:convo_id])
+    @conversation = Conversation.find_by(uuid: params[:id])
+    
+    @messages = @conversation.query_as(:convo).match("convo<-[b:belong_to]-m").pluck(:m)
+    @all_rel = @conversation.query_as(:convo).match("convo<-[rel]-a").pluck(:rel)
+
+    @all_rel.each do |r|
+      r.destroy
+    end
+    @messages.each do |m|
+      m.destroy
+    end
+    @conversation.destroy
+    redirect_to url_for(:controller => :users, :action => :show_messages)
   end
 
   def getother(convo, session_user)

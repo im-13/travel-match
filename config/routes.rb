@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   post  'findtrip'  => 'trips#find'
   post  'traveled'  => 'users#traveled'
   post  'want'      => 'users#want'
+  #post  'removeconvo'   => 'conversations#destroy'
   #post   'conversations' => 'conversations#create'
   #get    'conversations' => 'conversations#show'
 
