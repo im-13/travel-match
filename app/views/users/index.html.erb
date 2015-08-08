@@ -5,16 +5,22 @@
 	    <aside class="col-md-2"></aside>        
 		<div class="container col-sm-8">
 			<%= will_paginate @users %>
-			<br>
-			<br>
-			<br>
+			<% if @users.length > 10 %>
+				<br>
+				<br>
+				<br>
+			<% end %>
   			<div class="panel panel-default target">
 				<div class="panel-body">
 			      	<div class="row">
 				        <div class="container">
 				            <div class="col-sm-7">
 								<ul class="users">
-								    <%= render @users %>
+								    <% if @users.any? %>
+							  			<%= render @users %>
+							  		<% else %>
+							  			<div align="center">Sorry, there are no users of Travel Match.</div>
+							  		<% end %>
 								</ul>	
 						 	</div>
 				        </div>

@@ -5,9 +5,11 @@
 	    <aside class="col-md-2"></aside>        
 		<div class="container col-sm-8">
 			<%= will_paginate @viewed_users %>
-			<br>
-			<br>
-			<br>
+			<% if @viewed_users.length > 10 %>
+				<br>
+				<br>
+				<br>
+			<% end %>
   			<div class="panel panel-default target">
 				<div class="panel-body">
 			      	<div class="row">
