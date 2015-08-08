@@ -7,7 +7,7 @@ ready = ->
     max_fields = 10 #maximum input boxes allowed
     wrapper = $('.traveled_to_wrap') #Fields wrapper
     add_button = $('.add_visited_button') #Add button ID
-    x = 1
+    x = $(wrapper).find('select').size()
     $(add_button).click (e) ->
       e.preventDefault()
       if x < max_fields
@@ -17,8 +17,9 @@ ready = ->
       return
     $(wrapper).on 'click', '.remove_field', (e) ->
       e.preventDefault()
-      $(this).parent('div').remove()
-      x--
+      if x > 1
+        $(this).parent('div').remove()
+        x--
       return
     return
 
@@ -29,7 +30,7 @@ ready = ->
     max_fields = 10 #maximum input boxes allowed
     wrapper = $('.to_visit_wrap') #Fields wrapper
     add_button = $('.add_to_visit_button') #Add button ID
-    x = 1
+    x = $(wrapper).find('select').size()
     $(add_button).click (e) ->
       e.preventDefault()
       if x < max_fields
@@ -39,8 +40,9 @@ ready = ->
       return
     $(wrapper).on 'click', '.remove_field', (e) ->
       e.preventDefault()
-      $(this).parent('div').remove()
-      x--
+      if x > 1
+        $(this).parent('div').remove()
+        x--
       return
     return
 
