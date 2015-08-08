@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get   'show'      => 'blogs#show'
   get   'mymatches' => 'matches#new'
   post  'mymatches' => 'matches#selective_match'
+  get   'mymatchesresult' => 'matches#index'
   get   'comments' => 'comments#new'
   post  'comments' => 'comments#create'
   delete 'comments' => 'comments#destroy'
