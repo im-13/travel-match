@@ -1,118 +1,200 @@
 <% provide(:title, "Update my profile") %>
 <div class="container">
-	<h1>Update my profile</h1>
+  <br>
+  <br>
+  <h1><i class="fa fa-cogs"></i> Update my profile</h1> 
+  <br>
 
-	<div class="row">
-	  <div class="col-md-6 col-md-offset-3">
-	    <%= render 'shared/error_messages' %>
+  <div class="row">
+	<div class="col-md-6 col-md-offset-3">
+	  <%= render 'shared/error_messages' %>
 
-	    <div>
-		  <b>Name</b>
-		  <%= simple_form_for(@user) do |f| %>
-
-		    <%= f.text_field :first_name, placeholder: "First name" %>
-		    <%= f.text_field :last_name, placeholder: "Last name" %>
-
-		    <%= f.submit "Save name", class: "btn btn-primary profile-update" %>
-		  <% end %>
-		</div>
-		<br />
-		<div>
-		  <b>Birthdate</b>
-		  <%= form_for(@user) do |f| %>
-
-		    <%= f.date_select :date_of_birth, :start_year => Date.today.year - 120, :end_year => Date.today.year %>
-
-		    <%= f.submit "Save birthdate", class: "btn btn-primary profile-update" %>
-		  <% end %>
-		</div>
-
-		<br />
-
-		<div>
-		  <b>Gender</b>
-		  <%= form_for(@user) do |f| %>
-			<div>
-			  <label class="radio-inline">
-			    <%= f.radio_button :gender, 'female' %> Female
-			  </label>
-			  <label class="radio-inline">
-			    <%= f.radio_button :gender, 'male' %> Male 
-			  </label>
+      <div class="thumbnail">
+        <div class="blog-container-responsive row-space-2">
+          <div class="blog-content">
+            <div class="panel-body">
+			  <b>Name</b>
+			  <%= form_for(@user) do |f| %>
+			    <%= f.text_field :first_name, placeholder: "First name", class: 'form-control' %>
+			    <%= f.text_field :last_name, placeholder: "Last name", class: 'form-control' %>
+			    <%= f.submit "Save", class: "btn btn-primary profile-update" %>
+			  <% end %>
 			</div>
-
-			<%= f.submit "Save gender", class: "btn btn-primary profile-update" %>
-		  <% end %>
+		  </div>
 		</div>
+	  </div>
 
-		<br />
-
-		<div>
-		  <b>About me</b>
-		  <%= form_for(@user) do |f| %>
-
-		    <%= f.text_area :about_me %>
-
-		    <%= f.submit "Save my description", class: "btn btn-primary profile-update" %>
-		  <% end %>
+	  <div class="thumbnail">
+        <div class="blog-container-responsive row-space-2">
+          <div class="blog-content">
+            <div class="panel-body">
+			  <b>Birthdate</b>
+			  <%= form_for(@user) do |f| %>
+			    <%= f.date_select :date_of_birth, :start_year => Date.today.year - 120, :end_year => Date.today.year %>
+			    <%= f.submit "Save", class: "btn btn-primary profile-update" %>
+			  <% end %>
+			</div>
+		  </div>
 		</div>
+	  </div>
 
-		<br />
-
-		<div>
-		  <b>Country of residence</b>
-		  <%= form_for(@user) do |f| %>
-		    <%= f.country_select :country_of_residence_code, selected: "#{@user.lives_in.code}" %>
-		    <%= f.submit "Save country of residence", class: "btn btn-primary profile-update" %>
-		  <% end %>
+	  <div class="thumbnail">
+        <div class="blog-container-responsive row-space-2">
+          <div class="blog-content">
+            <div class="panel-body">
+			  <b>Gender</b>
+			  <br>
+			  <%= form_for(@user) do |f| %>
+				<label class="radio-inline">
+				  <%= f.radio_button :gender, 'female' %> Female
+				</label>
+				<label class="radio-inline">
+				  <%= f.radio_button :gender, 'male' %> Male 
+				</label>
+				<br>
+				<br>
+				<%= f.submit "Save", class: "btn btn-primary profile-update" %>	
+			  <% end %>
+			</div>
+		  </div>
 		</div>
+	  </div>
 
-		<br />
-
-		<div>
-		  <b>Countries I visited</b>
-			  <%= simple_form_for(@user) do |f| %>
-				<% countries_been_to = @user.get_country_visited %>
-				<%= f.text_area :country_visited, :value => "#{countries_been_to}" %>
-			    <%= f.submit "Save countries I visited", class: "btn btn-primary profile-update" %>
-			  <% end %>	
+	  <div class="thumbnail">
+        <div class="blog-container-responsive row-space-2">
+          <div class="blog-content">
+            <div class="panel-body">
+			  <b>About me</b>
+			  <%= form_for(@user) do |f| %>
+			    <%= f.text_area :about_me, class: 'form-control' %>
+			    <%= f.submit "Save", class: "btn btn-primary profile-update" %>
+			  <% end %>
+			</div>
+		  </div>
 		</div>
+	  </div>
 
-		<br />
-
-		<div>
-		  <b>Countries I want to visit</b>
-			<%= simple_form_for(@user) do |f| %>
-				<% countries_been_to = @user.get_country_to_visit %>
-				<%= f.text_area :country_to_visit, :value => "#{countries_been_to}" %>
-			    <%= f.submit "Save countries I visited", class: "btn btn-primary profile-update" %>
-			<% end %>	
+	  <div class="thumbnail">
+	    <div class="blog-container-responsive row-space-2">
+          <div class="blog-content">
+            <div class="panel-body">
+			  <b>Country of residence</b>
+			  <%= form_for(@user) do |f| %>
+			    <%= f.country_select :country_of_residence_code, selected: "#{@user.lives_in.code}" %>
+			    <%= f.submit "Save", class: "btn btn-primary profile-update" %>
+			  <% end %>
+			</div>
+		  </div>
 		</div>
+	  </div>
 
-		<br />
-
-		<div>
-		  <b>Password</b>
-		  <%= form_for(@user) do |f| %>
-		    <%= f.password_field :password, placeholder: "New password" %>
-		    <%= f.password_field :password_confirmation, placeholder: "Re-enter new password" %>
-		    <%= f.submit "Save password", class: "btn btn-primary profile-update" %>
-		  <% end %>
+	  <div class="thumbnail">
+	    <div class="blog-container-responsive row-space-2">
+          <div class="blog-content">
+            <div class="panel-body">
+			  <b>Countries I have visited</b>
+				<br>
+				<br>
+				<div class="traveled_to_wrap">
+				  <%= form_for(@user) do |f| %>
+					<% if @user_traveled_list.length > 0 %>
+					  <% @user_traveled_list.each do |country| %>
+						<div class="country_select">
+						  <%= f.country_select :country_visited, selected: "#{country.code}" %>
+						  <small><span class="glyphicon glyphicon-trash"></span> <a href="#" class="remove_field">Remove</a></small>
+						  <br>
+					  	  <br>
+						</div>
+					  <% end %>
+				  	<% else %>
+					  <div class="country_select">
+						<%= f.country_select :country_visited, selected: "US" %>
+						  <small><span class="glyphicon glyphicon-trash"></span> <a href="#" class="remove_field">Remove</a></small>
+						  <br>
+						  <br>
+						</div>
+					<% end %>
+				 <% end %>
+		    		<!--<div><input type="text" traveledTo="[]"></div>-->
+				</div>
+				<button class="add_visited_button">Add more</button>
+				<br>
+				<br>
+				<input type="submit" name="commit" value="Save" class="btn btn-primary save-traveled-to">
+			</div>
+		  </div>
 		</div>
+	  </div>
 
-		<br />
+	  <div class="thumbnail">
+	    <div class="blog-container-responsive row-space-2">
+          <div class="blog-content">
+            <div class="panel-body">
+		      <b>Countries I want to visit</b>
+			  <br>
+			  <br>
+			  <div class="to_visit_wrap">
+			    <%= form_for(@user) do |f| %>
+				  <% if @user_to_travel_to.length > 0 %>
+				    <% @user_to_travel_to.each do |country| %>
+					  <div class="country_select">
+					    <%= f.country_select :country_to_visit, selected: "#{country.code}" %>
+					    <small><span class="glyphicon glyphicon-trash"></span> <a href="#" class="remove_field">Remove</a></small>
+					    <br>
+					  	<br>
+					  </div>
+				    <% end %>
+				  <% else %>
+				    <div class="country_select">
+					  <%= f.country_select :country_to_visit, selected: "US" %>
+					  <small><span class="glyphicon glyphicon-trash"></span> <a href="#" class="remove_field">Remove</a></small>
+					  <br>
+					  <br>
+				    </div>
+				  <% end %>
+			    <% end %>
+	    	  <!--<div><input type="text" traveledTo="[]"></div>-->
+			  </div>
+			  <button class="add_to_visit_button">Add more</button>
+			  <br>
+			  <br>
+			  <input type="submit" name="commit" value="Save" class="btn btn-primary save-to-visit">
+			</div>
+		  </div>
+		</div>
+	  </div>
 
-		<div>
-			<b>Profile picture</b>
-			<%= form_for(@user) do |f| %>		
-				<%= f.file_field :avatar, as: :file %>
+	  <div class="thumbnail">
+	    <div class="blog-container-responsive row-space-2">
+          <div class="blog-content">
+            <div class="panel-body">
+			  <b>Password</b>
+			  <%= form_for(@user) do |f| %>
+			    <%= f.password_field :password, placeholder: "New password", class: 'form-control' %>
+			    <%= f.password_field :password_confirmation, placeholder: "Re-enter new password", class: 'form-control' %>
+			    <%= f.submit "Save", class: "btn btn-primary profile-update" %>
+			  <% end %>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+	  <div class="thumbnail">
+	    <div class="blog-container-responsive row-space-2">
+          <div class="blog-content">
+            <div class="panel-body">
+			  <b>Profile picture</b>
+			  <br>
+			  <br>
+			  <%= form_for(@user) do |f| %>		
+				<%= f.file_field :avatar, as: :file, class: 'form-control' %>
 				<% if f.object.avatar? %>
-					<a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= image_tag f.object.avatar.thumb.url %></a> 
+				  <a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= image_tag f.object.avatar.thumb.url %></a> 
 				<% else %>
-					<div class="gravatar_edit">
+				  <div class="gravatar_edit">
 						<a class="pull-right"><img title="profile image" class="img-circle img-responsive" <%= gravatar_for @user %> </a>
 						<a href="http://gravatar.com/emails" target="_blank">Change my gravatar picture </a>
-					</div>
+				  </div>
 				<% end %>
 				<br>
 				<br>
@@ -122,9 +204,16 @@
 				<br>
 				<br>
 				<br>
-				<%= f.submit "Update profile picture", class: "btn btn-primary" %>
-			<% end %>
+				<%= f.submit "Save", class: "btn btn-primary" %>
+			  <% end %>
+			</div>
+		  </div>
 		</div>
-	  </div>
+	  </div>
+
+
+
+
+
 	</div>
 </div>

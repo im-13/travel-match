@@ -1,31 +1,27 @@
 <% provide(:title, 'Who has recently viewed your profile?') %>
 <div class="container">
-	<h1>Who has recently viewed your profile?</h1>
+	<br>
+	<br>
+	<h1><i class="fa fa-users"></i> Who has recently viewed your profile?</h1>
+	
 	<div class="row">
-	    <aside class="col-md-2"></aside>        
-		<div class="container col-sm-8">
-			<%= will_paginate @visitors %>
-			<br>
-			<br>
-			<br>
-  			<div class="panel panel-default target">
-				<div class="panel-body">
-			      	<div class="row">
-				        <div class="container">
-				            <div class="col-sm-7">
-								<ul class="users">
-								  	<% if @visitors.any? %>
-							  			<%= render @visitors %>
-							  		<% else %>
-							  			<div align="center">No user viewed your profile. <%= link_to "Introduce yourself on the Travel Blog!", travelblog_path %></div>
-							  		<% end %>
-								</ul>	
-						 	</div>
-				        </div>
-      				</div>         
-    			</div>
-			</div>
-			<%= will_paginate @visitors %>
+	    <aside class="col-md-2">
+	    </aside>
+	    <div class="col-md-8" >
+	    	<% if !@visitors.any? %>
+	    		<div align="center">No user viewed your profile. <%= link_to "Introduce yourself on the Travel Blog!", travelblog_path %></div>
+	    	<% else %>
+		    	<%= link_to "Introduce yourself on the Travel Blog now!", travelblog_path %>
+				<%= will_paginate @visitors %>
+			
+				<br>
+				<br>
+				<br>
+
+	    		<%= render @visitors %>
+	    		<%= will_paginate @visitors %>
+	    	<% end %>
 		</div>
 	</div>
+
 </div>

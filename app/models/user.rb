@@ -8,12 +8,11 @@ class User
   # is password required here???
   attr_accessor :password, 
                 :remember_token, :activation_token, :reset_token,
-                :country_of_residence_code, 
-                :country_visited, :country_to_visit, :asset, :gravatar_url
+                :country_of_residence_code, :country_to_visit, :asset, :gravatar_url
  
   property :first_name, type: String
   property :last_name, type: String
-  property :email, type: String #constraint: :unique
+  property :email, type: String, constraint: :unique
   property :date_of_birth, type: Date
   property :gender, type: String
   property :password_hash, type: String

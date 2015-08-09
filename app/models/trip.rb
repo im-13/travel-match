@@ -12,7 +12,11 @@ class Trip
   property :updated_at, type: DateTime
   property :user_uuid, type: String
   property :photo, type: String
+  property :photo2, type: String
+  property :photo3, type: String
   mount_uploader :photo, AssetUploader
+  mount_uploader :photo2, AssetUploader
+  mount_uploader :photo3, AssetUploader
 
   validates :place, presence: true
   validates :description, presence: true

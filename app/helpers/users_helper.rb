@@ -14,6 +14,15 @@ module UsersHelper
   #  image_tag(asset_url, alt: user.first_name, class: "asset")
   #end
 
+  def country_code_convert(code_arr) 
+    return_list = Array.new
+    code_arr.each do |code|
+      temp = ISO3166::Country.find_country_by_alpha2(code)
+      return_list << temp.name
+    end
+    return return_list
+  end
+
   def establish_user_connection( viewed_user )
     session_user = current_user
     #all users viewed

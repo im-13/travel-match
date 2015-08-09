@@ -1,5 +1,10 @@
 module CountriesHelper
 
+  def get_country_name_from_code(code)
+    country = ISO3166::Country.find_country_by_alpha2(code)
+    return country.name
+  end
+
   def country_check( countryArr )
     ret = true
     index = 0

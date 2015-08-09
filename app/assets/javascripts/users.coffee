@@ -1,5 +1,51 @@
 ready = ->
 
+  ###
+  #for adding countries traveled to already
+  ###
+  $(document).ready ->
+    max_fields = 10 #maximum input boxes allowed
+    wrapper = $('.traveled_to_wrap') #Fields wrapper
+    add_button = $('.add_visited_button') #Add button ID
+    x = $(wrapper).find('select').size()
+    $(add_button).click (e) ->
+      e.preventDefault()
+      if x < max_fields
+        x++
+        $(wrapper).children().last().append '<div class="country_select">'+$('.country_select').last().html()+'</div>'
+        $(".country_select").last().find('option').removeAttr("selected")
+      return
+    $(wrapper).on 'click', '.remove_field', (e) ->
+      e.preventDefault()
+      if x > 1
+        $(this).parent('div').remove()
+        x--
+      return
+    return
+
+  ###
+  #for adding countries to visit
+  ###
+  $(document).ready ->
+    max_fields = 10 #maximum input boxes allowed
+    wrapper = $('.to_visit_wrap') #Fields wrapper
+    add_button = $('.add_to_visit_button') #Add button ID
+    x = $(wrapper).find('select').size()
+    $(add_button).click (e) ->
+      e.preventDefault()
+      if x < max_fields
+        x++
+        $(wrapper).children().last().append '<div class="country_select">'+$('.country_select').last().html()+'</div>'
+        $(".country_select").last().find('option').removeAttr("selected")
+      return
+    $(wrapper).on 'click', '.remove_field', (e) ->
+      e.preventDefault()
+      if x > 1
+        $(this).parent('div').remove()
+        x--
+      return
+    return
+
   ###*
   # When the send message link on our home page is clicked
   # send an ajax request to our rails app with the sender_id and
@@ -106,6 +152,47 @@ ready = ->
       alert 'Password and Password Confirmation Mismatch'
     return
 
+  ###
+  # 
+  ###
+  $(document).on 'click', '.save-traveled-to', (e) ->
+    e.preventDefault()
+    id = $("meta[name='user-id']").attr("content");
+    list = []
+    all_select = $('.traveled_to_wrap').find('select')
+    $.each all_select, (index) ->
+      list.push $(this).val()
+      return
+    str = ''
+    str = list.join(',')
+    $.post '/traveled', { 
+      country_visited: str,
+      id: id
+    }, (data) ->
+      alert("Countries You've Visited Saved")
+      return
+    return
+
+  ###
+  # 
+  ###
+  $(document).on 'click', '.save-to-visit', (e) ->
+    e.preventDefault()
+    id = $("meta[name='user-id']").attr("content");
+    list = []
+    all_select = $('.to_visit_wrap').find('select')
+    $.each all_select, (index) ->
+      list.push $(this).val()
+      return
+    str = ''
+    str = list.join(',')
+    $.post '/want', { 
+      country_to_visit: str,
+      id: id
+    }, (data) ->
+      alert("Countries You Like to Visit Saved")
+      return
+    return
   ###*
   # When a conversation link is clicked show up the respective
   # conversation chatbox

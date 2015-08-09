@@ -40,7 +40,6 @@ class UsersController < ApplicationController
     @trips_count = @trips.length
     #Trip.all.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc })
     @user_matches = default_match
-    #@user_matches = User.query_as(:n).match("n-[:lives_in]->(country:Country)").where("country.name = '#{@user_country_of_residence.name}' AND n.email <> '#{@user.email}'").proxy_as(User, :n).paginate(:page => params[:page], :per_page => 5, order: :first_name, return: :'distinct n')
   end
 
   def show_my_blog
@@ -50,7 +49,14 @@ class UsersController < ApplicationController
     @blog.user_uuid = @user.uuid
     @blog.user_gravatar_url = @user.gravatar_url 
     @blog.user_email = @user.email 
-    @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 2, :order => { created_at: :desc }, return: :'distinct n')
+    @user_blog = Blog.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Blog, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
+  end
+
+  def show_my_trips
+    @user = current_user
+    @trip = Trip.new
+    @trip.user_uuid = @user.uuid 
+    @user_trips = Trip.query_as(:n).match("n").where("n.user_uuid = '#{@user.uuid}'").proxy_as(Trip, :n).paginate(:page => params[:page], :per_page => 5, :order => { created_at: :desc }, return: :'distinct n')
   end
 
   # GET /users/new
@@ -61,6 +67,8 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
+    @user_traveled_list = @user.has_been_to
+    @user_to_travel_to = @user.wants_to_go_to
     # get user's country_of_residence, 2 arrays of user's countries, 
     # array of hobbies
   end
@@ -68,7 +76,26 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.jsonp
   def create
+
+    if bday_not_valid
+      puts "BDAY NOT VALID"
+      respond_to do |format|
+        flash[:danger] = "Date of birth is invalid. Please re-submit the form."
+        format.html { redirect_to signup_path }
+      end
+      return
+    end
+
     @user = User.new(user_params)
+
+    if email_not_unique(@user.email)
+      puts "EMAIL NOT UNIQUE"
+      respond_to do |format|
+        flash[:danger] = "Email address belongs to an existing account. Please log in as #{@user.email} or re-submit the Sign up form with a different email address."
+        format.html { render 'new' }
+      end
+      return
+    end
 
     respond_to do |format|
       if @user.save
@@ -103,6 +130,7 @@ class UsersController < ApplicationController
           #we need to accumulate the country_visited somehow
           visited = params[:user][:country_visited] 
           visitedArr = visited.split(",")
+          visitedArr = country_code_convert(visitedArr)
           visitedArr = visitedArr.uniq
           if country_check(visitedArr)
             make_decision(@user, visitedArr, 2)
@@ -128,11 +156,45 @@ class UsersController < ApplicationController
         format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
       else
-        flash[:error] = "Profile was not updated due to invalid form."
+        flash[:danger] = "Profile was not updated."
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def traveled
+    if params[:country_visited]
+      @user = User.find(params[:id])
+      visited = params[:country_visited] 
+      visitedArr = visited.split(",")
+      visitedArr = country_code_convert(visitedArr)
+      visitedArr = visitedArr.uniq
+      if country_check(visitedArr)
+        make_decision(@user, visitedArr, 2)
+      end
+      render json: { status: "ok" }
+    else
+      render json: { status: "failed" }
+    end
+    
+  end
+
+  def want
+    if params[:country_to_visit]
+      @user = User.find(params[:id])
+      toVisit = params[:country_to_visit] 
+      toVisitArr = toVisit.split(",")
+      toVisitArr = country_code_convert(toVisitArr)
+      toVisitArr = toVisitArr.uniq
+      if country_check(toVisitArr)
+        make_decision(@user, toVisitArr, 3)
+      end
+      render json: { status: "ok" }
+    else
+      render json: { status: "failed" }
+    end
+
   end
 
   def show_messages
@@ -160,12 +222,33 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :date_of_birth, :gender,
-                                  :country_of_residence_code, :country_visited, :country_to_visit,                                   
+                                  :country_of_residence_code, :country_to_visit,                                   
                                   :password, :password_confirmation, :about_me, :avatar)
-                                #  :password_hash, :remember_hash)                                
+                                #  :password_hash, :remember_hash)   
+                                # :country_visited,                             
     end
 
     # Before filters
+
+    def email_not_unique(email_address)
+      db_user = User.find_by(email: "#{email_address}")
+      if db_user
+        return true
+      else
+        return false
+      end
+    end
+
+    def bday_not_valid
+      year = user_params['date_of_birth(1i)'].to_i
+      month = user_params['date_of_birth(2i)'].to_i
+      day = user_params['date_of_birth(3i)'].to_i
+      if Date.valid_date?(year, month, day)
+        return false
+      else
+        return true
+      end
+    end
 
     # Confirms the correct user.
     def correct_user

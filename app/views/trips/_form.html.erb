@@ -7,7 +7,7 @@
 
   <%= f.text_field :place, placeholder: "Place", class: 'form-control' %>
 
-  <%= f.text_area :description, placeholder: "Description", class: 'form-control' %>
+  <%= f.text_area :description, placeholder: "Description", rows: "3", class: 'form-control' %>
 
   <%= f.label :date_from, "From" %>
   <%= f.date_select :date_from,
@@ -18,6 +18,7 @@
                     :start_year => Date.today.year %>
 
   <%= f.file_field :photo, as: :file, class: 'form-control' %>
+  
   <% if f.object.photo? %>
     <%= image_tag f.object.photo.url %>
   <% end %>

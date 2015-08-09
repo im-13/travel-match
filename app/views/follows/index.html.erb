@@ -1,31 +1,27 @@
 <% provide(:title, 'Your favorite users') %>
 <div class="container">
-	<h1>Your favorite users </h1>
-		<div class="row">
-	    <aside class="col-md-2"></aside>        
-		<div class="container col-sm-8">
-			<%= will_paginate @followings %>
-			<br>
-			<br>
-			<br>
-  			<div class="panel panel-default target">
-				<div class="panel-body">
-			      	<div class="row">
-				        <div class="container">
-				            <div class="col-sm-7">
-								<ul class="users">
-									<% if @followings.any? %>
-							  			<%= render @followings %>
-							  		<% else %>
-							  			<div align="center">You have no favorite users. <%= link_to "Find people similar to you!", default_path %></div>
-							  		<% end %>
-								</ul>	
-						 	</div>
-				        </div>
-      				</div>         
-    			</div>
-			</div>
-			<%= will_paginate @followings %>
+	<br>
+	<br>
+	<h1><i class="fa fa-users"></i> Your favorite users </h1>
+		
+	<div class="row">
+	    <aside class="col-md-2">
+	    </aside>
+	    <div class="col-md-8" >
+	    	<% if !@followings.any? %>
+	    		<div align="center">You have no favorite users. <%= link_to "Find people similar to you!", default_path %></div>
+	    	<% else %>
+		    	<%= link_to "Find people similar to you now!", default_path %>
+				<%= will_paginate @followings %>
+			
+				<br>
+				<br>
+				<br>
+
+	    		<%= render @followings %>
+	    		<%= will_paginate @followings %>
+	    	<% end %>
 		</div>
 	</div>
+	
 </div>

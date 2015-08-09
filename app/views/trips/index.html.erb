@@ -1,27 +1,30 @@
 <% provide(:title, 'All trips') %>
 <div class="container">
-  <h1>All trips</h1>
+  <br>
+  <br>
+  <h1><i class="fa fa-suitcase"></i> All trips</h1>
 
-  
-  
   <div class="row">
     <aside class="col-md-2">
     </aside>
-    <div class="col-md-8" >
-
-      <%= link_to "Do you want to plan a trip?", newtrip_path %> |
-      <%= link_to "Find a trip?", findtrip_path %>
-  
-      <%= will_paginate @trips %>
-      <br>
-      <br>
-      <br>
-      <ul class="posts">
+    <div class="col-md-8">
+      <% if !@trips.any? %>
+        <div align="center">No one has posted a trip. <%= link_to 'Plan a trip now!', newtrip_path %></div>
+      <% else %>
+        <%= link_to "Do you want to plan a trip?", newtrip_path %> |
+        <%= link_to "Find a trip?", findtrip_path %>
+        <%= will_paginate @trips %>
+      
+        <br>
+        <br>
+        <br>
+        
         <%= render @trips %>
-      </ul>
-      <%= will_paginate @trips %>
+        <%= will_paginate @trips %>
+        <% end %>
     </div>
   </div>
+
 </div>
 
 

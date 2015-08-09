@@ -1,18 +1,18 @@
-<% provide(:title, 'Your Travel Match') %>
+<% provide(:title, 'Quick Travel Match') %>
 <div class="container">
 	<br>
 	<br>
-	<h1><i class="fa fa-plane"></i> Your Travel Match</h1>
-
+	<h1><i class="fa fa-plane"></i> Quick Travel Match</h1>
+	
 	<div class="row">
 	    <aside class="col-md-2">
 	    </aside>
 	    <div class="col-md-8" >
 	    	<% if !@matches.any? %>
 	    		<div align="center">No Travel Match was found.</div>
-	    		<div align="center"><%= link_to "Modify your search criteria", mymatches_path %> or <%= link_to "add more info to your Profile!", edit_user_path(current_user) %></div>
+	    		<div align="center"><%= link_to "Personalize your search criteria", mymatches_path %> or <%= link_to "add more info to your Profile!", edit_user_path(current_user) %></div>
 	    	<% else %>
-		    	<%= link_to "Modify your search criteria now!", mymatches_path %>
+		    	<%= link_to "Personalize your search criteria now!", mymatches_path %>
 				<%= will_paginate @matches %>
 			
 				<br>
