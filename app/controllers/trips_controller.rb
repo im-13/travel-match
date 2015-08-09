@@ -29,7 +29,7 @@ class TripsController < ApplicationController
 
     if is_invalid_date
       respond_to do |format|
-        flash[:error] = "You have selected invalid dates"
+        flash[:danger] = "You have selected invalid dates"
         format.html { redirect_to newtrip_path }
       end
     else

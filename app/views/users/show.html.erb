@@ -129,8 +129,10 @@
           <% end %>
           <% if @user_blog.any? %>
             <%= render @user_blog %>
-          <% else %>
-            User has not posted to the blog.
+          <%else %>
+            <% if @user != current_user %>
+              User has not posted to the blog.
+            <% end %>
           <% end %>
           <small><%= will_paginate @user_blog %></small>
         </div>

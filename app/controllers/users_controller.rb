@@ -76,7 +76,27 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.jsonp
   def create
+
+    if bday_not_valid
+      puts "BDAY NOT VALID"
+      respond_to do |format|
+        flash[:danger] = "Date of birth is invalid. Please re-submit the form."
+        format.html { redirect_to signup_path }
+      end
+      return
+    end
+
     @user = User.new(user_params)
+
+    if email_not_unique(@user.email)
+      puts "EMAIL NOT UNIQUE"
+      respond_to do |format|
+        flash[:danger] = "Email address belongs to an existing account. Please log in as #{@user.email} or re-submit the Sign up form."
+        format.html { redirect_to signup_path }
+      end
+      return
+    end
+
     respond_to do |format|
       if @user.save
         country = create_if_not_found @user.country_of_residence
@@ -136,7 +156,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
       else
-        flash[:error] = "Profile was not updated due to invalid form."
+        flash[:danger] = "Profile was not updated."
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -209,6 +229,26 @@ class UsersController < ApplicationController
     end
 
     # Before filters
+
+    def email_not_unique(email_address)
+      db_user = User.find_by(email: "#{email_address}")
+      if db_user
+        return true
+      else
+        return false
+      end
+    end
+
+    def bday_not_valid
+      year = user_params['date_of_birth(1i)'].to_i
+      month = user_params['date_of_birth(2i)'].to_i
+      day = user_params['date_of_birth(3i)'].to_i
+      if Date.valid_date?(year, month, day)
+        return false
+      else
+        return true
+      end
+    end
 
     # Confirms the correct user.
     def correct_user

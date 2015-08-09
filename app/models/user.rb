@@ -12,7 +12,7 @@ class User
  
   property :first_name, type: String
   property :last_name, type: String
-  property :email, type: String #constraint: :unique
+  property :email, type: String, constraint: :unique
   property :date_of_birth, type: Date
   property :gender, type: String
   property :password_hash, type: String
