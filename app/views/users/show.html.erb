@@ -55,7 +55,7 @@
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Birthday</strong></span> <%= @user.date_of_birth.to_time.strftime('%B %e, %Y') %>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Gender</strong></span> 
         <% if @user.gender == 'female' %> 
-          <i class="fa fa-female"></i> female
+          <i class="fa fa-female"></i> female 
         <% else %> 
           <i class="fa fa-male"></i> male
         <% end %>
@@ -162,7 +162,7 @@
               <td>
                 <% if @hasBeenTo.any? %>
                   <% @hasBeenTo.each do |country| %>
-                    <i><span class="glyphicon glyphicon-plane"></span></i><%= country.name %>
+                    <i class="fa fa-plane"></i></span></i><%= country.name %>
                   <% end %>
                 <% else %>
                   <% if @user == current_user %>
@@ -178,7 +178,7 @@
               <td>
                 <% if @wantsToGoTo.any? %>
                   <% @wantsToGoTo.each do |country| %>
-                    <i><span class="glyphicon glyphicon-plane"></i><%= country.name %>
+                    <i class="fa fa-plane"></i><%= country.name %>
                   <% end %>
                 <% else %>
                   <% if @user == current_user %>

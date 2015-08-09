@@ -1,18 +1,29 @@
 <% provide(:title, 'Edit trip') %>
 <div class="container">
-	<h1>Edit trip</h1>
+  <br>
+  <br>
+  <h1><i class="fa fa-suitcase"></i> Edit trip</h1>
 
 	<div class="row">
 	  	<div class="col-md-6 col-md-offset-3">
-			<%= render 'trips/form' %>
-			<br>
-	    	<div class="meta">
-				<small>
-				    <%= link_to current_user do %><span class="glyphicon glyphicon-user"></span> Back to my profile <% end %> |
-				    <%= link_to trips_path do %><span class="glyphicon glyphicon-plane"></span> Back to all trips <% end %> |
-				    <%= link_to @trip, method: :delete, data: { confirm: 'Are you sure you want to delete this trip' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %> 
-				</small>
-			</div>
+	      <div class="thumbnail">
+	        <div class="blog-container-responsive row-space-2">
+	          <div class="blog-content">
+	            <div class="panel-body">
+					<%= render 'trips/form' %>
+					<br>
+			    	<div class="meta">
+						<small>
+						    <%= link_to current_user do %><span class="glyphicon glyphicon-user"></span> Back to my profile <% end %> |
+						    <%= link_to trips_path do %><span class="glyphicon glyphicon-plane"></span> Back to all trips <% end %> |
+						    <%= link_to @trip, method: :delete, data: { confirm: 'Are you sure you want to delete this trip' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %> 
+						</small>
+					</div>
+	  			</div>
+	          </div>
+	        </div>
+	      </div>
 	  	</div>
 	</div>
+	
 </div>
