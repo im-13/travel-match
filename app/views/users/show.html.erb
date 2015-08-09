@@ -42,7 +42,7 @@
     <div class="col-sm-3">
     <!--left col-->
       <ul class="list-group">
-        <li class="list-group-item text-muted" contenteditable="false">Profile</li>
+        <li class="list-group-item text-muted" contenteditable="false"><i class="fa fa-user"></i> Profile</li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Last seen</strong></span>
           <% if @user.last_seen_at %>
             <%= time_ago_in_words(@user.last_seen_at) + " ago" %>  
@@ -63,7 +63,7 @@
 
       
       <div class="panel panel-default">
-        <div class="panel-heading">Available to travel</div>
+        <div class="panel-heading"><i class="fa fa-calendar"></i> Available to travel</div>
           <div class="panel-body">
             <% if @trips.any? %>
               <% @trips.each do |trip| %>
@@ -79,7 +79,7 @@
       </div>
       
       <ul class="list-group">
-        <li class="list-group-item text-muted">Statistics <i class="fa fa-dashboard fa-1x"></i></li>
+        <li class="list-group-item text-muted"><i class="fa fa-dashboard fa-1x"></i> Statistics</li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Trips</strong></span> <%= @trips_count %></li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Favorite</strong></span> <%= @fav_count %></li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Viewed by</strong></span> <%= @vis_count %></li>
@@ -91,7 +91,7 @@
       
 
       <div class="panel panel-default">
-        <div class="panel-heading">Blog</div>
+        <div class="panel-heading"><i class="fa fa-pencil-square-o"></i> Blog</div>
         <div class="panel-body"> 
           <% if @user == current_user %>
             <%= simple_form_for(@blog) do |f| %>
@@ -139,7 +139,7 @@
       </div>
 
       <div class="panel panel-default" >
-        <div class="panel-heading">About</div>
+        <div class="panel-heading"><i class="fa fa-globe"></i> About</div>
         <div class="panel-body"> 
           <table class="table">
             <% if @user.about_me.nil? || @user.about_me.empty? %>
@@ -162,7 +162,7 @@
               <td>
                 <% if @hasBeenTo.any? %>
                   <% @hasBeenTo.each do |country| %>
-                    <i class="fa fa-plane"></i></span></i><%= country.name %>
+                    <i class="fa fa-plane"></i><%= country.name %>
                   <% end %>
                 <% else %>
                   <% if @user == current_user %>
@@ -194,7 +194,7 @@
       </div>        
 
       <div class="panel panel-default target">
-        <div class="panel-heading" contenteditable="false">Trips</div>
+        <div class="panel-heading" contenteditable="false"><i class="fa fa-suitcase"></i> Trips</div>
           <div class="panel-body">
             <div class="row">
 
@@ -245,7 +245,7 @@
 
   <% if @user == current_user %>
     <div class="panel panel-default target">
-      <div class="panel-heading" contenteditable="false">Quick Travel Match</div>
+      <div class="panel-heading" contenteditable="false"><i class="fa fa-plane"></i> Quick Travel Match</div>
       <div class="panel-body">
         <div class="row">
           <div class="container">
