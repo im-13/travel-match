@@ -7,10 +7,8 @@
 
   <div class="container">
     <%= link_to 'Write a New Post', new_blog_path, class: "btn btn-info text-center" %>
-    <br>
     <small><%= will_paginate @blogs %></small>
   </div>
-
 <% @blogs.each do |blog| %>
   <div class="col-md-4">
     <div class="thumbnail">
@@ -40,7 +38,7 @@
               <div class="col-sm-9">
                 <div class="row-space-2">
                   <div class="expandable-content">
-                    <h3 align="center"><%= blog.title %></h3>
+                    <h3 align="center"><%= link_to blog.title, blog %></h3>
                     <p><%= blog.content %></p>
                     <table>
                       <colgroup>

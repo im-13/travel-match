@@ -49,7 +49,7 @@
 				      	<%= link_to edit_blog_path(@blog) do %><span class="glyphicon glyphicon-pencil"></span> Edit <% end %>
 				    <% end %>
 				    | <%= link_to @blog do %><span class="glyphicon glyphicon-comment"></span> <%= @blog.count_comments.to_i %> Comments <% end %>
-				</small>
+					</small>
 			    </div>
 
 			    <br>
@@ -107,7 +107,7 @@
 							<strong><%= link_to c.user_name, cur_com %> </strong>
 							<p class="comment_comment"><%= c.comment %></p>
 							<small>
-							<a class="text-muted link-reset"><%= " Posted " + time_ago_in_words(c.created_at) + " ago" %></a>
+							<p class="text-muted"><%= " Posted " + time_ago_in_words(c.created_at) + " ago" %></p>
 							<% if cur_com.admin? || cur_com == current_user %>
 								| <%= link_to c, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %>
 			                <% end %>
