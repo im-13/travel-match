@@ -91,8 +91,8 @@ class UsersController < ApplicationController
     if email_not_unique(@user.email)
       puts "EMAIL NOT UNIQUE"
       respond_to do |format|
-        flash[:danger] = "Email address belongs to an existing account. Please log in as #{@user.email} or re-submit the Sign up form."
-        format.html { redirect_to signup_path }
+        flash[:danger] = "Email address belongs to an existing account. Please log in as #{@user.email} or re-submit the Sign up form with a different email address."
+        format.html { render 'new' }
       end
       return
     end
