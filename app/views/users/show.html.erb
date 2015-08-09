@@ -162,7 +162,7 @@
               <td>
                 <% if @hasBeenTo.any? %>
                   <% @hasBeenTo.each do |country| %>
-                    <i class="fa fa-plane"></i><%= country.name %>
+                    <i class="fa fa-map-pin"></i> <%= country.name %>
                   <% end %>
                 <% else %>
                   <% if @user == current_user %>
@@ -178,7 +178,7 @@
               <td>
                 <% if @wantsToGoTo.any? %>
                   <% @wantsToGoTo.each do |country| %>
-                    <i class="fa fa-plane"></i><%= country.name %>
+                    <i class="fa fa-map-pin"></i> <%= country.name %>
                   <% end %>
                 <% else %>
                   <% if @user == current_user %>
