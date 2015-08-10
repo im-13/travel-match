@@ -2,7 +2,7 @@
   <div class="avatar">
     <!--<img src="http://placehold.it/50x50" />-->
     <% if message_interlocutor(message).avatar? %>
-    <img title="profile image" class="img-circle img-responsive"<%= image_tag message_interlocutor(message).avatar.thumb.url %></a>
+    <img title="profile image" class="img-circle img-responsive"<%= image_tag message_interlocutor(message).avatar.small.url %></a>
     <% else %>
     <img title="profile image" class="img-circle img-responsive"<%= gravatar_for message_interlocutor(message) %></a>
     <% end %>

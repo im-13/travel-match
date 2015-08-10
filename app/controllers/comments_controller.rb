@@ -12,6 +12,7 @@ class CommentsController < ApplicationController
 		@comment.user_uuid = current_user.uuid
         @comment.user_gravatar_url = current_user.gravatar_url
         @comment.user_avatar_url = current_user.avatar_url 
+        @comment.blog_id = bid
 		@comment.save
 		@blog.save
 		respond_to do |format|
@@ -39,10 +40,11 @@ class CommentsController < ApplicationController
 
   	def destroy
   		@comment = Comment.find(params[:id])
+  		@blog = Blog.find_by(id: @comment.blog_id)
   		@comment.destroy
 	    respond_to do |format|
 	      	flash[:success] = "Comment was successfully deleted."
-	      	format.html { redirect_to travelblog_path  }
+	      	format.html { redirect_to @blog  }
 	    	format.json { head :no_content }
 	    end
   	end

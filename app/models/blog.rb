@@ -14,6 +14,7 @@ class Blog
     property :photo, type: String
     property :photo2, type: String
     property :photo3, type: String
+    property :blog_id, type: String
     property :count_comments, type: Integer, default: 0
     mount_uploader :photo, AssetUploader
     mount_uploader :photo2, AssetUploader

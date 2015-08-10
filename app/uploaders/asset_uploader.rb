@@ -17,7 +17,7 @@ class AssetUploader < CarrierWave::Uploader::Base
   end
 
   #An uploaded image would be scaled to be no larger than 800 by 800 
-  process resize_to_fit: [800, 800]
+  process resize_to_fit: [500, 500]
 
   version :medium do
     process :resize_to_fit => [300, 300]
