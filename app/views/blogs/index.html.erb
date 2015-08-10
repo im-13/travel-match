@@ -1,84 +1,87 @@
 <% provide(:title, 'Travel Blog') %>
 <div class="container">
-    <br>
-    <br>
-    <h1><i class="fa fa-pencil-square-o"></i> Travel Blog</h1>
+  <br>
+  <br>
+  <h1><i class="fa fa-pencil-square-o"></i> Travel Blog</h1>
   
 
   <div class="container">
     <%= link_to 'Write a New Post', new_blog_path, class: "btn btn-info text-center" %>
     <small><%= will_paginate @blogs %></small>
   </div>
-<% @blogs.each do |blog| %>
-  <div class="col-md-4">
-    <div class="thumbnail">
+  
+  <% @blogs.each do |blog| %>
+    <div class="row">  
+      <aside class="col-md-2"></aside>
+      <div class="col-md-8">
+        <div class="thumbnail">          
+          <div class="container-fluid"> 
 
-      <div class="blog-container-responsive row-space-2">
-        <div class="blog-content">
-          <div class="panel-body">
-            <div class="row">
-              <% cur = User.find_by(email: blog.user_email) %>
-              <div class="col-sm-3 text-center row-space-2"> 
-                <a class="media-photo media-round row-space-1 text-center"> <img class="lazy" style-"display: inline;" >
-                <br>
-                <% if cur.avatar? %>
-                  <img class="img-circle"<%= image_tag cur.avatar.small.url %></a>
-                <% else %>
-                  <img class="img-circle"<%= image_tag cur.gravatar_url %></a>
-                <% end %>
-              
-                <div class="name">
-                  <a class="text-muted link-reset">
-                  <p><strong><%= cur.first_name %></strong></p></a>
-                  <!--p><strong><%= cur.last_name %></strong></p></a-->
-                </div>
-              </div>
-              <!--% image_tag blog.user_gravatar_url %-->
-              <!--%= link_to blog.user_name, User.find(blog.user_uuid) %-->  
-              <div class="col-sm-9">
-                <div class="row-space-2">
-                  <div class="expandable-content">
-                    <h3 align="center"><%= link_to blog.title, blog %></h3>
-                    <p><%= blog.content %></p>
-                    <table>
-                      <colgroup>
-                        <th><% if blog.photo? %>
-                          <%= link_to image_tag(blog.photo.thumb.url), blog %>
-                        <% end %></th>
-                        <th><% if blog.photo2? %>
-                          <%= link_to image_tag(blog.photo2.thumb.url), blog %>
-                        <% end %></th>
-                        <th><% if blog.photo3? %>
-                          <%= link_to image_tag(blog.photo3.thumb.url), blog %>
-                        <% end %></th>
-                    </colgroup>
-                  </table>
+            <div class="blog-container-responsive row-space-2">
+              <div class="blog-content">
+                <div class="panel-body">            
+                  <% cur = User.find_by(email: blog.user_email) %>
+                  
+                  <div class="col-sm-3 text-center row-space-2"> 
+                    <a class="media-photo media-round row-space-1 text-center"> <img class="lazy" style-"display: inline;" >
+                    <br>
+                    <% if cur.avatar? %>
+                      <img class="img-circle"<%= image_tag cur.avatar.small.url %></a>
+                    <% else %>
+                      <img class="img-circle"<%= image_tag cur.gravatar_url %></a>
+                    <% end %>                                  
+                    <a class="text-muted link-reset">
+                    <p><strong><%= link_to cur.first_name, cur %></strong></p></a>    
+                  </div>
+
+                  <div class="col-sm-9">
+                    <div class="row-space-2">
+                      <div class="expandable-content">
+                        <div class="blog">
+                          <% if blog.title? %>
+                            <h3 align="center"><%= link_to blog.title, blog %></h3>
+                          <% end %>
+                          <p><%= blog.content %></p>
+                          <table>
+                            <colgroup>
+                              <th><% if blog.photo? %>
+                                <%= link_to image_tag(blog.photo.thumb.url), blog %>
+                              <% end %></th>
+                              <th><% if blog.photo2? %>
+                                <%= link_to image_tag(blog.photo2.thumb.url), blog %>
+                              <% end %></th>
+                              <th><% if blog.photo3? %>
+                                <%= link_to image_tag(blog.photo3.thumb.url), blog %>
+                              <% end %></th>
+                            </colgroup>
+                          </table>
+                        </div>
+                    
+
+                        <div class="meta">
+                          <small>
+                          <%= link_to time_ago_in_words(blog.created_at) + " ago", blog %>
+                          <% if cur.admin? || cur == current_user %>
+                            | <%= link_to edit_blog_path(blog) do %><span class="glyphicon glyphicon-pencil"></span> Edit <% end %>
+                            | <%= link_to blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %>
+                          <% end %>
+                          | <%= link_to blog do %><span class="glyphicon glyphicon-comment"></span> <%= blog.count_comments.to_i %> Comment <% end %>  
+                          </small>
+                        </div> <!--meta end -->
+                      </div>
+                    </div>
                   </div>
                 </div>
-
-                <!--h2> @blog.comments.count </h2-->
-                <!--%= render 'blogs/comments' %-->
-
-                
-
-                <div class="meta">
-                  <small>
-                  <hr>
-                  <%= link_to time_ago_in_words(blog.created_at) + " ago", blog %>
-                  <% if cur.admin? || cur == current_user %>
-                    | <%= link_to edit_blog_path(blog) do %><span class="glyphicon glyphicon-pencil"></span> Edit <% end %>
-                    | <%= link_to blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %>
-                  <% end %>
-                  | <%= link_to blog do %><span class="glyphicon glyphicon-comment"></span> <%= blog.count_comments.to_i %> Comment <% end %>  
-                </small>
-                </div>
-              </div>
+              </div>                 
             </div>
           </div>
         </div>
-      </div>
+      </div> 
     </div> 
-  </div>
-<% end %>
+  <% end %>
+
 </div>
 
+
+
+        

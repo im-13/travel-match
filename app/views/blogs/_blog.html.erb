@@ -1,18 +1,23 @@
 <div class="thumbnail">
 	<strong><%= link_to blog.user_name, User.find(blog.user_uuid) %> </strong>
-
-	<h3 align="center"><%= link_to blog.title, blog%></h3>
+	<% if blog.title? %>
+		<h3 align="center"><%= link_to blog.title, blog%></h3>
+	<% end %>
+	<% if blog.photo? %>
+				    <th><%= link_to image_tag(blog.photo.medium.url), blog %></th>
+				<% end %>
 	<p><%= blog.content %></p>
 	<div class="text-center">
-		<% if blog.photo? %>
-		    <%= link_to image_tag(blog.photo.thumb.url), blog %>
-		<% end %>
-		<% if blog.photo2? %>
-		    <%= link_to image_tag(blog.photo2.thumb.url), blog %>
-		<% end %>
-		<% if blog.photo3? %>
-		    <%= link_to image_tag(blog.photo3.thumb.url), blog %>
-		<% end %>
+		<!--table>
+	        <colgroup>
+				<!% if blog.photo2? %>
+				    <th><%= link_to image_tag(blog.photo2.thumb.url), blog %></th>
+				<!% end %>
+				<!% if blog.photo3? %>
+				    <th><%= link_to image_tag(blog.photo3.thumb.url), blog %></th>
+				<!% end %>
+			</colgroup>
+		</table-->
 	</div>
 
 	<div class="meta">
