@@ -1,55 +1,63 @@
 <%= simple_form_for(@blog) do |f| %>
-    <% if @blog.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
+  <% if @blog.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@blog.errors.count, "error") %> prohibited this blog from being saved:</h2>
 
-        <ul>
-          <% @blog.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+      <ul>
+        <% @blog.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+   
     <div class="form-group">
       <%= f.text_area :title, placeholder: "Title", rows: "1", class: 'form-control' %>
       <%= f.text_area :content, placeholder: "What's on your mind?", rows: "10", class: 'form-control' %>
       <div class="row">
-        <div class="col-md-8">
-      
-      <p>
-        <%= f.file_field :photo, as: :file, class: 'form-control'%>
-      </p>
-      <p>
-        <%= f.file_field :photo2, as: :file, class: 'form-control' %>
-      </p>
-      <p>
-        <%= f.file_field :photo3, as: :file, class: 'form-control' %>
-      </p>
+        <div class="col-md-8">       
+          <p>
+            <%= f.file_field :photo, as: :file, class: 'form-control'%>
+          </p>
+          <p>
+            <%= f.file_field :photo2, as: :file, class: 'form-control' %>
+          </p>
+          <p>
+            <%= f.file_field :photo3, as: :file, class: 'form-control' %>
+          </p>
 
-      <p>
-      <% if f.object.photo? %>
-        <%= image_tag f.object.photo.url %>
-      <% end %>
-      </p>
-      <p>
-      <% if f.object.photo2? %>
-        <%= image_tag f.object.photo2.url %>
-      <% end %>
-      </p>
-      <p>
-      <% if f.object.photo3? %>
-        <%= image_tag f.object.photo3.url %>
-      <% end %>
-      </p>
+          <p>
+          <% if f.object.photo? %>
+            <%= image_tag f.object.photo.url %>
+          <% end %>
+          </p>
+          <p>
+          <% if f.object.photo2? %>
+            <%= image_tag f.object.photo2.url %>
+          <% end %>
+          </p>
+          <p>
+          <% if f.object.photo3? %>
+            <%= image_tag f.object.photo3.url %>
+          <% end %>
+          </p>
 
-      <hr>
-
-      <div class="meta">
-          <%= f.submit "Add Post", class: "btn btn-success" %>
-          <hr>
-          <%= link_to "Back to my profile", current_user %> 
-          | <%= link_to "Back to Travel Blog", @blog %> 
-          | <%= link_to @blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %>
+        </div>
       </div>
-    </div>    
+    </div>
+
+
+    <div class="meta">
+      <small>
+        <%= f.submit "Add Post", class: "btn btn-success" %>
+        <hr>        
+        <%= link_to current_user do %><span class="glyphicon glyphicon-user"></span> Back to My Profile <% end %> 
+        | <%= link_to blogs_path do %><span class="glyphicon glyphicon-plane"></span> Back to Travel Blog <% end %> 
+        | <%= link_to @blog, method: :delete, data: { confirm: 'Are you sure you want to delete this blog?' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %>
+      </small>
+    </div>
+  </div></div>
+
+ 
+
 <% end %>

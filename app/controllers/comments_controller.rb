@@ -3,11 +3,13 @@ class CommentsController < ApplicationController
 	def create
 		bid = params[:comment][:bid]
 		value = params[:comment][:comment]
+		#photo = params[:photo]
 		@blog = Blog.find_by(uuid: bid)
 		#@comment = @blog_comments.create(params[:comment].permit(:comment))
 		@comment = Comment.new
 		@blog.count_comments += 1
-		@comment.comment = value
+		@comment.comment = params[:comment][:comment]
+		@comment.photo = params[:comment][:photo]
 		@comment.user_name = current_user.full_name
 		@comment.user_uuid = current_user.uuid
         @comment.user_gravatar_url = current_user.gravatar_url
@@ -50,6 +52,6 @@ class CommentsController < ApplicationController
   	end
 
 	def comment_params
-      params.require(:comment).permit(:comment, :remove_comment, :user_name, :user_uuid, :avatar)
+      params.require(:comment, :photo).permit(:comment, :remove_comment, :user_name, :user_uuid, :avatar, :photo)
     end
 end

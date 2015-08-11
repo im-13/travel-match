@@ -9,6 +9,8 @@ class Comment
   property :created_at, type: DateTime
   property :user_gravatar_url, type: String
   property :user_avatar_url, type: String
+  property :photo, type: String
+  mount_uploader :photo, AssetUploader
 
   has_one :in, :have, model_class: Blog, rel_class: Have
 end

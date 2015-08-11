@@ -15,19 +15,29 @@ class BlogsController < ApplicationController
     #@comments = Comment.all.paginate(:page => params[:page], :per_page => 10, :order  => { created_at: :desc })
     #@comments = @blog.have
     @comments = Comment.query_as(:c).match("(blog:Blog)-[:have]->(c)").where("blog.uuid = '#{@blog.uuid}'").proxy_as(Comment, :c)#.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc },return: :'distinct c’)
-    @count_com = @comments.length.to_s
+    #@count_com = @comments.length.to_s
     @blog.count_comments = @comments.length.to_i
+    
+    @carrierwave_images = CarrierwaveImage.query_as(:i).match("(blog:Blog)-[:have]->(i)").where("blog.uuid = '#{@blog.uuid}'").proxy_as(CarrierwaveImage, :i)#.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc },return: :'distinct c’)
+    #@blog.count_photos = @carrierwave_image.length.to_i
+    
     @blog.save
     puts @count_com
     #open('myfile.out', 'a'){ |f|
     #  f.puts " number of comments:"+@comments.length.to_s 
     #}
     @new_comment = Comment.new
+    @new_image = CarrierwaveImage.new
   end
 
   # GET /blogs/new
   def new
     @blog = Blog.new
+    @carrierwave_images = CarrierwaveImage.query_as(:i).match("(blog:Blog)-[:have]->(i)").where("blog.uuid = '#{@blog.uuid}'").proxy_as(CarrierwaveImage, :i)#.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc },return: :'distinct c’)
+    @blog.count_photos = @carrierwave_images.length.to_i
+    @blog.save
+
+    @new_image = CarrierwaveImage.new
   end
 
   # GET /blogs/1/edit
@@ -43,6 +53,7 @@ class BlogsController < ApplicationController
     @blog.user_gravatar_url = current_user.gravatar_url 
     @blog.user_email = current_user.email 
     @comment = Comment.new
+    @carrierwave_image = CarrierwaveImage.new
     #CarrierwaveImage.create
     #@Comment = Comment.create
     #Comment.create
@@ -113,6 +124,6 @@ class BlogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def blog_params
-      params.require(:blog).permit(:title, :comment, :content, :asset, :photo, :photo2, :photo3, :remove_photo, :remove_photo2, :remove_photo3,:remove_asset, :avatar, :avatar_remove, :remove_comment)
+      params.require(:blog).permit(:title, :comment, :photo, :content, :asset, :photo, :photo2, :photo3, :remove_photo, :remove_photo2, :remove_photo3,:remove_asset, :avatar, :avatar_remove, :remove_comment)
     end
 end
