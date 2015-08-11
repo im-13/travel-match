@@ -101,7 +101,7 @@
 					  <% @user_traveled_list.each do |country| %>
 						<div class="country_select">
 						  <%= f.country_select :country_visited, selected: "#{country.code}" %>
-						  <small><span class="glyphicon glyphicon-trash"></span> <a href="#" class="remove_field">Remove</a></small>
+						  <small class="remove_field"><span class="glyphicon glyphicon-trash"></span> <a href="#">Remove</a></small>
 						  <br>
 					  	  <br>
 						</div>
@@ -109,7 +109,7 @@
 				  	<% else %>
 					  <div class="country_select">
 						<%= f.country_select :country_visited, selected: "US" %>
-						  <small><span class="glyphicon glyphicon-trash"></span> <a href="#" class="remove_field">Remove</a></small>
+						  <small class="remove_filed"><span class="glyphicon glyphicon-trash"></span> <a href="#">Remove</a></small>
 						  <br>
 						  <br>
 						</div>
@@ -139,7 +139,7 @@
 				    <% @user_to_travel_to.each do |country| %>
 					  <div class="country_select">
 					    <%= f.country_select :country_to_visit, selected: "#{country.code}" %>
-					    <small><span class="glyphicon glyphicon-trash"></span> <a href="#" class="remove_field">Remove</a></small>
+					    <small class="remove_field" ><span class="glyphicon glyphicon-trash"></span> <a href="#">Remove</a></small>
 					    <br>
 					  	<br>
 					  </div>
@@ -147,7 +147,7 @@
 				  <% else %>
 				    <div class="country_select">
 					  <%= f.country_select :country_to_visit, selected: "US" %>
-					  <small><span class="glyphicon glyphicon-trash"></span> <a href="#" class="remove_field">Remove</a></small>
+					  <small class="remove_field"><span class="glyphicon glyphicon-trash"></span> <a href="#" >Remove</a></small>
 					  <br>
 					  <br>
 				    </div>
