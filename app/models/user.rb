@@ -8,7 +8,8 @@ class User
   # is password required here???
   attr_accessor :password, 
                 :remember_token, :activation_token, :reset_token,
-                :country_of_residence_code, :country_to_visit, :asset, :gravatar_url
+                :country_of_residence_code, :country_to_visit, :country_visited
+                :asset, :gravatar_url
  
   property :first_name, type: String
   property :last_name, type: String
@@ -60,7 +61,7 @@ class User
   #validates_date :date_of_birth, :on_or_before => lambda { Date.current }
   #validate date_of_birth
   validates :gender, presence: true
-  validates :password, presence: true, allow_nil: true
+  validates :password, presence: true, length: { minimum: 6 }
   validates_confirmation_of :password
   #  validate :email_uniqueness
   #  validates :avatar, presence: true, allow_nil: true

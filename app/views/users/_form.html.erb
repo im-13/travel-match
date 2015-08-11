@@ -18,8 +18,9 @@
 
   <%= f.label :date_of_birth %>
   <%= f.date_select :date_of_birth,
-                    :start_year => Date.today.year - 120,
-                    :end_year => Date.today.year %>
+                    :end_year => Date.today.year,
+                    :start_year => Date.today.year - 100 %>
+
 
   <!--%= f.label :asset, placeholder: "Asset" %-->
                   
