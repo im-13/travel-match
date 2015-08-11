@@ -6,10 +6,12 @@
   <nav>
     <ul>
       <% if logged_in? %>
-      	<li><%= link_to "About", root_path %></li>
+      	<small><li><%= link_to "About", root_path %></li> </small>
       <% end %>
-      <li><%= link_to "Contact", contact_path %></li>
-      <li><%= link_to "Help", help_path %></li>
+      <small>
+        <li><%= link_to "Contact", contact_path %></li>
+        <li><%= link_to "Help", help_path %></li>
+      </small>
     </ul>
   </nav>
 </div>
