@@ -157,7 +157,7 @@ class UsersController < ApplicationController
         format.json { render :show, status: :ok, location: @user }
       else
         flash[:danger] = "Profile was not updated."
-        format.html { render :edit }
+        redirect_to url_for(:controller => :users, :action => 'edit')
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
