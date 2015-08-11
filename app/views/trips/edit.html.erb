@@ -2,7 +2,8 @@
 <div class="container">
   <br>
   <br>
-  <h1><i class="fa fa-suitcase"></i> Edit trip</h1>
+  <h1><i class="fa fa-suitcase"></i> Edit trip to <%= @trip.country %></h1>
+  <br>
 
 	<div class="row">
 	  	<div class="col-md-6 col-md-offset-3">
@@ -10,7 +11,7 @@
 	        <div class="blog-container-responsive row-space-2">
 	          <div class="blog-content">
 	            <div class="panel-body">
-					<%= render 'trips/form' %>
+					<%= render 'trips/form_trip_edit' %>
 					<br>
 			    	<div class="meta">
 						<small>

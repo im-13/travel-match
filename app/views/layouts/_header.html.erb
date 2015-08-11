@@ -1,7 +1,7 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
-    
-    <%= link_to root_path, id: "logo" do %><i class="fa fa-plane"></i> Travel Match<% end %>
+    <%= link_to root_path, id: "logo" do %><img src="<%= asset_path('TM_HanziPen_H_mini_black.jpeg') %>">
+    <% end %>
     <nav>
       <ul class="nav navbar-nav navbar-right">
         <% if logged_in? %>

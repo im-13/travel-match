@@ -8,7 +8,8 @@ class User
   # is password required here???
   attr_accessor :password, 
                 :remember_token, :activation_token, :reset_token,
-                :country_of_residence_code, :country_to_visit, :asset, :gravatar_url
+                :country_of_residence_code, :country_to_visit, :country_visited,
+                :asset, :gravatar_url
  
   property :first_name, type: String
   property :last_name, type: String
@@ -60,7 +61,7 @@ class User
   #validates_date :date_of_birth, :on_or_before => lambda { Date.current }
   #validate date_of_birth
   validates :gender, presence: true
-  validates :password, presence: true, allow_nil: true
+  validates :password, presence: true, length: { minimum: 6 }
   validates_confirmation_of :password
   #  validate :email_uniqueness
   #  validates :avatar, presence: true, allow_nil: true
@@ -109,6 +110,15 @@ class User
     puts self.remember_token
   end
 
+  # Forgets a user.
+  def forget
+    puts "HASH BEFORE FORGET"
+    puts self.remember_hash
+    update(remember_hash: nil)
+    puts "HASH AFTER FORGET"
+    puts self.remember_hash
+  end
+
   # Returns true if the given token matches the digest.
   def authenticated?(attribute, token)
     hash = send("#{attribute}_hash")
@@ -142,15 +152,6 @@ class User
   # Returns true if a password reset has expired.
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
-  end
-
-  # Forgets a user.
-  def forget
-    puts "HASH BEFORE FORGET"
-    puts self.remember_hash
-    update(remember_hash: nil)
-    puts "HASH AFTER FORGET"
-    puts self.remember_hash
   end
 
   def country_of_residence
