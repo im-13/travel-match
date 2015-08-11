@@ -8,7 +8,7 @@ class User
   # is password required here???
   attr_accessor :password, 
                 :remember_token, :activation_token, :reset_token,
-                :country_of_residence_code, :country_to_visit, :country_visited,
+                :country_of_residence_code,
                 :asset, :gravatar_url
  
   property :first_name, type: String
