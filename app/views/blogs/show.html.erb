@@ -23,6 +23,9 @@
 		          <div class="col-sm-1"></div>
 		          <%= link_to "Open Chat", "#", class: "btn btn-info text-center start-conversation",
 		                    "data-sid" => current_user.uuid, "data-rip" => cur.uuid %> 
+		        <% else %>
+		        	<br>
+		        	<br>
 		        <% end %>
 		 	</div>
 		</div>
@@ -35,11 +38,6 @@
       <a class="pull-right"><img title="profile image" class="img-circle img-responsive"<%= gravatar_for cur %></a>
     <% end %>
     </div>
-
-
-
-
-
 
 	<div class="row" >
 		<aside class="col-md-2"></aside>
@@ -56,14 +54,24 @@
 						    	<%= image_tag @blog.photo.url, class: "img=thumbnail" %>
 						    <% end %>
 
+						    <div class="col-md-5">
 						    <p><%= @blog.content %></p>
+						</div>
 
-
+						    <p align="center">
 						    <% if @blog.photo2? %>
 						    	<%= image_tag @blog.photo2.medium.url, class: "img=thumbnail" %>
 						    <% end %>
 						    <% if @blog.photo3? %>
 						    	<%= image_tag @blog.photo3.medium.url, class: "img=thumbnail" %>
+						    <% end %>
+							</p>
+
+						    <% if @carrierwave_images %>
+								<br>
+								<% @carrierwave_images.each do |c| %>
+									<%= image_tag @carrierwave_image.asset.medium.url, class: "img=thumbnail" %>
+						    	<% end %>
 						    <% end %>
 
 						</p>
@@ -108,6 +116,7 @@
 													<%= form_for (@new_comment) do |f| %>
 														<%= f.hidden_field :bid, :value => @blog.uuid %>
 														<%= f.text_area :comment, as: :text, input_html: { rows: "1" }, placeholder: "Share your thoughts" %>
+														<%= f.file_field :photo, as: :file %>
 														<p><%= f.submit "Add Comment", class: "btn btn-success" %></p>
 													<% end %>
 												</div>
@@ -136,6 +145,11 @@
 						<div class="row-space-2">
 							<strong><%= link_to c.user_name, cur_com %> </strong>
 							<p class="comment_comment"><%= c.comment %></p>
+						    <% if c.photo? %>
+						    	<a class="text-center"><%= image_tag c.photo.medium.url %></a>
+						    	<br>
+						    	<br>
+						    <% end %>
 							<small>
 							<p class="text-muted"><%= " Posted " + time_ago_in_words(c.created_at) + " ago" %>
 							<% if cur_com.admin? || cur_com == current_user %>

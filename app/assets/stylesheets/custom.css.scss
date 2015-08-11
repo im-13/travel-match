@@ -11,6 +11,7 @@ $gray-light: #777;
 $gray-lighter: #eee;
 $gray-darker: #222;
 $state-danger-text: #a94442;
+$gray-medium: #CCCCCC;
 
 
 @mixin box_sizing {
@@ -91,7 +92,7 @@ p {
 footer {
   margin-top: 45px;
   padding-top: 5px;
-  border-top: 1px solid $gray-medium-light;
+  border-top: 1px solid $gray-medium;
   color: $gray-light;
   a {
     color: $gray;

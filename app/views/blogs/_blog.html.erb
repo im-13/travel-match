@@ -4,20 +4,19 @@
 		<h3 align="center"><%= link_to blog.title, blog%></h3>
 	<% end %>
 	<% if blog.photo? %>
-				    <th><%= link_to image_tag(blog.photo.medium.url), blog %></th>
+				    <th><%= link_to image_tag(blog.photo.url), blog %></th>
 				<% end %>
 	<p><%= blog.content %></p>
 	<div class="text-center">
-		<!--table>
-	        <colgroup>
-				<!% if blog.photo2? %>
-				    <th><%= link_to image_tag(blog.photo2.thumb.url), blog %></th>
-				<!% end %>
-				<!% if blog.photo3? %>
-				    <th><%= link_to image_tag(blog.photo3.thumb.url), blog %></th>
-				<!% end %>
-			</colgroup>
-		</table-->
+    	
+    	<% if blog.photo3? && blog.photo2? %>
+    		<%= link_to "+ 2 photos", blog %>
+  		<% else %>
+    		<% if blog.photo3? || blog.photo2? %>
+      			<%= link_to "+ 1 photo", blog %> 
+    		<% end %>
+  		<% end %>
+
 	</div>
 
 	<div class="meta">

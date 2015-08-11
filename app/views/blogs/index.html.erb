@@ -41,22 +41,21 @@
                           <% if blog.title? %>
                             <h3 align="center"><%= link_to blog.title, blog %></h3>
                           <% end %>
+                          <% if blog.photo? %>
+                            <%= link_to image_tag(blog.photo.url), blog %>
+                          <% end %>
                           <p><%= blog.content %></p>
-                          <table>
-                            <colgroup>
-                              <th><% if blog.photo? %>
-                                <%= link_to image_tag(blog.photo.thumb.url), blog %>
-                              <% end %></th>
-                              <th><% if blog.photo2? %>
-                                <%= link_to image_tag(blog.photo2.thumb.url), blog %>
-                              <% end %></th>
-                              <th><% if blog.photo3? %>
-                                <%= link_to image_tag(blog.photo3.thumb.url), blog %>
-                              <% end %></th>
-                            </colgroup>
-                          </table>
+
+                          <p>
+                          <% if blog.photo3? && blog.photo2? %>
+                            <%= link_to "+ 2 photos", blog %>
+                          <% else %>
+                            <% if blog.photo3? || blog.photo2? %>
+                              <%= link_to "+ 1 photo", blog %> 
+                            <% end %>
+                          <% end %>
+                          </p>
                         </div>
-                    
 
                         <div class="meta">
                           <small>
@@ -68,6 +67,7 @@
                           | <%= link_to blog do %><span class="glyphicon glyphicon-comment"></span> <%= blog.count_comments.to_i %> Comment <% end %>  
                           </small>
                         </div> <!--meta end -->
+                      
                       </div>
                     </div>
                   </div>
