@@ -61,7 +61,7 @@ class User
   #validates_date :date_of_birth, :on_or_before => lambda { Date.current }
   #validate date_of_birth
   validates :gender, presence: true
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   validates_confirmation_of :password
   #  validate :email_uniqueness
   #  validates :avatar, presence: true, allow_nil: true
