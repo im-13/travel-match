@@ -1,6 +1,6 @@
 require 'neo4j-will_paginate_redux'
 class FollowsController < ApplicationController
-  before_action :logged_in_user
+  before_action :logged_in_user, only: [:index, :create, :destroy]
 
   def index
   	@session_user = current_user

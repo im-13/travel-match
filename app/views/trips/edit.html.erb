@@ -17,6 +17,7 @@
 						<small>
 						    <%= link_to current_user do %><i class="fa fa-user"></i> Back to my profile <% end %> |
 						    <%= link_to trips_path do %><i class="fa fa-suitcase"></i> Back to all trips <% end %> |
+						    <%= link_to mytrips_path do %><i class="fa fa-suitcase"></i> Back to my trips <% end %> |
 						    <%= link_to @trip, method: :delete, data: { confirm: 'Are you sure you want to delete this trip' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %> 
 						</small>
 					</div>

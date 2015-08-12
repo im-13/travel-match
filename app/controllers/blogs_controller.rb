@@ -1,6 +1,6 @@
 class BlogsController < ApplicationController
   before_action :set_blog, only: [:show, :edit, :update, :destroy]
-  #before_action :logged_in_user, only: [:create, :destroy]
+  before_action :logged_in_user, only: [:index, :show, :new, :edit, :create, :update, :destroy, :destroy_comment]
 
   # GET /blogs
   # GET /blogs.json
@@ -33,11 +33,11 @@ class BlogsController < ApplicationController
   # GET /blogs/new
   def new
     @blog = Blog.new
-    @carrierwave_images = CarrierwaveImage.query_as(:i).match("(blog:Blog)-[:have]->(i)").where("blog.uuid = '#{@blog.uuid}'").proxy_as(CarrierwaveImage, :i)#.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc },return: :'distinct c’)
-    @blog.count_photos = @carrierwave_images.length.to_i
-    @blog.save
+    #@carrierwave_images = CarrierwaveImage.query_as(:i).match("(blog:Blog)-[:have]->(i)").where("blog.uuid = '#{@blog.uuid}'").proxy_as(CarrierwaveImage, :i)#.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc },return: :'distinct c’)
+    #@blog.count_photos = @carrierwave_images.length.to_i
+    #@blog.save
 
-    @new_image = CarrierwaveImage.new
+    #@new_image = CarrierwaveImage.new
   end
 
   # GET /blogs/1/edit
@@ -53,7 +53,11 @@ class BlogsController < ApplicationController
     @blog.user_gravatar_url = current_user.gravatar_url 
     @blog.user_email = current_user.email 
     @comment = Comment.new
-    @carrierwave_image = CarrierwaveImage.new
+   # @carrierwave_image = CarrierwaveImage.new
+   # @carrierwave_images = CarrierwaveImage.query_as(:i).match("(blog:Blog)-[:have]->(i)").where("blog.uuid = '#{@blog.uuid}'").proxy_as(CarrierwaveImage, :i)#.paginate(:page => params[:page], :per_page => 5, :order => { updated_at: :desc },return: :'distinct c’)
+   # @blog.count_photos = @carrierwave_images.length.to_i
+
+   # @new_image = CarrierwaveImage.new
     #CarrierwaveImage.create
     #@Comment = Comment.create
     #Comment.create
@@ -120,6 +124,15 @@ class BlogsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_blog
       @blog = Blog.find(params[:id])
+    end
+
+    # Confirms a logged-in user.
+    def logged_in_user
+      unless logged_in?
+        store_location
+        flash[:danger] = "Please log in."
+        redirect_to login_url
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
