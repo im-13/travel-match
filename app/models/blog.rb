@@ -27,5 +27,4 @@ class Blog
   	has_many :out, :has_attached, model_class: CarrierwaveImage, rel_class: HasAttached, dependent: :destroy
     has_many :out, :have, model_class: Comment, rel_class: Have, dependent: :destroy
 
-    #accepts_nested_attributes_for :asset, :reject_if => proc { |attributes| attributes[:title].blank? }
 end
