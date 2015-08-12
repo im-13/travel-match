@@ -1,5 +1,5 @@
 class VisitorsController < ApplicationController
-
+before_action :logged_in_user, only: [:index]
 	def index
 		@session_user = current_user
 		#match (n:User)-[rel:People_You_Viewed]->(m:User) where n.email = 'testuser1@mailinator.com' return  m, rel order by rel.time_viewed desc

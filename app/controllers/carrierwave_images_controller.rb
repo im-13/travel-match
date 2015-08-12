@@ -1,5 +1,6 @@
 class CarrierwaveImagesController < ApplicationController
   before_action :set_carrierwave_image, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:index, :show, :new, :edit, :create, :update, :destroy]
 
   # GET /carrierwave_images
   # GET /carrierwave_images.json

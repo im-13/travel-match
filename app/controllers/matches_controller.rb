@@ -1,6 +1,7 @@
 require 'neo4j-will_paginate_redux'
 
 class MatchesController < ApplicationController
+before_action :logged_in_user, only: [:index, :new, :quick_match]
 
   def new
     #new specific query page
