@@ -43,7 +43,7 @@ gem 'carrierwave'
 gem 'carrierwave-neo4j', require: 'carrierwave/neo4j'
 gem 'cloudinary'
 gem "mini_magick", "~> 4.2.7"
-gem 'rmagick', '~> 2.15.2'
+#gem 'rmagick', '~> 2.15.2'
 gem 'simple_form'
 gem 'paperclip'
 gem "neo4jrb-paperclip", :require => "neo4jrb_paperclip"
