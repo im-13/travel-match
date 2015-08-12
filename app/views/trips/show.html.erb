@@ -67,7 +67,8 @@
 				    <div class="meta">
 						<small>
 						    <%= link_to current_user do %><i class="fa fa-user"></i> Back to my profile <% end %> |
-						    <%= link_to trips_path do %><i class="fa fa-suitcase"></i></span> Back to all trips <% end %> 
+						    <%= link_to trips_path do %><i class="fa fa-suitcase"></i></span> Back to all trips <% end %> |
+						    <%= link_to mytrips_path do %><i class="fa fa-suitcase"></i> Back to my trips <% end %>
 						    <% if cur.admin? || cur == current_user %> 
 						      	| <%= link_to edit_trip_path(@trip) do %><span class="glyphicon glyphicon-pencil"></span> Edit <% end %>
 						      	| <%= link_to @trip, method: :delete, data: { confirm: 'Are you sure you want to delete this trip' } do %><span class="glyphicon glyphicon-trash"></span> Delete <% end %>
