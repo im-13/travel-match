@@ -58,7 +58,7 @@
 						<p><%= @trip.description %></p>
 						<% if @trip.photo? %>
 							<br>
-			                <%= image_tag @trip.photo.medium.url class: "img=thumbnail" %>
+			                <%= image_tag @trip.photo.small.url class: "img=thumbnail" %>
 			              	<br>
 			              	<br>
 			            <% end %>
