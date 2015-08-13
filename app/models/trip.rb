@@ -25,7 +25,7 @@ class Trip
   has_many :out, :plan, model_class: Country, rel_class: IsLocatedIn
   has_many :out, :trip_has_attached, model_class: CarrierwaveImage, rel_class: HasAttached, dependent: :destroy
 
-  before_save { self.country = country_code_to_name }
+  before_save { self.country ||= country_code_to_name }
   before_save :capitalize_place
 
   private
