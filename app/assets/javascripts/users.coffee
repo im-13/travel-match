@@ -169,7 +169,7 @@ ready = ->
       country_visited: str,
       id: id
     }, (data) ->
-      alert("Countries You've Visited Saved")
+      alert("Countries You've Visited Saved.")
       return
     return
 
@@ -190,7 +190,7 @@ ready = ->
       country_to_visit: str,
       id: id
     }, (data) ->
-      alert("Countries You Like to Visit Saved")
+      alert("Countries You Like to Visit Saved.")
       return
     return
   ###*
