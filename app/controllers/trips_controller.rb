@@ -63,7 +63,7 @@ class TripsController < ApplicationController
   def update
     if is_invalid_date
       respond_to do |format|
-        flash[:danger] = "You have selected invalid dates"
+        flash.now[:danger] = "You have selected invalid dates"
         format.html { render :edit }
       end
     else

@@ -33,10 +33,10 @@
                 <br>
                 <p><%= trip.description %></p>
                 
-                
                 <% if trip.photo? %>
-                  <%= link_to image_tag(trip.photo.thumb.url), trip %>
+                  <%= link_to image_tag(trip.photo.medium.url), trip %>
                 <% end %>
+                
               </div>
             </div>
 

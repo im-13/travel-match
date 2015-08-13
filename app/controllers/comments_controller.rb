@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-	before_action :logged_in_user, only: [:index, :new, :create, :update, :destroy, :comment_params]
+	#before_action :logged_in_user, only: [:index, :new, :create, :update, :destroy, :comment_params]
 
 	def create
 		bid = params[:comment][:bid]
