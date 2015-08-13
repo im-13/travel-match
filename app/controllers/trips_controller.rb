@@ -61,14 +61,21 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1
   # PATCH/PUT /trips/1.json
   def update
-    respond_to do |format|
-      if @trip.update(trip_params)
-        flash[:success] = "Trip was successfully updated."
-        format.html { redirect_to @trip }
-        format.json { render :show, status: :ok, location: @trip }
-      else
+    if is_invalid_date
+      respond_to do |format|
+        flash[:danger] = "You have selected invalid dates"
         format.html { render :edit }
-        format.json { render json: @trip.errors, status: :unprocessable_entity }
+      end
+    else
+      respond_to do |format|
+        if @trip.update(trip_params)
+          flash[:success] = "Trip was successfully updated."
+          format.html { redirect_to @trip }
+          format.json { render :show, status: :ok, location: @trip }
+        else
+          format.html { render :edit }
+          format.json { render json: @trip.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
