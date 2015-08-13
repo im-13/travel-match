@@ -175,9 +175,9 @@ class UsersController < ApplicationController
       if country_check(visitedArr)
         make_decision(@user, visitedArr, 2)
       end
-      render json: { status: "ok" }
+      render json: { status: :ok }
     else
-      render json: { status: "failed" }
+      render json: { status: :failed }
     end
     
   end
@@ -192,9 +192,9 @@ class UsersController < ApplicationController
       if country_check(toVisitArr)
         make_decision(@user, toVisitArr, 3)
       end
-      render json: { status: "ok" }
+      render json: { status: :ok }
     else
-      render json: { status: "failed" }
+      render json: { status: :failed }
     end
 
   end

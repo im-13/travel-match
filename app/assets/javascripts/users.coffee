@@ -157,7 +157,7 @@ ready = ->
   ###
   $(document).on 'click', '.save-traveled-to', (e) ->
     e.preventDefault()
-    id = $("meta[name='user-id']").attr("content");
+    id = $('meta[name=\'user-id\']').attr('content')
     list = []
     all_select = $('.traveled_to_wrap').find('select')
     $.each all_select, (index) ->
@@ -165,11 +165,10 @@ ready = ->
       return
     str = ''
     str = list.join(',')
-    $.post '/traveled', { 
-      country_visited: str,
-      id: id
-    }, (data) ->
-      alert("Countries You've Visited Saved.")
+    $.post('/traveled',
+      country_visited: str
+      id: id).done (data) ->
+      alert 'Data saved'
       return
     return
 
@@ -186,11 +185,10 @@ ready = ->
       return
     str = ''
     str = list.join(',')
-    $.post '/want', { 
-      country_to_visit: str,
-      id: id
-    }, (data) ->
-      alert("Countries You Like to Visit Saved.")
+    $.post('/want', 
+      country_to_visit: str
+      id: id).done (data) ->
+      alert 'Data Saved.'
       return
     return
   ###*
