@@ -93,7 +93,7 @@ module MatchesHelper
 	        array_string = get_name_list( user_visited_list )
 	        if residence_select 
 	          nonjoin_match_exp = match_exp + "(c:Country)<-[:lives_in]-(users), (users)-[:has_been_to]->(visitedList:Country)"
-	          nonjoin_where_exp = where_exp + " AND c.name = #{target_country}"
+	          nonjoin_where_exp = where_exp + " AND c.name = '#{target_country}'"
 	        else
 	          nonjoin_match_exp = match_exp + " (users)-[:has_been_to]->(visitedList:Country)"
 	        end
