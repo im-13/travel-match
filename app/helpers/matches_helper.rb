@@ -68,8 +68,8 @@ module MatchesHelper
 	        user_wish_list = user.wants_to_go_to
 	        array_string = get_name_list( user_wish_list )
 	        if residence_select
-	          nonjoin_match_exp = match_exp + "(c:Country)<-[:lives_in]-(users), (users)-[:wants_to_go_to]->(wish_list:Country)"
-	          nonjoin_where_exp = where_exp + " AND c.name = #{target_country}"
+	          nonjoin_match_exp = match_exp + ", (users)-[:wants_to_go_to]->(wish_list:Country)"
+	          nonjoin_where_exp = where_exp
 	        else
 	          nonjoin_match_exp = match_exp + " (users)-[:wants_to_go_to]->(wish_list:Country)"
 	        end
@@ -92,8 +92,8 @@ module MatchesHelper
 	        user_visited_list = user.has_been_to
 	        array_string = get_name_list( user_visited_list )
 	        if residence_select 
-	          nonjoin_match_exp = match_exp + "(c:Country)<-[:lives_in]-(users), (users)-[:has_been_to]->(visitedList:Country)"
-	          nonjoin_where_exp = where_exp + " AND c.name = '#{target_country}'"
+	          nonjoin_match_exp = match_exp + ", (users)-[:has_been_to]->(visitedList:Country)"
+	          nonjoin_where_exp = where_exp
 	        else
 	          nonjoin_match_exp = match_exp + " (users)-[:has_been_to]->(visitedList:Country)"
 	        end
